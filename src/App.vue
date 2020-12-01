@@ -38,6 +38,7 @@
     </v-app-bar>
 
     <v-main>
+      <v-btn @click="test"></v-btn>
       <HelloWorld/>
     </v-main>
   </v-app>
@@ -56,5 +57,10 @@ export default {
   data: () => ({
     //
   }),
+  methods:{
+    test(){
+      this.$message
+    }
+  }
 };
 </script>
