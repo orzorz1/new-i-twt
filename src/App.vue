@@ -59,8 +59,12 @@ export default {
   }),
   methods:{
     test(){
-      this.$message
+      this.$message.success('123123')
     }
   }
 };
 </script>
+
+<style scoped>
+
+</style>
