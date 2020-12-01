@@ -7,17 +7,22 @@ let instance
 let instances = []
 let seed = 0
 const Message = function (options) {
+  const Opt={
+    message:'出错了',
+    type:"blue lighten-4",
+    ...options
+  }
   let id = 'message_' + seed++
   instance = new MessageConstructor({
-    data: options
+    data: Opt
   })
   instance.id = id
   instance.vm = instance.$mount()
-  document.body.appendChild(instance.vm.$el)
+  document.getElementById("app").appendChild(instance.vm.$el)
   instance.vm.visible = true
   instance.dom = instance.vm.$el
   instance.dom.style.zIndex = 10000
-  instance.dom.style.top = `${50+instances.length*50}px`
+  instance.dom.style.top = `${8+instances.length*50}px`
   instances.push(instance)
   setTimeout(()=>{
     Message.close(id)
@@ -29,7 +34,7 @@ const Message = function (options) {
 Message.success = function(message){
 	Message({
     color: "",
-    type: "sucess",
+    type: "light-blue lighten-3",
     message
   })
 }
@@ -37,7 +42,15 @@ Message.success = function(message){
 Message.error = function(message){
   Message({
     color: "",
-    type: "error",
+    type: "red lighten-3",
+    message
+  })
+}
+
+Message.normal = function(message){
+  Message({
+    color: "",
+    type: "cyan lighten-4",
     message
   })
 }
@@ -54,7 +67,7 @@ Message.close = function (id) {
 
 Message.reset=function(){
   for (let i = 0; i<instances.length; i++) {
-    instances[i].vm.$el.style.top=`${50+i*50}px`
+    instances[i].vm.$el.style.top=`${8+i*50}px`
   }
 }
 

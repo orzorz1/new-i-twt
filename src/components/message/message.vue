@@ -1,7 +1,7 @@
 <template>
     <transition name="message-fade">
-        <div class="message" :class="type" role="alert" v-show="visible">
-            <p class="message__content">
+        <div v-ripple class="message" :class="type" role="alert" v-show="visible">
+            <p class="v-snack__content">
                 {{ message }}
             </p>
         </div>
@@ -47,41 +47,23 @@ export default {
 
 <style lang="scss" scoped>
 .message {
-    min-width: 380px;
+    height: 42px;
+    box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+    min-width: 240px;
     box-sizing: border-box;
     border-radius: 4px;
-    border-width: 1px;
-    border-style: solid;
     position: fixed;
     left: 50%;
-    transform: translateX(-50%);
-    transition: all 0.3s, transform 0.4s;
-    overflow: hidden;
     padding: 15px 15px 15px 20px;
     display: flex;
     align-items: center;
-}
-
-.message--success {
-    background-color: #f0f9eb;
-    border-color: #e1f3d8;
-    color: #67c23a;
-}
-
-.message--error {
-    background-color: #ffccff;
-    border-color: #ffccff;
-    color: #cc0033;
-}
-
-.message p {
-    margin: 0;
-}
-
-.message__content {
-    padding: 0;
-    font-size: 14px;
-    line-height: 1;
+    transform: translateX(-50%);
+    transition: all 0.3s, transform 0.4s;
+    overflow: hidden;
+    > p{
+        height: 100%;
+        line-height: 100%;
+    }
 }
 
 .message-fade-enter,

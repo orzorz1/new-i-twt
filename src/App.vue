@@ -32,7 +32,7 @@
         target="_blank"
         text
       >
-        <span class="mr-2">Latest Release</span>
+        <span class="red--text">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
@@ -59,12 +59,14 @@ export default {
   }),
   methods:{
     test(){
-      this.$message.success('123123')
+      this.$message.error('123123123')
     }
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss">
+  $color-pack: false;
 
+  @import '~vuetify/src/styles/main.sass';
 </style>
