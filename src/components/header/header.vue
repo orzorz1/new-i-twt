@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    name: "header",
+    name: "Header",
     data: () => ({
         drawer:true
     }),
