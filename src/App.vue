@@ -4,7 +4,13 @@
     <Navigation :drawer="drawer" @naviClose="drawer=false" />
     <Footer @naviOpen="drawer=true"/>
     <v-main>
-      <router-view/>
+      <v-container>
+        <v-row justify="center">
+          <v-col xl="9" lg="10" md="12" sm="12" xs="12">
+            <router-view/>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
