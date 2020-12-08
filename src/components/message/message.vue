@@ -1,7 +1,7 @@
 <template>
     <transition name="message-fade">
         <div v-ripple class="message" :class="type" role="alert" v-show="visible">
-            <p class="v-snack__content">
+            <p>
                 {{ message }}
             </p>
         </div>
@@ -63,6 +63,7 @@ export default {
     > p{
         height: 100%;
         line-height: 100%;
+        padding:20px 0;
     }
 }
 

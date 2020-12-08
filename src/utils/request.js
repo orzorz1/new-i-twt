@@ -1,8 +1,7 @@
 import axios from 'axios'
-import { Message } from 'element-ui'
+import { Message } from '@/component/message'
 import { getToken } from './auth'
 import qs from 'querystring';
-//  import { toError, toLogin } from "../router";
 
 const service = axios.create({
     baseURL: process.env.VUE_APP_SERVER_URL,
@@ -34,45 +33,21 @@ service.interceptors.response.use(response => {
         switch (data["error_code"]) {
             case 0:
                 return data;
-            case 1001:
+            case 40001:
                 // toLogin();
-                Message({
-                    message: `${data["msg"]},请重新登陆`,
-                    type: "error",
-                    duration: 5000
-                });
-                return Promise.reject(data["msg"]);
-            case 1002:
+                Message.error(`${data["msg"]},请重新登陆`);
                 return Promise.reject(data["msg"]);
             default:
-                Message({
-                    message: data["msg"],
-                    type: "error",
-                    duration: 5000
-                });
-                return data;
-                //return Promise.reject(data["msg"])
+                Message.error(`${data["error_code"]+data["msg"]},请联系管理员`);
+                return Promise.reject(data["msg"])
         }
     } else if (response.status === 500) {
-        Message({
-            message: "系统错误，请联系管理员修复",
-            type: "error",
-            duration: 5000
-        });
+        Message.error('500系统错误，请联系管理员')
     }
     return response
 },
     error => {
-        if (error.message === "Network Error") {
-            // toError();
-        } else {
-            Message({
-                message: error.message,
-                type: 'error',
-                duration: 5000
-            });
-        }
-
+        Message.error('发生未知错误，请联系管理员')
         return Promise.reject(error)
     });
 
