@@ -1,123 +1,135 @@
 <template>
-  <div class="containers">
-    <v-parallax src="../assets/backpic.jpg" class="itpararllax" height="400"></v-parallax>
-    <div id="leftmain">
-      <a @click="delayTo('#/profile')" class="avatar">
-        <img
-          src="../assets/avatar.png"
-          alt="user-avatar"
-          class="user-image"
-          :id="avatars"
-          @mouseenter="goin(avatars)"
-          @mouseleave="goout(avatars)"
-        />
-      </a>
-      <a
-        @click="delayTo('#/profile')"
-        class="username"
-        :id="usernames"
-        @mouseenter="goin(usernames)"
-        @mouseleave="goout(usernames)"
-      >
-        Pamaforce
-      </a>
-      <img src="../assets/wechat.png" alt="wechat-icon" class="wechat-icon" />
-      <img src="../assets/wechats.png" alt="wechat-icon" class="wechats-icon" />
-      <p class="wechat-status">微信：已绑定</p>
-      <a
-        @click="delayTo('#/account')"
-        class="changewechat"
-        :id="changewechats"
-        @mouseenter="goin(changewechats)"
-        @mouseleave="goout(changewechats)"
-      >
-        <img
-          src="../assets/changewechat.png"
-          alt="changewechat-icon"
-          class="changewechat-icon"
-        />
-      </a>
-      <a
-        href="https://party.twt.edu.cn/"
-        class="party"
-        target="_blank"
-        :id="partys"
-        @mouseenter="goin(partys)"
-        @mouseleave="goout(partys)"
-      >
-        <img src="../assets/party.png" alt="party-icon" class="party-icon" />
-      </a>
-      <a
-        href="http://mall.twt.edu.cn/"
-        class="shop"
-        target="_blank"
-        :id="shops"
-        @mouseenter="goin(shops)"
-        @mouseleave="goout(shops)"
-      >
-        <img src="../assets/shop.png" alt="shop-icon" class="shop-icon" />
-      </a>
-      <a
-        href="https://news.twt.edu.cn/news"
-        class="twt"
-        target="_blank"
-        :id="twts"
-        @mouseenter="goin(twts)"
-        @mouseleave="goout(twts)"
-      >
-        <img src="../assets/logo.png" alt="twt-icon" class="twt-icon" />
-      </a>
-    </div>
-    <div id="division">
-      <p>功能</p>
-    </div>
-    <div id="rightmain">
-      <div
-        class="setprofile btnteam"
-        id="setprofiles"
-        @mouseenter="btnin(0)"
-        @mouseleave="btnout(0)"
-      >
-        <a class="btnas" @click="delayTo('#/profile')" 
-          ><img src="../assets/setprofile.png"  />
-          <p>资料设置</p></a
-        >
-      </div>
-      <div
-        class="setaccount btnteam"
-        id="setaccounts"
-        @mouseenter="btnin(1)"
-        @mouseleave="btnout(1)"
-      >
-        <a class="btnas" @click="delayTo('#/account')" 
-          ><img src="../assets/setaccount.png" />
-          <p>账户设置</p></a
-        >
-      </div>
-      <div
-        class="upgrade btnteam"
-        id="upgrades"
-        @mouseenter="btnin(2)"
-        @mouseleave="btnout(2)"
-      >
-        <a class="btnas" @click="delayTo('#/upgrade')"
-          ><img src="../assets/upgrade.png" />
-          <p>账号升级</p></a
-        >
-      </div>
-      <div
-        class="organization btnteam"
-        id="organizations"
-        @mouseenter="btnin(3)"
-        @mouseleave="btnout(3)"
-      >
+  <div class="pillar">
+    <div class="containers">
+      <v-parallax
+        src="../assets/backpic.jpg"
+        class="itpararllax"
+        height="400"
+      ></v-parallax>
+      <div id="leftmain">
+        <a @click="delayTo('#/profile')" class="avatar">
+          <img
+            src="../assets/avatar.png"
+            alt="user-avatar"
+            class="user-image"
+            :id="avatars"
+            @mouseenter="goin(avatars)"
+            @mouseleave="goout(avatars)"
+          />
+        </a>
         <a
-          @click="delayToblank('https://login.twt.edu.cn/register/organization')"
-          class="btnas"
-          target="_blank"
-          ><img src="../assets/organization.png" />
-          <p>注册账号</p></a
+          @click="delayTo('#/profile')"
+          class="username"
+          :id="usernames"
+          @mouseenter="goin(usernames)"
+          @mouseleave="goout(usernames)"
         >
+          Pamaforce
+        </a>
+        <img src="../assets/wechat.png" alt="wechat-icon" class="wechat-icon" />
+        <img
+          src="../assets/wechats.png"
+          alt="wechat-icon"
+          class="wechats-icon"
+        />
+        <p class="wechat-status">微信：已绑定</p>
+        <a
+          @click="delayTo('#/account')"
+          class="changewechat"
+          :id="changewechats"
+          @mouseenter="goin(changewechats)"
+          @mouseleave="goout(changewechats)"
+        >
+          <img
+            src="../assets/changewechat.png"
+            alt="changewechat-icon"
+            class="changewechat-icon"
+          />
+        </a>
+        <a
+          href="https://party.twt.edu.cn/"
+          class="party"
+          target="_blank"
+          :id="partys"
+          @mouseenter="goin(partys)"
+          @mouseleave="goout(partys)"
+        >
+          <img src="../assets/party.png" alt="party-icon" class="party-icon" />
+        </a>
+        <a
+          href="http://mall.twt.edu.cn/"
+          class="shop"
+          target="_blank"
+          :id="shops"
+          @mouseenter="goin(shops)"
+          @mouseleave="goout(shops)"
+        >
+          <img src="../assets/shop.png" alt="shop-icon" class="shop-icon" />
+        </a>
+        <a
+          href="https://news.twt.edu.cn/news"
+          class="twt"
+          target="_blank"
+          :id="twts"
+          @mouseenter="goin(twts)"
+          @mouseleave="goout(twts)"
+        >
+          <img src="../assets/logo.png" alt="twt-icon" class="twt-icon" />
+        </a>
+      </div>
+      <div id="division">
+        <p>功能</p>
+      </div>
+      <div id="rightmain">
+        <div
+          class="setprofile btnteam"
+          id="setprofiles"
+          @mouseenter="btnin(0)"
+          @mouseleave="btnout(0)"
+        >
+          <a class="btnas" @click="delayTo('#/profile')"
+            ><img src="../assets/setprofile.png" />
+            <p>资料设置</p></a
+          >
+        </div>
+        <div
+          class="setaccount btnteam"
+          id="setaccounts"
+          @mouseenter="btnin(1)"
+          @mouseleave="btnout(1)"
+        >
+          <a class="btnas" @click="delayTo('#/account')"
+            ><img src="../assets/setaccount.png" />
+            <p>账户设置</p></a
+          >
+        </div>
+        <div
+          class="upgrade btnteam"
+          id="upgrades"
+          @mouseenter="btnin(2)"
+          @mouseleave="btnout(2)"
+        >
+          <a class="btnas" @click="delayTo('#/upgrade')"
+            ><img src="../assets/upgrade.png" />
+            <p>账号升级</p></a
+          >
+        </div>
+        <div
+          class="organization btnteam"
+          id="organizations"
+          @mouseenter="btnin(3)"
+          @mouseleave="btnout(3)"
+        >
+          <a
+            @click="
+              delayToblank('https://login.twt.edu.cn/register/organization')
+            "
+            class="btnas"
+            target="_blank"
+            ><img src="../assets/organization.png" />
+            <p>注册账号</p></a
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -157,12 +169,12 @@ export default {
       document.getElementById(this.btns[s]).classList.remove("btn-in");
     },
     delayTo(u) {
-      setTimeout("top.location.href='"+u+"'",300);
-      document.getElementsByClassName('containers')[0].classList.add("all-out");
+      setTimeout("top.location.href='" + u + "'", 300);
+      document.getElementsByClassName("containers")[0].classList.add("all-out");
     },
     delayToblank(u) {
-      setTimeout("window.open('"+u+"')",300);
-    }
+      setTimeout("window.open('" + u + "')", 300);
+    },
   },
 };
 </script>
@@ -205,12 +217,12 @@ a:hover {
 #division p {
   display: none;
   position: absolute;
-  left:50%;
-  top:50%;
+  left: 50%;
+  top: 50%;
   font-size: 18px;
   font-weight: 700;
-  color:rgb(12, 187, 213);
-  transform: translate(-50%,-50%);
+  color: rgb(12, 187, 213);
+  transform: translate(-50%, -50%);
 }
 #rightmain {
   transition: 0.3s;
@@ -228,11 +240,12 @@ a:hover {
 }
 .containers {
   position: relative;
+  top: 50vh;
+  left: 50%;
+  transform: translateX(-50%);
   display: block;
   transition: 0.3s;
   margin: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
   background-color: rgb(250, 250, 250);
   border: 1px solid #ddd;
   box-shadow: 1px 1px 5px #ccc;
@@ -240,6 +253,12 @@ a:hover {
   border: 2px;
   width: 1000px;
   height: 470px;
+}
+.pillar {
+  position: relative;
+  top: -240px;
+  height: 100vh;
+  width: 100%;
 }
 .avatar {
   display: block;
@@ -401,11 +420,11 @@ a:hover {
   background-position: 50%;
   transform: scale(10, 10);
   opacity: 0;
-  transition: transform .3s, opacity .5s;
+  transition: transform 0.3s, opacity 0.5s;
 }
 .btnteam:active:after {
   transform: scale(0, 0);
-  opacity: .3;
+  opacity: 0.3;
   transition: 0s;
 }
 .setprofile {
@@ -429,33 +448,32 @@ a:hover {
   top: 205px;
 }
 #organizations:after {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    background-image: radial-gradient(circle, #666 10%, transparent 10.01%);
-    background-repeat: no-repeat;
-    background-position: 50%;
-    transform: scale(10, 10);
-    opacity: 0;
-    transition: transform .3s, opacity .5s;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #666 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.5s;
 }
 #organizations:active:after {
-    transform: scale(0, 0);
-    opacity: .3;
-    //设置初始状态
-    transition: 0s;
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
 }
 .itpararllax {
   display: none;
 }
 .all-out {
   transition: all 0.4s ease-in;
-  transform:translateX(10px);
+  transform: translateX(10px);
   opacity: 0;
 }
 
@@ -500,6 +518,9 @@ a:hover {
 @media screen and (max-width: 1024px) {
   .containers {
     width: 728px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
   #leftmain {
     left: 35px;
@@ -614,20 +635,28 @@ a:hover {
 }
 @media screen and (max-width: 768px) {
   .containers {
-    margin: 0;
-    left: -2%;
-    width: 104%;
+    transform: translateX(0);
+    top: 240px;
+    left: 0px;
+    width: 100%;
     border-radius: 0px;
-    height: 700px;
+    height: 80vh;
     animation: none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .pillar {
+    height: 680px;
   }
   .itpararllax {
     display: block;
   }
   #leftmain {
     margin: 0;
-    left: 50%;top: 10px;
-    height: 390px;display: block;
+    left: 50%;
+    top: 10px;
+    height: 390px;
+    display: block;
     transform: translate(-50%);
     background: none;
     border-radius: 0px;
@@ -658,7 +687,7 @@ a:hover {
   #rightmain {
     left: 50%;
     top: 410px;
-    height: 360px;
+    height: 400px;
     transform: translateX(-50%);
     display: absolute;
     background: none;
@@ -681,7 +710,7 @@ a:hover {
     background-color: rgb(92, 187, 246);
     border: 0px;
     border-radius: 8px;
-    box-shadow: 0px 2px 2px rgb(177,177,177);
+    box-shadow: 0px 2px 2px rgb(177, 177, 177);
     overflow: hidden;
   }
   .btnas {
@@ -698,7 +727,7 @@ a:hover {
     width: 40px;
     height: 40px;
   }
- .setprofile {
+  .setprofile {
     left: 12.5px;
     top: 55px;
   }
@@ -774,7 +803,7 @@ a:hover {
     background-repeat: no-repeat;
     background-size: 258px 344px;
   }
-  to{
+  to {
     background-image: url("../assets/border.png");
     background-position: 5px 20px;
     background-repeat: no-repeat;
