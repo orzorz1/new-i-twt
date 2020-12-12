@@ -4,28 +4,41 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const originalPush = VueRouter.prototype.push
-   VueRouter.prototype.push = function push(location) {
-   return originalPush.call(this, location).catch(err => err)
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
 }
 
 const routes = [
   {
-    path:'/',
-    redirect:'/home'
+    path:'/login',
+    name:'login',
+    component:() =>import('@/views/404')
   },
   {
-    path: '/home',
-    name: 'home',
-    component: () => import('@/views/MainView')
+    path: '/',
+    name: 'main',
+    component: () => import('@/views/main'),
+    children: [
+      {
+        path: 'home',
+        name: 'home',
+        component: () => import('@/views/MainView')
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: () => import('@/views/accountChange')
+      },
+      {
+        path: 'account',
+        name: 'account',
+        component: () => import('@/views/account')
+      },
+    ]
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: () => import('@/views/accountChange')
-  },
-  {
-    path:'*',
-    name:'404',
+    path: '*',
+    name: '404',
     component: () => import('@/views/404')
   }
 ]

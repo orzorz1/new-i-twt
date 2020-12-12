@@ -3,7 +3,7 @@
         <v-app-bar-nav-icon @click="open"></v-app-bar-nav-icon>
         <div class="space-div"></div>
         <v-avatar class="twt-logo" tile>
-            <img src="../../assets/logo.png" alt="twt" />
+            <img src="@/assets/logo.png" alt="twt" />
         </v-avatar>
         <v-toolbar-title class="twt-title">天外天&emsp;|&emsp;个人中心</v-toolbar-title>
         <v-spacer></v-spacer>
