@@ -21,7 +21,6 @@ export default {
     }),
     methods:{
         open(){
-            console.log(123)
             this.$emit('naviOpen')
         }
     }
