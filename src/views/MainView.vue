@@ -120,7 +120,7 @@
           @mouseenter="btnin(3)"
           @mouseleave="btnout(3)"
         >
-          <a @click="delayToblank('#/create')" class="btnas" target="_blank"
+          <a @click="delayTo('#/create')" class="btnas"
             ><img src="../assets/organization.png" />
             <p>注册账号</p></a
           >
