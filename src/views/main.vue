@@ -4,11 +4,11 @@
     <Navigation :drawer="drawer" @naviClose="drawer = false" />
     <Footer @naviOpen="drawer = true" />
     <v-main class="blue-grey lighten-5">
-      <v-container>
-        <v-row justify="center">
+      <v-container style="padding: 0">
+        <v-row justify="center" no-gutters>
           <v-col xl="9" lg="10" md="12" sm="12" xs="12">
-      <router-view />
-      </v-col>
+            <router-view />
+          </v-col>
         </v-row>
       </v-container>
     </v-main>

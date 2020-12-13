@@ -120,12 +120,7 @@
           @mouseenter="btnin(3)"
           @mouseleave="btnout(3)"
         >
-          <a
-            @click="
-              delayToblank('https://login.twt.edu.cn/register/organization')
-            "
-            class="btnas"
-            target="_blank"
+          <a @click="delayToblank('#/create')" class="btnas" target="_blank"
             ><img src="../assets/organization.png" />
             <p>注册账号</p></a
           >
@@ -640,7 +635,7 @@ a:hover {
     left: 0px;
     width: 100%;
     border-radius: 0px;
-    height: 80vh;
+    height: 100%;
     animation: none;
     margin-top: 0px;
     margin-bottom: 0px;

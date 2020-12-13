@@ -34,6 +34,11 @@ const routes = [
         name: 'account',
         component: () => import('@/views/account')
       },
+      {
+        path: 'create',
+        name: 'create',
+        component: () => import('@/views/create'),
+      },
     ]
   },
   {
