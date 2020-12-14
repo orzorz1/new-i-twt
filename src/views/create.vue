@@ -76,7 +76,7 @@
               hint="若最后一位为X，请大写"
               required
             ></v-text-field>
-            <v-checkbox v-model="checkbox" required>
+            <v-checkbox v-model="checkbox1" :rules="checkRules" required>
               <template v-slot:label>
                 <p style="position: relative; top: 8px">
                   我已经阅读并同意
@@ -157,7 +157,7 @@
               <v-radio label="学校机构" value="0"></v-radio>
               <v-radio label="学生组织" value="1"></v-radio>
             </v-radio-group>
-            <v-checkbox v-model="checkbox" required>
+            <v-checkbox v-model="checkbox2" :rules="checkRules" required>
               <template v-slot:label>
                 <p style="position: relative; top: 8px">
                   我已经阅读并同意
@@ -256,7 +256,9 @@ export default {
       (v) => !!v || "请输入组织的名称",
       (v) => v.length <= 20 || "组织名称须不超过20字",
     ],
-    checkbox: false,
+    checkRules: [(v) => v],
+    checkbox1: false,
+    checkbox2: false,
     loading1: false,
     loading2: false,
   }),
