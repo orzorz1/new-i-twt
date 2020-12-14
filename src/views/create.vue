@@ -19,7 +19,7 @@
           style="width: 80%; position: relative; margin: 0 auto"
         >
           <v-card-title> 填写注册信息</v-card-title>
-          <v-form ref="form" v-model="valid" lazy-validation>
+          <v-form ref="form1" v-model="valid" lazy-validation>
             <v-text-field
               v-model="username"
               :counter="30"
@@ -32,6 +32,10 @@
             <v-text-field
               v-model="password"
               label="密码"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show1 ? 'text' : 'password'"
+              @click:append="show1 = !show1"
+              @blur="getPassword(password)"
               :rules="passwordRules"
               placeholder="请输入6位以上密码，区分大小写"
               prepend-icon="mdi-lock"
@@ -40,6 +44,9 @@
             <v-text-field
               v-model="surepassword"
               label="确认密码"
+              :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show2 ? 'text' : 'password'"
+              @click:append="show2 = !show2"
               :rules="surepasswordRules"
               placeholder="请再次输入您设置的密码"
               prepend-icon="mdi-lock"
@@ -72,7 +79,7 @@
             <v-checkbox v-model="checkbox" required>
               <template v-slot:label>
                 <p style="position: relative; top: 8px">
-                  我已阅读并同意
+                  我已经阅读并同意
                   <a
                     target="_blank"
                     style="text-decoration: none"
@@ -86,10 +93,10 @@
             </v-checkbox>
             <v-btn
               class="mr-4"
-              :loading="loading"
-              :disabled="loading"
+              :loading="loading1"
+              :disabled="loading1"
               color="secondary"
-              @click="checkform"
+              @click="checkform1"
               width="80%"
               height="50"
               style="position: relative; left: 50%; transform: translateX(-50%)"
@@ -99,23 +106,110 @@
           </v-form>
         </v-card>
       </v-tab-item>
-      <v-tab-item value="tab-2"></v-tab-item>
+      <v-tab-item value="tab-2">
+        <v-banner width="85%" style="position: relative; margin: 0 auto"
+          >组织账号是面向天津大学校内机关、部门、学院及各类社团、学生组织提供的特殊账号，可以在天外天相关系统中使用为组织提供的特殊功能。
+          <template v-slot:actions="{ dismiss }">
+            <v-btn text color="primary" @click="dismiss"> 确定 </v-btn>
+          </template>
+        </v-banner>
+        <v-card
+          tile
+          flat
+          style="width: 80%; position: relative; margin: 0 auto"
+        >
+          <v-card-title> 申请人信息</v-card-title>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-text-field
+              v-model="accountName"
+              prepend-icon="mdi-account"
+              dense
+              readonly
+              filled
+              required
+            ></v-text-field>
+            <v-text-field
+              v-model="accountNumber"
+              prepend-icon="mdi-badge-account-horizontal"
+              dense
+              readonly
+              filled
+              required
+            ></v-text-field>
+          </v-form>
+        </v-card>
+        <v-card
+          tile
+          flat
+          style="width: 80%; position: relative; margin: 0 auto"
+        >
+          <v-card-title> 填写组织信息</v-card-title>
+          <v-form ref="form2" v-model="valid" lazy-validation>
+            <v-text-field
+              v-model="organizationName"
+              label="组织名称（请填写组织全称，不超过20字）"
+              :counter="20"
+              :rules="organizationNameRules"
+              required
+            ></v-text-field>
+            <v-card-text style="color: #1e88e5"> 组织类型</v-card-text>
+            <v-radio-group v-model="row" row>
+              <v-radio label="学校机构" value="0"></v-radio>
+              <v-radio label="学生组织" value="1"></v-radio>
+            </v-radio-group>
+            <v-checkbox v-model="checkbox" required>
+              <template v-slot:label>
+                <p style="position: relative; top: 8px">
+                  我已经阅读并同意
+                  <a
+                    target="_blank"
+                    style="text-decoration: none"
+                    href="https://support.twt.edu.cn/topic/46/%E5%A4%A9%E5%A4%96%E5%A4%A9%E7%BB%84%E7%BB%87%E8%B4%A6%E5%8F%B7%E7%94%A8%E6%88%B7%E5%8D%8F%E8%AE%AE"
+                    @click.stop
+                  >
+                    《天外天组织账号用户协议》
+                  </a>
+                </p>
+              </template>
+            </v-checkbox>
+            <v-btn
+              class="mr-4"
+              :loading="loading2"
+              :disabled="loading2"
+              color="secondary"
+              @click="checkform2"
+              width="80%"
+              height="50"
+              style="position: relative; left: 50%; transform: translateX(-50%)"
+            >
+              提交
+            </v-btn>
+          </v-form>
+        </v-card>
+      </v-tab-item>
     </v-tabs-items>
   </v-container>
 </template>
 
 <script>
+let thePassword = "";
 export default {
   name: "create",
   data: () => ({
     tab: null,
+    row: null,
     valid: true,
+    show1: false,
+    show2: false,
     username: "",
     password: "",
     surepassword: "",
     email: "",
     schoolnumber: "",
     idnumber: "",
+    accountName: "刘宏伟",
+    accountNumber: "3020205094",
+    organizationName: "",
     usernameRules: [
       (v) => !!v || "请输入您想要的用户名",
       (v) =>
@@ -130,7 +224,10 @@ export default {
       (v) => !!v || "请输入您想要的密码",
       (v) => (v && v.length >= 6) || "密码的长度须大于6个字符",
     ],
-    surepasswordRules: [],
+    surepasswordRules: [
+      (v) => !!v || "请确定您的密码",
+      (v) => v == thePassword || "两次输入的密码不相符",
+    ],
     emailRules: [
       (v) => !!v || "请输入您的邮箱",
       (v) =>
@@ -155,15 +252,26 @@ export default {
           (v[17] == "X" || (v[17] >= "0" && v[17] <= "9"))) ||
         "请输入正确的身份证号",
     ],
+    organizationNameRules: [
+      (v) => !!v || "请输入组织的名称",
+      (v) => v.length <= 20 || "组织名称须不超过20字",
+    ],
     checkbox: false,
-    loading: false,
-    values: [true, true, true, true, true, true],
+    loading1: false,
+    loading2: false,
   }),
   methods: {
-    checkform() {
-      this.loading = true;
-      this.values[1] = false;
-      this.$forceUpdate();
+    checkform1() {
+      this.loading1 = true;
+      if (!this.$refs.form1.validate()) this.loading1 = false;
+    },
+    checkform2() {
+      this.loading2 = true;
+      this.$refs.form2.validate();
+      if (!this.$refs.form2.validate()) this.loading2 = false;
+    },
+    getPassword(p) {
+      thePassword = p;
     },
   },
 };
