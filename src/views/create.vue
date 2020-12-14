@@ -34,9 +34,7 @@
               autocomplete="new-password"
               v-model="password"
               label="密码"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show1 ? 'text' : 'password'"
-              @click:append="show1 = !show1"
+              type="password"
               @blur="getPassword(password)"
               :rules="passwordRules"
               placeholder="请输入6位以上密码，区分大小写"
@@ -46,9 +44,7 @@
             <v-text-field
               v-model="surepassword"
               label="确认密码"
-              :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show2 ? 'text' : 'password'"
-              @click:append="show2 = !show2"
+              type="password"
               :rules="surepasswordRules"
               placeholder="请再次输入您设置的密码"
               prepend-icon="mdi-lock"
@@ -62,12 +58,15 @@
               prepend-icon="mdi-email"
               required
             ></v-text-field>
-            <v-divider class="mx-4"></v-divider>
+            <v-divider
+              style="margin-top: 10px; margin-bottom: 15px; width: 150%"
+            ></v-divider>
             <v-text-field
               v-model="schoolnumber"
               label="学号/工资号"
               :rules="schoolnumberRules"
               prepend-icon="mdi-badge-account-horizontal"
+              placeholder="请输入您的学号/工资号"
               required
             ></v-text-field>
             <v-text-field
@@ -75,7 +74,7 @@
               label="身份证号"
               :rules="idnumberRules"
               prepend-icon="mdi-card-account-details"
-              hint="若最后一位为X，请大写"
+              placeholder="若最后一位为X，请大写"
               required
             ></v-text-field>
             <v-checkbox v-model="checkbox1" :rules="checkRules" required>
@@ -108,9 +107,9 @@
           </v-form>
         </v-card>
       </v-tab-item>
-      <v-tab-item value="tab-2">
-        <v-banner width="85%" style="position: relative; margin: 0 auto"
-          >组织账号是面向天津大学校内机关、部门、学院及各类社团、学生组织提供的特殊账号，可以在天外天相关系统中使用为组织提供的特殊功能。
+      <v-tab-item value="tab-2" style="padding: 15px">
+        <v-banner width="85%" style="position: relative; margin: 0 auto">
+          组织账号是面向天津大学校内机关、部门、学院及各类社团、学生组织提供的特殊账号，可以在天外天相关系统中使用为组织提供的特殊功能。
           <template v-slot:actions="{ dismiss }">
             <v-btn text color="primary" @click="dismiss"> 确定 </v-btn>
           </template>
@@ -152,9 +151,12 @@
               label="组织名称（请填写组织全称，不超过20字）"
               :counter="20"
               :rules="organizationNameRules"
+              style="width: 95%; position: relative; margin: 0 auto"
               required
             ></v-text-field>
-            <v-card-text style="color: #1e88e5"> 组织类型</v-card-text>
+            <v-card-text style="color: #1e88e5; font-size: 18px">
+              组织类型</v-card-text
+            >
             <v-radio-group v-model="row" row>
               <v-radio label="学校机构" value="0"></v-radio>
               <v-radio label="学生组织" value="1"></v-radio>
@@ -166,10 +168,10 @@
                   <a
                     target="_blank"
                     style="text-decoration: none"
-                    href="https://support.twt.edu.cn/topic/46/%E5%A4%A9%E5%A4%96%E5%A4%A9%E7%BB%84%E7%BB%87%E8%B4%A6%E5%8F%B7%E7%94%A8%E6%88%B7%E5%8D%8F%E8%AE%AE"
+                    href="https://i.twt.edu.cn/agreement.html"
                     @click.stop
                   >
-                    《天外天组织账号用户协议》
+                    《天外天用户协议》
                   </a>
                 </p>
               </template>
@@ -201,8 +203,6 @@ export default {
     tab: null,
     row: null,
     valid: true,
-    show1: false,
-    show2: false,
     username: "",
     password: "",
     surepassword: "",
