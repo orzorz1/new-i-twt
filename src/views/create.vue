@@ -21,6 +21,7 @@
           <v-card-title> 填写注册信息</v-card-title>
           <v-form ref="form1" v-model="valid" lazy-validation>
             <v-text-field
+              autocomplete="new-password"
               v-model="username"
               :counter="30"
               :rules="usernameRules"
@@ -30,6 +31,7 @@
               required
             ></v-text-field>
             <v-text-field
+              autocomplete="new-password"
               v-model="password"
               label="密码"
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
