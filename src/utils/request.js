@@ -1,10 +1,14 @@
 import axios from 'axios'
 import { Message } from '@/component/message'
-import { getToken } from './auth'
+// import { getToken } from './auth'
 import qs from 'querystring';
 
+const app_key='chocolate'
+const app_secret='c9da5207f1dffa45d9dac36e2a25792d3f934533'
+const domain='testopen.twt.edu.cn'
+
 const service = axios.create({
-    baseURL: process.env.VUE_APP_SERVER_URL,
+    baseURL: 'http://open-api.twt.edu.cn/api',
     transformRequest: [(oldData, config) => {
         if (!config['Content-Type']) return qs.stringify(oldData);
         switch (config['Content-Type']) {
@@ -14,11 +18,16 @@ const service = axios.create({
                 return qs.stringify(oldData)
         }
     }],
-    timeout: 60000
+    timeout: 60000,
+    headers:{
+       'Content-Type': 'application/x-www-form-urlencoded',
+       domain,
+       ticket:window.btoa(`${app_key}.${app_secret}`)
+    }
 });
 
 service.interceptors.request.use(config => {
-    config.headers['token'] = getToken();
+    // config.headers['token'] = getToken();
     return config
 }, error => {
     return Promise.reject(error);

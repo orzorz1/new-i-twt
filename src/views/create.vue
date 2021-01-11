@@ -196,6 +196,8 @@
 </template>
 
 <script>
+import {register} from '@/api/user.js'
+
 let thePassword = "";
 export default {
   name: "create",
@@ -277,6 +279,12 @@ export default {
     getPassword(p) {
       thePassword = p;
     },
+    submit(data){
+      register(data).then(res=>{
+        console.log(res)
+        //do sth
+      })
+    }
   },
 };
 </script>
