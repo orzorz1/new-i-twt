@@ -93,6 +93,7 @@
             <v-text-field
               v-model="verifycode"
               label="验证码"
+              :rules="verifyRules"
               prepend-icon="mdi-shield-check"
               placeholder="请输入获取的验证码"
               required
@@ -217,7 +218,6 @@
 
 <script>
   import { register, verifyCode } from '@/api/user';
-  import Message from '@/components/message';
 
   let thePassword = '';
   export default {
@@ -292,6 +292,16 @@
             })(v)) ||
           '请您输入正确的邮箱',
       ],
+      verifyRules: [
+        (v) => !!v || '请输入验证码',
+        (v) =>
+          (v &&
+            (function(x) {
+              let s = /^\d{6}$/;
+              return s.test(x);
+            })(v)) ||
+          '请您输入合法的验证码',
+      ],
       organizationNameRules: [
         (v) => !!v || '请输入组织的名称',
         (v) => v.length <= 20 || '组织名称须不超过20字',
@@ -305,7 +315,6 @@
     methods: {
       checkform1() {
         this.loading1 = true;
-        let status = '';
         if (!this.$refs.form1.validate()) this.loading1 = false;
         console.log(this.loading1);
         if (this.loading1) {
@@ -318,14 +327,8 @@
             email: this.email,
             idNumber: this.idnumber,
           };
-          register(data).then((response) => (status = response.message));
-          if (status == 'ok') {
-            Message.success('注册成功');
-          } else {
-            this.$refs.form1.resetValidation();
-            this.loading1 = false;
-            Message.error(`注册失败：${status}`);
-          }
+          register(data);
+          this.$refs.form1.resetValidation();
         }
       },
       checkform2() {
@@ -336,15 +339,11 @@
       getPassword(p) {
         thePassword = p;
       },
-      submit(data) {
-        register(data).then((response) => {
-          //do sth
-          return response.message;
-        });
-      },
       sendVerifyCode() {
         let data = { phone: this.phone };
-        verifyCode(data)
+        verifyCode(data).catch((value) => {
+          console.log(value);
+        });
       },
     },
   };
