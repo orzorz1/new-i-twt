@@ -218,7 +218,7 @@
 
 <script>
   import { register, verifyCode } from '@/api/user';
-
+  import Message from '@/components/message';
   let thePassword = '';
   export default {
     name: 'create',
@@ -327,7 +327,13 @@
             email: this.email,
             idNumber: this.idnumber,
           };
-          register(data);
+          register(data)
+            .then((value) => {
+              Message.success(`账号注册${value}`);
+            })
+            .catch((value) => {
+              console.log(value);
+            });
           this.$refs.form1.resetValidation();
         }
       },
@@ -341,9 +347,13 @@
       },
       sendVerifyCode() {
         let data = { phone: this.phone };
-        verifyCode(data).catch((value) => {
-          console.log(value);
-        });
+        verifyCode(data)
+          .then((value) => {
+            Message.success(`短信发送${value}`);
+          })
+          .catch((value) => {
+            console.log(value);
+          });
       },
     },
   };
