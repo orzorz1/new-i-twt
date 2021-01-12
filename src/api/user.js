@@ -1,10 +1,19 @@
-import request from '../utils/request'
+import service from '../utils/request';
 
-//志愿活动获得所有数据
+// 获取短信验证码
+export function verifyCode(data) {
+  return service({
+    url: '/register/phone/msg',
+    method: 'post',
+    data,
+  });
+}
+
+// 注册
 export function register(data) {
-    return request({
-        url: '/api/user/register',
-        method: 'post',
-        data
-    })
+  return service({
+    url: '/register',
+    method: 'post',
+    data,
+  });
 }
