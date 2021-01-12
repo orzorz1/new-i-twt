@@ -7,11 +7,12 @@ axios.defaults.withCredentials = true;
 
 const app_key = 'chocolate';
 const app_secret = 'c9da5207f1dffa45d9dac36e2a25792d3f934533';
-const domain = 'testopen.twt.edu.cn';
+const domain = 'i.twt.edu.cn';
 
 const service = axios.create({
   // baseURL: 'http://open-api.twt.edu.cn/api',
-  baseURL: 'http://testopen.twt.edu.cn/api',
+  // baseURL: 'http://testopen.twt.edu.cn/api',
+  baseURL: 'https://api.twt.edu.cn/api',
   transformRequest: [
     (oldData, config) => {
       if (!config['Content-Type']) return qs.stringify(oldData);
