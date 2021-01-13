@@ -2,6 +2,8 @@ import axios from 'axios';
 import Message from '@/components/message';
 // import { getToken } from './auth'
 import qs from 'querystring';
+import router from "@/router"
+import { getToken } from "@/utils/auth";
 
 axios.defaults.withCredentials = true;
 
@@ -36,7 +38,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config) => {
-    // config.headers['token'] = getToken();
+    config.headers['token'] = getToken();
     return config;
   },
   (error) => {
@@ -51,11 +53,13 @@ service.interceptors.response.use(
       if (response.request.responseType === 'blob') {
         return data;
       }
+      if (data['error_code'] === 40001 || data['error_code'] === 40005) {
+        router.push({ path: "/login" })
+      }
       switch (data['error_code']) {
         case 0:
           return Promise.resolve(data);
         case 40001:
-          // toLogin();
           Message.error(`${data['message']},请重新登陆`);
           return Promise.reject(data['message']);
         case 40002:

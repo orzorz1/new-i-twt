@@ -93,11 +93,14 @@
 <script>
 import { login, loginWithPhone, loginVerifyCode } from "@/api/user";
 import Message from "@/components/message";
+import { getUrlParam } from "@/utils/common";
+import { setToken } from "@/utils/auth";
 
 export default {
   name: "login",
   data() {
     return {
+      from: "",
       showPsw: false,
       tab: "",
       username: "",
@@ -139,6 +142,13 @@ export default {
         .then((value) => {
           console.log(value);
           Message.success(`登录成功`);
+          setToken(value.result.token);
+          this.from = getUrlParam("from");
+          if (this.from) {
+            this.$router.push({ path: this.from });
+          } else {
+            this.$router.push({ path: "/home" });
+          }
         })
         .catch((value) => {
           console.log(value);
@@ -154,7 +164,13 @@ export default {
         .then((value) => {
           console.log(value);
           Message.success(`登录成功`);
-          
+          setToken(value.result.token);
+          this.from = getUrlParam("from");
+          if (this.from) {
+            this.$router.push({ path: this.from });
+          } else {
+            this.$router.push({ path: "/home" });
+          }
         })
         .catch((value) => {
           console.log(value);
@@ -171,6 +187,9 @@ export default {
           console.log(value);
         });
     },
+  },
+  created() {
+    this.from = getUrlParam("from");
   },
 };
 </script>
