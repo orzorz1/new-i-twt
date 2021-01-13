@@ -12,13 +12,10 @@
     <!-- <v-btn icon>
             <v-icon>mdi-dots-vertical</v-icon>
         </v-btn> -->
-    <v-btn flat @click="logout"> 退出登录 </v-btn>
   </v-app-bar>
 </template>
 
 <script>
-import Message from "@/components/message";
-import { removeToken } from "@/utils/auth";
 export default {
   name: "Header",
   data: () => ({
@@ -27,11 +24,6 @@ export default {
   methods: {
     open() {
       this.$emit("naviOpen");
-    },
-    logout() {
-      removeToken();
-      this.$router.push({ path: "/login" });
-      Message.success("已登出当前账号");
     },
   },
 };

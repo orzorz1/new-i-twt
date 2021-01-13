@@ -91,7 +91,7 @@
 
 <script>
 export default {
-    name: "accountChange",
+    name: "userInfo",
     data: () => ({
         cellphone: "13662110876",
         email: "1779227906@qq.com",

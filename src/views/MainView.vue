@@ -7,7 +7,7 @@
         height="400"
       ></v-parallax>
       <div id="leftmain">
-        <a @click="delayTo('#/profile')" class="avatar">
+        <a @click="delayTo('#/userInfo')" class="avatar">
           <img
             src="../assets/avatar.png"
             alt="user-avatar"
@@ -18,13 +18,13 @@
           />
         </a>
         <a
-          @click="delayTo('#/profile')"
+          @click="delayTo('#/userInfo')"
           class="username"
           :id="usernames"
           @mouseenter="goin(usernames)"
           @mouseleave="goout(usernames)"
         >
-          Pamaforce
+          {{usernames}}
         </a>
         <img src="../assets/wechat.png" alt="wechat-icon" class="wechat-icon" />
         <img
@@ -87,7 +87,7 @@
           @mouseenter="btnin(0)"
           @mouseleave="btnout(0)"
         >
-          <a class="btnas" @click="delayTo('#/profile')"
+          <a class="btnas" @click="delayTo('#/userInfo')"
             ><img src="../assets/setprofile.png" />
             <p>资料设置</p></a
           >
@@ -191,7 +191,7 @@ a:hover {
   transition: 0.3s;
   background-color: rgb(248, 248, 248);
   border-radius: 10px;
-  box-shadow: 1px 1px 5px #ccc;
+  // box-shadow: 1px 1px 5px #ccc;
   border: 1px solid rgb(235, 235, 235);
 }
 #division {
@@ -201,7 +201,7 @@ a:hover {
   background-color: rgb(235, 235, 235);
   border: 1px solid rgb(230, 230, 230);
   border-radius: 2px/50%;
-  box-shadow: 1px 1px 4px rgb(230, 230, 230) inset;
+  // box-shadow: 1px 1px 4px rgb(230, 230, 230) inset;
   width: 4px;
   height: 200px;
   transition: 0.3s;
@@ -229,7 +229,7 @@ a:hover {
   width: 550px;
   background-color: rgb(248, 248, 248);
   border-radius: 10px;
-  box-shadow: 1px 1px 5px #ccc;
+  // box-shadow: 1px 1px 5px #ccc;
   border: 1px solid rgb(235, 235, 235);
   overflow: hidden;
 }
@@ -243,7 +243,7 @@ a:hover {
   margin: auto;
   background-color: rgb(250, 250, 250);
   border: 1px solid #ddd;
-  box-shadow: 1px 1px 5px #ccc;
+  // box-shadow: 1px 1px 5px #ccc;
   border-radius: 6px;
   border: 2px;
   width: 1000px;
@@ -395,7 +395,7 @@ a:hover {
   font-size: 18px;
   border: 1px solid #bbb;
   border-radius: 3px;
-  box-shadow: 0px 1.5px 5px #aaa;
+  // box-shadow: 0px 1.5px 5px #aaa;
   overflow: hidden;
   animation-name: beout;
   animation-duration: 0.5s;
@@ -485,13 +485,13 @@ a:hover {
     from {
       transform: translateY(0px);
       border: 1px solid #bbb;
-      box-shadow: 0px 1.5px 5px #aaa;
+      // box-shadow: 0px 1.5px 5px #aaa;
       font-size: 18px;
     }
     to {
       transform: translateY(-3px);
       border: 1px solid #0ab0c2;
-      box-shadow: 0px 1.5px 5px#0ab0c2;
+      // box-shadow: 0px 1.5px 5px#0ab0c2;
       font-size: 19px;
     }
   }
@@ -499,13 +499,13 @@ a:hover {
     from {
       transform: translateY(-3px);
       border: 1px solid #0ab0c2;
-      box-shadow: 0px 1.5px 5px#0ab0c2;
+      // box-shadow: 0px 1.5px 5px#0ab0c2;
       font-size: 19px;
     }
     to {
       transform: translateY(0px);
       border: 1px solid #bbb;
-      box-shadow: 0px 1.5px 5px #aaa;
+      // box-shadow: 0px 1.5px 5px #aaa;
       font-size: 18px;
     }
   }
@@ -603,13 +603,13 @@ a:hover {
     from {
       transform: translateY(0px);
       border: 1px solid #bbb;
-      box-shadow: 0px 1.5px 5px #aaa;
+      // box-shadow: 0px 1.5px 5px #aaa;
       font-size: 16px;
     }
     to {
       transform: translateY(-3px);
       border: 1px solid #0ab0c2;
-      box-shadow: 0px 1.5px 5px#0ab0c2;
+      // box-shadow: 0px 1.5px 5px#0ab0c2;
       font-size: 17px;
     }
   }
@@ -617,13 +617,13 @@ a:hover {
     from {
       transform: translateY(-3px);
       border: 1px solid #0ab0c2;
-      box-shadow: 0px 1.5px 5px#0ab0c2;
+      // box-shadow: 0px 1.5px 5px#0ab0c2;
       font-size: 17px;
     }
     to {
       transform: translateY(0px);
       border: 1px solid #bbb;
-      box-shadow: 0px 1.5px 5px #aaa;
+      // box-shadow: 0px 1.5px 5px #aaa;
       font-size: 16px;
     }
   }
@@ -670,7 +670,7 @@ a:hover {
     background-color: #fff;
     border: 0px;
     border-radius: 25px/50%;
-    box-shadow: 1px 2px 8px rgb(12, 130, 209);
+    // box-shadow: 1px 2px 8px rgb(12, 130, 209);
     width: 150px;
     height: 50px;
     transition: 0.3s;
@@ -705,7 +705,7 @@ a:hover {
     background-color: rgb(92, 187, 246);
     border: 0px;
     border-radius: 8px;
-    box-shadow: 0px 2px 2px rgb(177, 177, 177);
+    // box-shadow: 0px 2px 2px rgb(177, 177, 177);
     overflow: hidden;
   }
   .btnas {

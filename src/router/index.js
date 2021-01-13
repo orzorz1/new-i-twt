@@ -30,9 +30,9 @@ const routes = [
         component: () => import('@/views/upgrade')
       },
       {
-        path: 'profile',
-        name: 'profile',
-        component: () => import('@/views/accountChange')
+        path: 'userInfo',
+        name: 'userInfo',
+        component: () => import('@/views/userInfo')
       },
       {
         path: 'account',

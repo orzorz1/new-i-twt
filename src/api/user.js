@@ -54,9 +54,18 @@ export function upgradeOption() {
 }
 
 // 账号升级
-export function upgrade() {
+export function upgrade(data) {
   return service({
     url: '/upgrade',
-    method: 'put'
+    method: 'put',
+    data
+  })
+}
+
+// 获取当前用户信息
+export function userInfo() {
+  return service({
+    url: '/user/single',
+    method: 'get'
   })
 }
