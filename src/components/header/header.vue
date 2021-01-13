@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app height="80px">
+    <v-app-bar app flat height="80px">
         <v-app-bar-nav-icon @click="open"></v-app-bar-nav-icon>
         <div class="space-div"></div>
         <v-avatar class="twt-logo" tile>

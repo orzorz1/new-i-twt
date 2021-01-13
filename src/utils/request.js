@@ -5,8 +5,8 @@ import qs from 'querystring';
 
 axios.defaults.withCredentials = true;
 
-const app_key = 'chocolate';
-const app_secret = 'c9da5207f1dffa45d9dac36e2a25792d3f934533';
+const app_key = 'apple';
+const app_secret = '41f339507099d27853abedf9bd10250b566595ef';
 const domain = 'i.twt.edu.cn';
 
 const service = axios.create({
@@ -53,7 +53,7 @@ service.interceptors.response.use(
       }
       switch (data['error_code']) {
         case 0:
-          return Promise.resolve(data['message']);
+          return Promise.resolve(data);
         case 40001:
           // toLogin();
           Message.error(`${data['message']},请重新登陆`);

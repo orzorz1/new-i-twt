@@ -12,7 +12,7 @@ const routes = [
   {
     path:'/login',
     name:'login',
-    component:() =>import('@/views/404')
+    component:() =>import('@/views/login')
   },
   {
     path: '/',
@@ -23,6 +23,11 @@ const routes = [
         path: 'home',
         name: 'home',
         component: () => import('@/views/MainView')
+      },
+      {
+        path: 'upgrade',
+        name: 'upgrade',
+        component: () => import('@/views/upgrade')
       },
       {
         path: 'profile',

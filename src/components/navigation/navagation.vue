@@ -44,8 +44,8 @@
       show: false,
       selectedItem: '',
       items: [
-        // { title: '首页', icon: 'mdi-home', path: '/home' },
-        // { title: '信息修改', icon: 'mdi-account-edit', path: '/profile' },
+        { title: '首页', icon: 'mdi-home', path: '/home' },
+        { title: '信息修改', icon: 'mdi-account-edit', path: '/profile' },
         {
           title: '账号注册',
           icon: 'mdi-account-multiple-plus',
