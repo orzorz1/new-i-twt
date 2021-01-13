@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app flat height="80px">
-    <v-app-bar-nav-icon @click="open"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon v-if="hasNavi" @click="open"></v-app-bar-nav-icon>
     <div class="space-div"></div>
     <v-avatar class="twt-logo" tile>
       <img src="@/assets/logo.png" alt="twt" />
@@ -18,6 +18,9 @@
 <script>
 export default {
   name: "Header",
+  props: {
+    hasNavi: Boolean,
+  },
   data: () => ({
     drawer: true,
   }),

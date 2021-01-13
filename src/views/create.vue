@@ -1,135 +1,154 @@
 <template>
-  <v-container>
-    <v-tabs centered fixed-tabs v-model="tab">
-      <v-tabs-slider color="#1E88E5"> </v-tabs-slider>
-      <v-tab href="#tab-1">个人账号</v-tab>
-      <!-- 临时关闭 -->
-      <!-- <v-tab href="#tab-2" disabled>组织账号</v-tab> -->
-    </v-tabs>
-    <v-tabs-items v-model="tab">
-      <v-tab-item value="tab-1" style="padding: 15px">
-        <!-- <v-banner width="85%" style="position: relative; margin: 0 auto"
+  <v-app>
+    <Header :hasNavi="false"/>
+    <Footer  />
+    <v-main class="blue-grey lighten-5">
+      <v-container style="padding: 0">
+        <v-row justify="center" no-gutters>
+          <v-col xl="9" lg="10" md="12" sm="12" xs="12">
+            <v-container>
+              <v-tabs centered fixed-tabs v-model="tab">
+                <v-tabs-slider color="#1E88E5"> </v-tabs-slider>
+                <v-tab href="#tab-1">个人账号</v-tab>
+                <!-- 临时关闭 -->
+                <!-- <v-tab href="#tab-2" disabled>组织账号</v-tab> -->
+              </v-tabs>
+              <v-tabs-items v-model="tab">
+                <v-tab-item value="tab-1" style="padding: 15px">
+                  <!-- <v-banner width="85%" style="position: relative; margin: 0 auto"
           >自2017级起，曾在天津大学就读并已注册天外天个人账号的新生、新入职教师，只需登录已有账号升级绑定新的学/工号即可，无需重新注册。
           <template v-slot:actions="{ dismiss }">
             <v-btn text color="primary" @click="dismiss"> 确定 </v-btn>
           </template>
         </v-banner> -->
-        <v-card
-          tile
-          flat
-          style="width: 80%; position: relative; margin: 0 auto"
-        >
-          <v-card-title>填写注册信息</v-card-title>
-          <v-form ref="form1" v-model="valid" lazy-validation>
-            <v-text-field
-              autocomplete="new-password"
-              v-model="username"
-              :counter="30"
-              :rules="usernameRules"
-              label="用户名"
-              placeholder="6-30个字符，以字母开头，可以是字母、数字、下划线"
-              prepend-icon="mdi-account"
-              required
-            ></v-text-field>
-            <v-text-field
-              autocomplete="new-password"
-              v-model="password"
-              label="密码"
-              type="password"
-              @blur="getPassword(password)"
-              :rules="passwordRules"
-              placeholder="请输入6位以上密码，区分大小写"
-              prepend-icon="mdi-lock"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="surepassword"
-              label="确认密码"
-              type="password"
-              :rules="surepasswordRules"
-              placeholder="请再次输入您设置的密码"
-              prepend-icon="mdi-lock"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="phone"
-              label="手机号"
-              :rules="phoneNumberRules"
-              prepend-icon="mdi-cellphone"
-              placeholder="请输入手机号"
-              required
-            >
-              <template v-slot:append>
-                <v-btn @click="sendVerifyCode" text>发送验证码</v-btn>
-              </template>
-            </v-text-field>
-            <v-text-field
-              v-model="verifycode"
-              label="验证码"
-              :rules="verifyRules"
-              prepend-icon="mdi-shield-check"
-              placeholder="请输入获取的验证码"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="email"
-              label="邮箱"
-              :rules="emailRules"
-              placeholder="请输入用于找回密码的邮箱"
-              prepend-icon="mdi-email"
-              required
-            ></v-text-field>
-            <v-divider
-              style="margin-top: 10px; margin-bottom: 15px; width: 150%"
-            ></v-divider>
-            <v-text-field
-              v-model="schoolnumber"
-              label="学号/工资号"
-              :rules="schoolnumberRules"
-              prepend-icon="mdi-badge-account-horizontal"
-              placeholder="请输入您的学号/工资号"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="idnumber"
-              label="身份证号"
-              :rules="idnumberRules"
-              prepend-icon="mdi-card-account-details"
-              placeholder="若最后一位为X，请大写"
-              required
-            ></v-text-field>
-
-            <v-checkbox v-model="checkbox1" :rules="checkRules" required>
-              <template v-slot:label>
-                <p style="position: relative; top: 8px">
-                  我已经阅读并同意
-                  <a
-                    target="_blank"
-                    style="text-decoration: none"
-                    href="https://i.twt.edu.cn/agreement.html"
-                    @click.stop
+                  <v-card
+                    tile
+                    flat
+                    style="width: 80%; position: relative; margin: 0 auto"
                   >
-                    《天外天用户协议》
-                  </a>
-                </p>
-              </template>
-            </v-checkbox>
-            <v-btn
-              class="mr-4"
-              :loading="loading1"
-              :disabled="loading1"
-              color="secondary"
-              @click="checkform1"
-              width="80%"
-              height="50"
-              style="position: relative; left: 50%; transform: translateX(-50%)"
-            >
-              提交
-            </v-btn>
-          </v-form>
-        </v-card>
-      </v-tab-item>
-      <!-- <v-tab-item value="tab-2" style="padding: 15px">
+                    <v-card-title>填写注册信息</v-card-title>
+                    <v-form ref="form1" v-model="valid" lazy-validation>
+                      <v-text-field
+                        autocomplete="new-password"
+                        v-model="username"
+                        :counter="30"
+                        :rules="usernameRules"
+                        label="用户名"
+                        placeholder="6-30个字符，以字母开头，可以是字母、数字、下划线"
+                        prepend-icon="mdi-account"
+                        required
+                      ></v-text-field>
+                      <v-text-field
+                        autocomplete="new-password"
+                        v-model="password"
+                        label="密码"
+                        type="password"
+                        @blur="getPassword(password)"
+                        :rules="passwordRules"
+                        placeholder="请输入6位以上密码，区分大小写"
+                        prepend-icon="mdi-lock"
+                        required
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="surepassword"
+                        label="确认密码"
+                        type="password"
+                        :rules="surepasswordRules"
+                        placeholder="请再次输入您设置的密码"
+                        prepend-icon="mdi-lock"
+                        required
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="phone"
+                        label="手机号"
+                        :rules="phoneNumberRules"
+                        prepend-icon="mdi-cellphone"
+                        placeholder="请输入手机号"
+                        required
+                      >
+                        <template v-slot:append>
+                          <v-btn @click="sendVerifyCode" text>发送验证码</v-btn>
+                        </template>
+                      </v-text-field>
+                      <v-text-field
+                        v-model="verifycode"
+                        label="验证码"
+                        :rules="verifyRules"
+                        prepend-icon="mdi-shield-check"
+                        placeholder="请输入获取的验证码"
+                        required
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="email"
+                        label="邮箱"
+                        :rules="emailRules"
+                        placeholder="请输入用于找回密码的邮箱"
+                        prepend-icon="mdi-email"
+                        required
+                      ></v-text-field>
+                      <v-divider
+                        style="
+                          margin-top: 10px;
+                          margin-bottom: 15px;
+                          width: 150%;
+                        "
+                      ></v-divider>
+                      <v-text-field
+                        v-model="schoolnumber"
+                        label="学号/工资号"
+                        :rules="schoolnumberRules"
+                        prepend-icon="mdi-badge-account-horizontal"
+                        placeholder="请输入您的学号/工资号"
+                        required
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="idnumber"
+                        label="身份证号"
+                        :rules="idnumberRules"
+                        prepend-icon="mdi-card-account-details"
+                        placeholder="若最后一位为X，请大写"
+                        required
+                      ></v-text-field>
+
+                      <v-checkbox
+                        v-model="checkbox1"
+                        :rules="checkRules"
+                        required
+                      >
+                        <template v-slot:label>
+                          <p style="position: relative; top: 8px">
+                            我已经阅读并同意
+                            <a
+                              target="_blank"
+                              style="text-decoration: none"
+                              href="https://i.twt.edu.cn/agreement.html"
+                              @click.stop
+                            >
+                              《天外天用户协议》
+                            </a>
+                          </p>
+                        </template>
+                      </v-checkbox>
+                      <v-btn
+                        class="mr-4"
+                        :loading="loading1"
+                        :disabled="loading1"
+                        color="secondary"
+                        @click="checkform1"
+                        width="80%"
+                        height="50"
+                        style="
+                          position: relative;
+                          left: 50%;
+                          transform: translateX(-50%);
+                        "
+                      >
+                        提交
+                      </v-btn>
+                    </v-form>
+                  </v-card>
+                </v-tab-item>
+                <!-- <v-tab-item value="tab-2" style="padding: 15px">
         <v-banner width="85%" style="position: relative; margin: 0 auto">
           组织账号是面向天津大学校内机关、部门、学院及各类社团、学生组织提供的特殊账号，可以在天外天相关系统中使用为组织提供的特殊功能。
           <template v-slot:actions="{ dismiss }">
@@ -213,17 +232,31 @@
           </v-form>
         </v-card>
       </v-tab-item> -->
-    </v-tabs-items>
-  </v-container>
+              </v-tabs-items>
+            </v-container>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
 import { register, verifyCode } from "@/api/user";
+import Footer from "@/components/footer/footer.vue";
+import Header from "@/components/header/header.vue";
+// import Navigation from "@/components/navigation/navagation";
 import Message from "@/components/message";
 let thePassword = "";
 export default {
   name: "create",
+   components: {
+    Footer,
+    Header,
+    // Navigation,
+  },
   data: () => ({
+    drawer: false,
     tab: null,
     row: null,
     valid: true,
@@ -349,7 +382,7 @@ export default {
       let data = { phone: this.phone };
       verifyCode(data)
         .then((value) => {
-          console.log(value)
+          console.log(value);
           Message.success(`短信发送成功`);
         })
         .catch((value) => {

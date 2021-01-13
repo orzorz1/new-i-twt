@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Header @naviOpen="drawer = true" />
+    <Header @naviOpen="drawer = true"  :hasNavi="true"/>
     <Navigation :drawer="drawer" @naviClose="drawer = false" />
     <Footer @naviOpen="drawer = true" />
     <v-main class="blue-grey lighten-5">

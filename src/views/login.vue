@@ -20,7 +20,7 @@
                   <v-tab href="#tab-2">短信登录</v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="tab">
-                  <v-tab-item value="tab-1" style="paddingtop: 15px">
+                  <v-tab-item value="tab-1" style="paddingtop: 20px">
                     <v-form>
                       <v-text-field
                         name="username"
@@ -48,7 +48,7 @@
                       >
                     </v-card-actions>
                   </v-tab-item>
-                  <v-tab-item value="tab-2" style="paddingtop: 15px">
+                  <v-tab-item value="tab-2" style="paddingtop: 20px">
                     <v-form>
                       <v-text-field
                         name="phone"
@@ -78,8 +78,8 @@
                   </v-tab-item>
                 </v-tabs-items>
                 <div class="func-group">
-                  <a href="/create">注册账号</a>
-                  <a href="/find">找回账号/密码</a>
+                  <a href="#/create">注册账号</a>
+                  <a href="#/find">找回账号/密码</a>
                 </div>
               </v-card-text>
             </v-card>
@@ -87,6 +87,21 @@
         </v-layout>
       </v-container>
     </v-content>
+    <div class="footer">
+      <div class="copyright">
+        <!-- <svg height="24" viewBox="0 0 771.9 615.74">
+          <path
+            d="M687,202.6c-36.9-19.1-108-12-128,18-6.9-2.5-9.6-10-15-14a209.76,209.76,0,0,0-45-26c-56.6-23.3-120.1-1-155,25-11.2,8.3-17.8,23.1-29,31v3c30.5,4.2,55.8,16.5,77,30,8.3,5.3,19.4,10.1,25,18,9.7-1.9,17.3-10.3,26-14,18.5-7.8,39.1-9.2,61-14,17.1-3.7,52.9,6.6,64,11,8,3.2,14.7,4.2,22,8,43.3,22.6,86.4,73.2,90,135,29.4-13.6,51.3-33.9,64-64C771.31,284.7,729.31,224.5,687,202.6Zm-121,97c-13.5-5.9-45.8-16-69-11-16.6,3.6-33.9,5.4-47,13-11.6,6.7-22.8,17.2-34,23-6.8-10.4-18.8-17.8-29-25-38.8-27.3-104.3-48.8-167-28-54,17.9-93.2,52.7-116,102-11.2,24.2-25.2,64.3-17,102,2.5,11.6.8,26,7,34-2.5,4.2-8.5,3.7-13,6a204.22,204.22,0,0,0-25,15c-19.7,14.1-34.9,36.4-46,59-4.4,8.9-10.6,33.8-9,44,0.2,1.2-1,7.1-1,10,0,11.7-.4,21.4,3,33,13.7,47.3,42.5,80.6,85,99,13.6,5.9,28.8,6.3,45,10,19.9,4.5,59.6-8.1,71-14,7.7-4,44.2-25.8,51-30,24.8-15.4,50.6-29.4,76-45,66.1-40.6,135.8-77.6,202-118,38-23.2,75.2-35.1,99-73,7.2-11.4,12.6-25.3,17-39,6-18.9,5.5-51.5,0-70C634.41,347.6,610.21,318.8,566,299.6Z"
+            transform="translate(0 -170.81)"
+          ></path>
+        </svg> -->
+        天外天工作室 / © 2000-{{getYear()}} /
+        <a href="http://www.miibeian.gov.cn/" rel="nofollow"
+          >津ICP备16002964号-1</a
+        >
+        / 津教备0767号
+      </div>
+    </div>
   </v-app>
 </template>
 
@@ -132,6 +147,10 @@ export default {
     };
   },
   methods: {
+    getYear(){
+      let date=new Date()
+      return date.getFullYear()
+    },
     loginCommon() {
       console.log(this.username, this.password);
       let data = {
@@ -213,6 +232,28 @@ export default {
     margin-top: 14px;
     a {
       text-decoration: none;
+    }
+  }
+}
+.footer {
+  bottom: 30px;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  .copyright {
+    position: relative;
+    display: inline-block;
+    padding: 8px 20px;
+    margin: 0 auto;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.75);
+    text-align: center;
+    max-width: 940px;
+    font-size: 14px;
+    line-height: 24px;
+    a{
+      text-decoration: none;
+      color: #000;
     }
   }
 }
