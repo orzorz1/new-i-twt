@@ -682,7 +682,7 @@ a:hover {
   #rightmain {
     left: 50%;
     top: 410px;
-    height: 400px;
+    height: 300px;
     transform: translateX(-50%);
     display: absolute;
     background: none;
