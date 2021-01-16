@@ -1,19 +1,17 @@
 <template>
-  <v-footer app absolute height="130px" color="#424242" class="twt-footer" dark>
+  <v-footer app absolute height="40px" color="#333333" class="twt-footer">
     <div class="twt-copyright">
-      <p v-text="thisYearcopy"></p>
-      <p>
-        <a href="http://www.miibeian.gov.cn/" ref="nofollow"
-          >津ICP备05004358号-12</a
-        >
-        / 津教备0767号
-      </p>
+      {{ thisYearcopy }}
+      <a href="http://www.miibeian.gov.cn/" ref="nofollow"
+        >津ICP备05004358号-12</a
+      >
+      / 津教备0767号
     </div>
-    <img
+    <!-- <img
       src="../../assets/logo.png"
       alt="twt-footer-logo"
       class="twt-footer-logo"
-    />
+    /> -->
   </v-footer>
 </template>
 
@@ -34,26 +32,26 @@ export default {
 }
 .twt-copyright {
   position: absolute;
-  top: 20px;
   left: 50%;
-  height: 50px;
+  line-height: 40px;
+  /* height: 50px; */
   width: 100%;
   transform: translate(-50%);
   text-align: center;
 }
-.twt-copyright p {
-  color: #bdbdbd;
+.twt-copyright{
+  color: #666666;
   margin-bottom: 0;
 }
 .twt-copyright a {
-  color: #bdbdbd;
+  color: #666666;
   text-decoration: none;
 }
 .twt-footer-logo {
   position: absolute;
-  top: 70px;
+  top: 40px;
   left: 50%;
-  height: 40px;
+  /* height: 40px; */
   width: 40px;
   transform: translate(-50%);
 }

@@ -169,7 +169,7 @@ export default {
           if (this.from) {
             this.$router.push({ path: this.from });
           } else {
-            this.$router.push({ path: "/home" });
+            this.$router.push({ path: "/" });
           }
         })
         .catch((value) => {
@@ -192,7 +192,7 @@ export default {
           if (this.from) {
             this.$router.push({ path: this.from });
           } else {
-            this.$router.push({ path: "/home" });
+            this.$router.push({ path: "/" });
           }
         })
         .catch((value) => {

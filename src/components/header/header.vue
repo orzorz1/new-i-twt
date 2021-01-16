@@ -14,7 +14,7 @@
           {{ username }}
         </v-btn>
       </template>
-      <v-card class="drop-card">
+      <v-card flat class="drop-card">
         <v-list-item>
           <v-list-item-avatar color="grey darken-3">
             <v-img alt="avatar" :src="avatar"></v-img>

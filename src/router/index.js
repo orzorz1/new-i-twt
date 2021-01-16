@@ -35,9 +35,9 @@ const routes = [
     component: () => import("@/views/index"),
     children: [
       {
-        path: "home",
+        path: "",
         name: "home",
-        component: () => import("@/views/home"),
+        component: () => import("@/views/MainView"),
         meta: {
           title: "首页",
           requireAuth: true,
