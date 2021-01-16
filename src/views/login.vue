@@ -43,7 +43,7 @@
                       ></v-text-field>
                     </v-form>
                     <v-card-actions>
-                      <v-btn block color="info" @click="loginCommon"
+                      <v-btn block depressed color="info" @click="loginCommon"
                         >登录</v-btn
                       >
                     </v-card-actions>
@@ -73,7 +73,9 @@
                       ></v-text-field>
                     </v-form>
                     <v-card-actions>
-                      <v-btn block color="info" @click="loginPhone">登录</v-btn>
+                      <v-btn block depressed color="info" @click="loginPhone"
+                        >登录</v-btn
+                      >
                     </v-card-actions>
                   </v-tab-item>
                 </v-tabs-items>
@@ -95,7 +97,7 @@
             transform="translate(0 -170.81)"
           ></path>
         </svg> -->
-        天外天工作室 / © 2000-{{getYear()}} /
+        天外天工作室 / © 2000-{{ getYear() }} /
         <a href="http://www.miibeian.gov.cn/" rel="nofollow"
           >津ICP备16002964号-1</a
         >
@@ -127,7 +129,7 @@ export default {
         (v) => !!v || "请输入手机号",
         (v) =>
           (v &&
-            (function (x) {
+            (function(x) {
               let s = /^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/;
               return s.test(x);
             })(v)) ||
@@ -138,7 +140,7 @@ export default {
         (v) => !!v || "请输入验证码",
         (v) =>
           (v &&
-            (function (x) {
+            (function(x) {
               let s = /^\d{6}$/;
               return s.test(x);
             })(v)) ||
@@ -147,21 +149,22 @@ export default {
     };
   },
   methods: {
-    getYear(){
-      let date=new Date()
-      return date.getFullYear()
+    getYear() {
+      let date = new Date();
+      return date.getFullYear();
     },
     loginCommon() {
-      console.log(this.username, this.password);
+      // console.log(this.username, this.password);
       let data = {
         account: this.username,
         password: this.password,
       };
       login(data)
         .then((value) => {
-          console.log(value);
+          // console.log(value);
           Message.success(`登录成功`);
           setToken(value.result.token);
+          sessionStorage.setItem("basicInfo", JSON.stringify(value.result));
           this.from = getUrlParam("from");
           if (this.from) {
             this.$router.push({ path: this.from });
@@ -174,16 +177,17 @@ export default {
         });
     },
     loginPhone() {
-      console.log(this.phone, this.verify);
+      // console.log(this.phone, this.verify);
       let data = {
         phone: this.phone,
         code: this.verify,
       };
       loginWithPhone(data)
         .then((value) => {
-          console.log(value);
+          // console.log(value);
           Message.success(`登录成功`);
           setToken(value.result.token);
+          sessionStorage.setItem("basicInfo", JSON.stringify(value.result));
           this.from = getUrlParam("from");
           if (this.from) {
             this.$router.push({ path: this.from });
@@ -198,8 +202,8 @@ export default {
     sendVerifyCode() {
       let data = { phone: this.phone };
       loginVerifyCode(data)
-        .then((value) => {
-          console.log(value);
+        .then(() => {
+          // console.log(value);
           Message.success(`短信发送成功`);
         })
         .catch((value) => {
@@ -218,10 +222,14 @@ export default {
   background: #026fce;
   background-image: linear-gradient(
     45deg,
-    #3481d1 1%,
-    #0073d8 48%,
-    #004ea2 97%
+    hsl(170deg, 80%, 70%),
+    hsl(190deg, 80%, 70%),
+    hsl(250deg, 80%, 70%),
+    hsl(3200deg, 80%, 70%)
   );
+  overflow: hidden;
+  background-size: 200% 200%;
+  animation: gradient-move 3s ease alternate infinite;
   .login-card {
     margin-top: 20%;
   }
@@ -246,15 +254,23 @@ export default {
     padding: 8px 20px;
     margin: 0 auto;
     border-radius: 50px;
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.5);
     text-align: center;
     max-width: 940px;
     font-size: 14px;
     line-height: 24px;
-    a{
+    a {
       text-decoration: none;
       color: #000;
     }
+  }
+}
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
   }
 }
 </style>

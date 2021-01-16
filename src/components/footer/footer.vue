@@ -1,5 +1,5 @@
 <template>
-  <v-footer app absolute height="160px" color="#424242" class="twt-footer" dark>
+  <v-footer app absolute height="130px" color="#424242" class="twt-footer" dark>
     <div class="twt-copyright">
       <p v-text="thisYearcopy"></p>
       <p>
@@ -34,7 +34,7 @@ export default {
 }
 .twt-copyright {
   position: absolute;
-  top: 30px;
+  top: 20px;
   left: 50%;
   height: 50px;
   width: 100%;
@@ -46,12 +46,12 @@ export default {
   margin-bottom: 0;
 }
 .twt-copyright a {
-  color: #fff;
+  color: #bdbdbd;
   text-decoration: none;
 }
 .twt-footer-logo {
   position: absolute;
-  top: 100px;
+  top: 70px;
   left: 50%;
   height: 40px;
   width: 40px;

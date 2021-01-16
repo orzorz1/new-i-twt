@@ -32,17 +32,15 @@
       </v-list-item-group>
     </v-list>
     <template v-slot:append>
-      <v-list-item
-          @click="logout"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-logout</v-icon>
-          </v-list-item-icon>
+      <v-list-item @click="logout">
+        <v-list-item-icon>
+          <v-icon>mdi-logout</v-icon>
+        </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title>退出登录</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <v-list-item-content>
+          <v-list-item-title>退出登录</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </template>
   </v-navigation-drawer>
 </template>
@@ -104,6 +102,7 @@ export default {
     logout() {
       removeToken();
       this.$router.push({ path: "/login" });
+      sessionStorage.removeItem("basicInfo");
       Message.success("已登出当前账号");
     },
   },

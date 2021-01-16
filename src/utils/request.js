@@ -53,6 +53,7 @@ service.interceptors.response.use(
       if (response.request.responseType === 'blob') {
         return data;
       }
+      // 登录状态无效，跳转至登录页
       if (data['error_code'] === 40001 || data['error_code'] === 40005) {
         router.push({ path: "/login" })
       }
