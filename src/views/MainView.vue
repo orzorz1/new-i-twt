@@ -9,7 +9,7 @@
       <div id="leftmain">
         <a @click="delayTo('#/userInfo')" class="avatar">
           <img
-            src="../assets/avatar.png"
+            :src="avatar"
             alt="user-avatar"
             class="user-image"
             :id="avatars"
@@ -24,7 +24,7 @@
           @mouseenter="goin(usernames)"
           @mouseleave="goout(usernames)"
         >
-          {{ usernames }}
+          {{ username }}
         </a>
         <img src="../assets/wechat.png" alt="wechat-icon" class="wechat-icon" />
         <img
@@ -131,9 +131,13 @@
 </template>
 
 <script>
+import defaultAvatar from "@/assets/avatar.png";
+
 export default {
   name: "MainView",
   data: () => ({
+    avatar: defaultAvatar,
+    username: "请登录",
     avatars: "avatars",
     usernames: "usernames",
     changewechats: "changewechats",
@@ -170,6 +174,11 @@ export default {
     delayToblank(u) {
       setTimeout("window.open('" + u + "')", 300);
     },
+  },
+  created() {
+    let info = JSON.parse(sessionStorage.getItem("basicInfo"));
+    this.avatar = info.avatar;
+    this.username = info.nickname;
   },
 };
 </script>
