@@ -6,22 +6,19 @@
             <v-card-text v-if="showSke">
                 <v-row>
                     <v-col cols="12" sm="4" md="3">
-                        <v-avatar tile color="blue" size="100">
-                            <img
-                                src="https://cdn.vuetifyjs.com/images/john.jpg"
-                                alt="John"
-                            />
+                        <v-avatar rounded color="blue" size="100">
+                            {{ basicInfo.realname }}
                         </v-avatar>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="9" sm="4" md="3" align-self="center">
                         <v-file-input
-                            :rules="rules"
                             accept="image/png, image/jpeg, image/bmp"
                             placeholder="选择头像"
                             prepend-icon="mdi-camera"
                             label="头像"
+                            disabled
                         ></v-file-input>
                     </v-col>
                     <!-- <v-col cols="6" align-self="center">
@@ -30,26 +27,31 @@
                 </v-row>
                 <v-row>
                     <v-col cols="12" sm="6" md="6" class="left body-1">
-                        昵称：BenchBeach
+                        昵称：{{ basicInfo.nickname }}
                     </v-col>
                     <v-col cols="12" sm="6" md="6" class="left body-1">
-                        姓名：高树韬
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12" sm="6" md="6" class="left body-1">
-                        账号：3019244360
-                    </v-col>
-                    <v-col cols="12" sm="6" md="6" class="left body-1">
-                        性别：男
+                        姓名：{{ basicInfo.realname }}
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="12" sm="6" md="6" class="left body-1">
-                        学院：智能与计算学部
+                        角色：{{ basicInfo.role }}
                     </v-col>
                     <v-col cols="12" sm="6" md="6" class="left body-1">
-                        专业：计算机科学
+                        性别：{{ basicInfo.gender }}
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12" sm="6" md="6" class="left body-1">
+                        学院：{{ basicInfo.department }}
+                    </v-col>
+                    <v-col cols="12" sm="6" md="6" class="left body-1">
+                        专业：{{ basicInfo.major }}
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12" sm="6" md="6" class="left body-1">
+                        类型：{{ basicInfo.stuType }}
                     </v-col>
                 </v-row>
                 <v-row>
@@ -57,8 +59,9 @@
                         <v-text-field
                             label="手机"
                             autocomplete="off"
-                            v-model="cellphone"
+                            v-model="basicInfo.telephone"
                             :rules="phoneRules"
+                            ref="telephone"
                         ></v-text-field>
                     </v-col>
                     <v-col
@@ -72,12 +75,50 @@
                         <v-text-field
                             label="邮箱"
                             autocomplete="off"
-                            v-model="email"
+                            v-model="basicInfo.email"
                             :rules="emailRules"
+                            ref="email"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="10" offset="1" sm="4" offset-sm="4">
-                        <v-btn block color="primary"> 更新信息 </v-btn>
+                        <v-btn block color="primary" @click="updateInfo">
+                            更新信息
+                        </v-btn>
+                    </v-col>
+                </v-row>
+                <v-divider class="mx-4"></v-divider>
+                <v-row>
+                    <v-col cols="9" sm="4" md="3" class="left body-1">
+                        <v-text-field
+                            label="新密码"
+                            autocomplete="off"
+                            v-model="newPWD"
+                            :rules="newPWDRules"
+                            type="password"
+                            ref="pwd"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col
+                        cols="9"
+                        sm="4"
+                        md="3"
+                        offset-md="3"
+                        offset-sm="2"
+                        class="left body-1"
+                    >
+                        <v-text-field
+                            label="确认新密码"
+                            autocomplete="off"
+                            v-model="rePWD"
+                            :rules="[diffPWD]"
+                            type="password"
+                            ref="repwd"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="10" offset="1" sm="4" offset-sm="4">
+                        <v-btn block color="red" @click="changePWD">
+                            确认修改密码
+                        </v-btn>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -90,11 +131,14 @@
 </template>
 
 <script>
+import { changeInfo,changePWD } from "@/api/user.js";
 export default {
     name: "userInfo",
     data: () => ({
-        cellphone: "13662110876",
-        email: "1779227906@qq.com",
+        basicInfo: JSON.parse(sessionStorage.getItem("basicInfo")),
+        formHasErrors: false,
+        newPWD: "",
+        rePWD: "",
         emailRules: [
             (value) => !!value || "不能为空",
             (value) => {
@@ -112,11 +156,69 @@ export default {
                 );
             },
         ],
-        showSke:false
+        newPWDRules: [
+            (v) => !!v || "不能为空",
+            (v) => (v && v.length >= 6) || "密码的长度须大于6个字符",
+        ],
+        showSke: false,
     }),
-    mounted(){
-        setTimeout(()=>{this.showSke=true},2000)
-    }
+    mounted() {
+        this.showSke = true;
+        // setTimeout(() => {
+        //     this.showSke = true;
+        // }, 100);
+    },
+    computed: {
+        form() {
+            return {
+                email: this.basicInfo.email,
+                telephone: this.basicInfo.telephone,
+            };
+        },
+    },
+    methods: {
+        diffPWD(){
+            return (this.rePWD==this.newPWD) || "重复密码不一致"
+        },
+        updateInfo() {
+            this.formHasErrors = false;
+            if (
+                this.form.email == "" ||
+                !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+                    this.form.email
+                )
+            ) {
+                this.formHasErrors = true;
+                this.$refs["email"].validate(true);
+            }
+            if (
+                this.form.telephone == "" ||
+                !/^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,7,8]|8[0-9]|9[1,8,9])\d{8}$/.test(
+                    this.form.telephone
+                )
+            ) {
+                this.formHasErrors = true;
+                this.$refs["telephone"].validate(true);
+            }
+            if (!this.formHasErrors) {
+                changeInfo(this.form).then(() => {
+                    this.$message.success(`修改信息成功`);
+                    this.$router.go(0);
+                });
+            }
+        },
+        changePWD(){
+            if(this.newPWD==''||this.newPWD.length<6||this.newPWD!=this.rePWD){
+                this.$message.error("新密码格式有误")
+                this.$refs["pwd"].validate(true);
+                this.$refs["repwd"].validate(true);
+            }else{
+                changePWD(this.newPWD).then(()=>{
+                    this.$message.success("修改密码成功")
+                })
+            }
+        }
+    },
 };
 </script>
 

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import { getToken } from "@/utils/auth";
+import { userInfo } from "@/api/user.js";
 
 Vue.use(VueRouter);
 
@@ -106,6 +107,10 @@ router.beforeEach((to, from, next) => {
       });
     }
   }
+  //更新basicInfo
+  if(!/login/.test(from.path)&&!/login/.test(to.path)){userInfo().then(res => {
+    sessionStorage.setItem("basicInfo", JSON.stringify(res.result));
+  })}
   next();
 });
 

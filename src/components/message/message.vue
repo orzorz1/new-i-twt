@@ -65,6 +65,10 @@
       height: 100%;
       line-height: 100%;
       padding: 20px 0;
+      font-size:14px !important;
+    font-weight: 400;
+    letter-spacing: 0.03125em !important;
+    font-family: "Roboto", sans-serif !important;
     }
   }
 

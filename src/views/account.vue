@@ -11,6 +11,7 @@
                     <v-col cols="auto">
                         <v-switch
                             v-model="WeChat"
+                            disabled
                         ></v-switch>
                     </v-col>
                 </v-row>

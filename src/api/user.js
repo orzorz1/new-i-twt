@@ -69,3 +69,19 @@ export function userInfo() {
     method: 'get'
   })
 }
+//修改个人信息
+export function changeInfo(data) {
+  return service({
+    url: '/user/single',
+    method: 'put',
+    data
+  })
+}
+//修改密码
+export function changePWD(data) {
+  return service({
+    url: '/password/person/reset',
+    method: 'put',
+    data
+  })
+}

@@ -162,7 +162,7 @@ export default {
       login(data)
         .then((value) => {
           // console.log(value);
-          Message.success(`登录成功`);
+          this.$message.success(`登录成功`);
           setToken(value.result.token);
           sessionStorage.setItem("basicInfo", JSON.stringify(value.result));
           this.from = getUrlParam("from");
