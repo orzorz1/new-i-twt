@@ -62,7 +62,13 @@
                             v-model="basicInfo.telephone"
                             :rules="phoneRules"
                             ref="telephone"
-                        ></v-text-field>
+                        >
+                            <template v-slot:append>
+                                <v-btn @click="sendVerifyCode" text
+                                    >发送验证码</v-btn
+                                >
+                            </template>
+                        </v-text-field>
                     </v-col>
                     <v-col
                         cols="9"
@@ -80,6 +86,21 @@
                             ref="email"
                         ></v-text-field>
                     </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="9" sm="3" md="3" class="left body-1">
+                        <v-text-field
+                            label="验证码"
+                            :rules="[(v) => !!v || '不能为空']"
+                            autocomplete="off"
+                            v-model="Vcode"
+                            ref="vcode"
+                            require
+                        >
+                        </v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row>
                     <v-col cols="10" offset="1" sm="4" offset-sm="4">
                         <v-btn block color="primary" @click="updateInfo">
                             更新信息
@@ -131,10 +152,11 @@
 </template>
 
 <script>
-import { changeInfo,changePWD } from "@/api/user.js";
+import { changeInfo, changePWD, loginVerifyCode } from "@/api/user.js";
 export default {
     name: "userInfo",
     data: () => ({
+        Vcode: "",
         basicInfo: JSON.parse(sessionStorage.getItem("basicInfo")),
         formHasErrors: false,
         newPWD: "",
@@ -177,8 +199,19 @@ export default {
         },
     },
     methods: {
-        diffPWD(){
-            return (this.rePWD==this.newPWD) || "重复密码不一致"
+        sendVerifyCode() {
+            let data = { phone: this.form.telephone };
+            loginVerifyCode(data)
+                .then(() => {
+                    // console.log(value);
+                    this.$message.success(`短信发送成功`);
+                })
+                .catch((value) => {
+                    console.log(value);
+                });
+        },
+        diffPWD() {
+            return this.rePWD == this.newPWD || "重复密码不一致";
         },
         updateInfo() {
             this.formHasErrors = false;
@@ -200,24 +233,35 @@ export default {
                 this.formHasErrors = true;
                 this.$refs["telephone"].validate(true);
             }
+            if (this.Vcode == "") {
+                this.formHasErrors = true;
+                this.$refs["vcode"].validate(true);
+            }
             if (!this.formHasErrors) {
-                changeInfo(this.form).then(() => {
+                let f={
+                    verifyCode:this.Vcode,
+                    ...this.form}
+                changeInfo(f).then(() => {
                     this.$message.success(`修改信息成功`);
                     this.$router.go(0);
                 });
             }
         },
-        changePWD(){
-            if(this.newPWD==''||this.newPWD.length<6||this.newPWD!=this.rePWD){
-                this.$message.error("新密码格式有误")
+        changePWD() {
+            if (
+                this.newPWD == "" ||
+                this.newPWD.length < 6 ||
+                this.newPWD != this.rePWD
+            ) {
+                this.$message.error("新密码格式有误");
                 this.$refs["pwd"].validate(true);
                 this.$refs["repwd"].validate(true);
-            }else{
-                changePWD(this.newPWD).then(()=>{
-                    this.$message.success("修改密码成功")
-                })
+            } else {
+                changePWD({ password: this.newPWD }).then(() => {
+                    this.$message.success("修改密码成功");
+                });
             }
-        }
+        },
     },
 };
 </script>
