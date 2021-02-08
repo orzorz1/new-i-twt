@@ -128,3 +128,11 @@ export function motifiedApplicaton(data) {
     data
   })
 }
+
+export function rePWD(data){
+  return service({
+    url:'/super/resetpwd',
+    method:"post",
+    data
+  })
+}

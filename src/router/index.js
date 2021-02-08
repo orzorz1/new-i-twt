@@ -88,6 +88,16 @@ const routes = [
           requireAuth: true,
           normalAuthPass: false,
         },
+      },
+      {
+        path:'rePWD',
+        name:'rePWD',
+        component: () => import('@/views/rePWD'),
+        meta: {
+          title: "重置密码",
+          requireAuth: true,
+          normalAuthPass: false,
+        },
       }
     ],
   },
