@@ -17,10 +17,15 @@ const service = axios.create({
   baseURL: 'https://api.twt.edu.cn/api',
   transformRequest: [
     (oldData, config) => {
-      if (!config['Content-Type']) return qs.stringify(oldData);
+      if (!config['Content-Type']) {
+        config['Content-Type']='application/x-www-form-urlencoded'
+        return qs.stringify(oldData);
+      }
       switch (config['Content-Type']) {
         case 'multipart/form-data':
           return oldData;
+        case 'application/json':
+          return JSON.stringify(oldData)
         default:
           return qs.stringify(oldData);
       }
@@ -28,7 +33,6 @@ const service = axios.create({
   ],
   timeout: 60000,
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
     domain,
     'Access-Control-Allow-Credentials': 'true',
     ticket: window.btoa(`${app_key}.${app_secret}`),

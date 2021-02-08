@@ -1,5 +1,5 @@
 <template>
-  <v-footer app absolute height="40px" color="#333333" class="twt-footer">
+  <v-footer app absolute height="72px" color="#333333" class="twt-footer">
     <div class="twt-copyright">
       {{ thisYearcopy }}
       <a href="http://www.miibeian.gov.cn/" ref="nofollow"
@@ -34,7 +34,7 @@ export default {
   position: absolute;
   left: 50%;
   line-height: 40px;
-  /* height: 50px; */
+  //  height: 50px;
   width: 100%;
   transform: translate(-50%);
   text-align: center;

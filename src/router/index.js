@@ -71,6 +71,15 @@ const routes = [
           requireAuth: true,
         },
       },
+      {
+        path:'majorManage',
+        name:'account',
+        component: () => import("@/views/majorManage"),
+        meta: {
+          title: "转专业申请管理",
+          requireAuth: true,
+        },
+      }
     ],
   },
   {

@@ -147,8 +147,8 @@
                     width="85%"
                     style="position: relative; margin: 0 auto"
                     color="red-text"
-                    >
-                    若您已绑定手机号，可通过手机号登录并在个人信息中进行密码修改。<br>
+                >
+                    若您已绑定手机号，可通过手机号登录并在个人信息中进行密码修改。<br />
                     密码重置会向您的辅导员发送重置申请，请在申请重置后与您的辅导员进行联系通过申请。
                 </v-banner>
                 <v-card-text>
@@ -246,6 +246,7 @@ export default {
                         JSON.stringify(value.result)
                     );
                     this.from = getUrlParam("from");
+
                     if (this.from) {
                         this.$router.push({ path: this.from });
                     } else {
@@ -296,6 +297,7 @@ export default {
     },
     created() {
         this.from = getUrlParam("from");
+         sessionStorage.clear()
     },
 };
 </script>

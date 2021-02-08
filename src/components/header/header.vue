@@ -74,6 +74,13 @@ export default {
       this.avatar = info.avatar;
     }
   },
+  watch: {
+    '$router.path':{
+      handler() {
+        this.$forceUpdate()
+      }
+    }
+    }
 };
 </script>
 

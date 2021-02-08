@@ -86,25 +86,45 @@ export function changePWD(data) {
   })
 }
 // 获取全部学院
-export function getDepartmentAll(params){
+export function getDepartmentAll(params) {
   return service({
-    url:'/department/all',
-    method:'get',
+    url: '/department/all',
+    method: 'get',
     params
   })
 }
 //根据学院获取专业
-export function getMajorByDepartment(id){
+export function getMajorByDepartment(id) {
   return service({
-    url:`/major/department/${id}`,
-    method:'get',
+    url: `/major/department/${id}`,
+    method: 'get',
   })
 }
 // 申请修改专业
-export function changeMajor(data){
+export function changeMajor(data) {
   return service({
-    url:'/user/major',
-    method:'post',
+    url: '/user/major',
+    method: 'post',
+    data
+  })
+}
+// 获取转专业申请名单
+export function getApplicaton() {
+  return service({
+    url: '/application',
+    method: 'get'
+  })
+}
+
+//通过或拒绝转专业名单
+//status 1通过 2拒绝
+export function motifiedApplicaton(data) {
+  return service({
+    url: '/application',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
     data
   })
 }
