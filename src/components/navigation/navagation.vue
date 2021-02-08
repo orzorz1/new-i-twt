@@ -65,6 +65,7 @@ export default {
             //   path: "/create",
             // },
             { title: "账号关联", icon: "mdi-forum", path: "/account" },
+            { title: "转专业申请", icon: " mdi-call-split", path: "/majorManage" },
         ],
     }),
     watch: {
@@ -85,6 +86,9 @@ export default {
                         break;
                     case "account":
                         this.selectedItem = 2;
+                        break;
+                    case "majorManage":
+                        this.selectedItem = 3
                         break;
                     default:
                         this.selectedItem = 4;
