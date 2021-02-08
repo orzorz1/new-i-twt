@@ -128,11 +128,18 @@ export function motifiedApplicaton(data) {
     data
   })
 }
-
+//重置密码
 export function rePWD(data){
   return service({
     url:'/super/resetpwd',
     method:"post",
     data
+  })
+}
+// 获取转专业申请情况
+export function getApplicationStatus(){
+  return service({
+    url:'/user/major',
+    method:'get'
   })
 }

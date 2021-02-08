@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { getApplicaton, motifiedApplicaton } from "@/api/user.js";
+import { getApplicaton, motifiedApplicaton} from "@/api/user.js";
 export default {
     name: "majorManage",
     data: () => ({
@@ -71,7 +71,8 @@ export default {
         ],
         search: "",
         selected: [],
-        filterData:[]
+        filterData:[],
+        
     }),
     computed: {
     },
@@ -80,18 +81,18 @@ export default {
     },
     methods: {
         searchChanged(){
-            if (this.search == "") this.filterData=this.data;
+            if (this.search == "") {
+                this.filterData=this.data;
+                console.log(123123)
+            }
             else
                 this.filterData= this.data.filter((ele) => {
-                    return (
-                        ele.userNumber.indexOf(this.search) ||
-                        ele.username.indexOf(this.search)
-                    );
+                    return ele.userNumber.indexOf(this.search)!=-1||ele.username.indexOf(this.search)!=-1
                 });
         },
         getData() {
             getApplicaton().then((res) => {
-                this.Data = res.result;
+                this.data = res.result;
                 this.filterData=res.result;
                 this.search=''
             });
@@ -107,7 +108,7 @@ export default {
                 data.list.push(temp);
             });
             motifiedApplicaton(data).then((res) => {
-                this.$message.success(res);
+                this.$message.success(res.message);
                 this.getData();
             });
         },
@@ -122,7 +123,7 @@ export default {
                 data.list.push(temp);
             });
             motifiedApplicaton(data).then((res) => {
-                this.$message.success(res);
+                this.$message.success(res.message);
                 this.getData();
             });
         },

@@ -117,7 +117,7 @@ const router = new VueRouter({
   routes,
 });
 
-
+console.log(router.options)
 
 router.beforeEach((to, from, next) => {
   // 设置标签页title

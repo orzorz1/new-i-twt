@@ -108,6 +108,9 @@
                     </v-col>
                 </v-row>
                 <v-divider class="mx-4"></v-divider>
+            </v-card-text>
+            <v-card-title>密码修改</v-card-title>
+            <v-card-text>
                 <v-row>
                     <v-col cols="9" sm="4" md="3" class="left body-1">
                         <v-text-field
@@ -143,7 +146,9 @@
                     </v-col>
                 </v-row>
                 <v-divider class="mx-4"></v-divider>
-                <v-row class="left body-1 major-row"> 转专业申请 </v-row>
+                </v-card-text>
+            <v-card-title>转专业申请</v-card-title>
+            <v-card-text>
                 <v-row>
                     <v-col cols="9" sm="6" md="4">
                         <v-select
@@ -179,9 +184,18 @@
                         </v-btn>
                     </v-col>
                 </v-row>
+                <v-divider class="mx-4"></v-divider>
+                </v-card-text>
+            <v-card-title>我的转专业申请记录</v-card-title>
+            <v-card-text>
+                <v-row class="ml-1" v-for="(item,index) in appAll" :key="index">
+                    转入专业：{{item.destDepartment.name}}&nbsp;
+                    转入学院：{{item.destMajor.name}}&nbsp;
+                    申请状态：{{getStatus(item.status)}}
+                </v-row>
             </v-card-text>
             <v-skeleton-loader
-                v-else
+                v-if="!showSke"
                 type="table-heading, list-item-two-line, list-item-three-line, list-item-two-line, list-item-three-line"
             ></v-skeleton-loader>
         </v-card>
@@ -195,7 +209,8 @@ import {
     loginVerifyCode,
     getDepartmentAll,
     getMajorByDepartment,
-    changeMajor
+    changeMajor,
+    getApplicationStatus,
 } from "@/api/user.js";
 export default {
     name: "userInfo",
@@ -230,6 +245,8 @@ export default {
         major: [],
         department: [],
         changeMajorSelect: { destDepartmentId: "", destMajorId: "" },
+        appAll:[],
+        
     }),
     mounted() {
         this.showSke = true;
@@ -239,6 +256,9 @@ export default {
         // setTimeout(() => {
         //     this.showSke = true;
         // }, 100);
+        getApplicationStatus().then((res) => {
+            this.appAll=res.result;
+        });
     },
     computed: {
         form() {
@@ -253,20 +273,31 @@ export default {
             handler(newVal) {
                 getMajorByDepartment(newVal).then((res) => {
                     this.major = res.result.majors;
-                    if(this.major.length===0){
-                        this.changeMajorSelect.destMajorId=0
+                    if (this.major.length === 0) {
+                        this.changeMajorSelect.destMajorId = 0;
                     }
                 });
             },
         },
     },
     methods: {
-        changeMajor(){
-            changeMajor(this.changeMajorSelect).then(()=>{
-                this.$message.success('申请成功，请联系辅导员通过')
-            }).catch(e=>{
-                this.$message.error(e)
-            })
+        getStatus(s){
+            if(s==1){
+                return '申请成功'
+            }else if(s==2){
+                return '申请失败'
+            }else{
+                return '审核中'
+            }
+        },
+        changeMajor() {
+            changeMajor(this.changeMajorSelect)
+                .then(() => {
+                    this.$message.success("申请成功，请联系辅导员通过");
+                })
+                .catch((e) => {
+                    this.$message.error(e);
+                });
         },
         sendVerifyCode() {
             let data = { phone: this.form.telephone };
