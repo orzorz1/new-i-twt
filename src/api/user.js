@@ -85,3 +85,26 @@ export function changePWD(data) {
     data
   })
 }
+// 获取全部学院
+export function getDepartmentAll(params){
+  return service({
+    url:'/department/all',
+    method:'get',
+    params
+  })
+}
+//根据学院获取专业
+export function getMajorByDepartment(id){
+  return service({
+    url:`/major/department/${id}`,
+    method:'get',
+  })
+}
+// 申请修改专业
+export function changeMajor(data){
+  return service({
+    url:'/user/major',
+    method:'post',
+    data
+  })
+}

@@ -142,6 +142,43 @@
                         </v-btn>
                     </v-col>
                 </v-row>
+                <v-divider class="mx-4"></v-divider>
+                <v-row class="left body-1 major-row"> 转专业申请 </v-row>
+                <v-row>
+                    <v-col cols="9" sm="6" md="4">
+                        <v-select
+                            v-model="changeMajorSelect.destDepartmentId"
+                            :items="department"
+                            item-text="name"
+                            item-value="id"
+                            label="转入的学院"
+                            outlined
+                        ></v-select>
+                    </v-col>
+                    <v-col
+                        cols="9"
+                        sm="6"
+                        md="4"
+                        offset-md="2"
+                        offset-sm="0"
+                        class="left body-1"
+                    >
+                        <v-select
+                            :disabled="changeMajorSelect.destDepartmentId == ''"
+                            v-model="changeMajorSelect.destMajorId"
+                            :items="major"
+                            item-text="name"
+                            item-value="id"
+                            label="转入的专业"
+                            outlined
+                        ></v-select>
+                    </v-col>
+                    <v-col cols="10" offset="1" sm="4" offset-sm="4">
+                        <v-btn block color="red" @click="changeMajor">
+                            申请修改专业
+                        </v-btn>
+                    </v-col>
+                </v-row>
             </v-card-text>
             <v-skeleton-loader
                 v-else
@@ -152,7 +189,14 @@
 </template>
 
 <script>
-import { changeInfo, changePWD, loginVerifyCode } from "@/api/user.js";
+import {
+    changeInfo,
+    changePWD,
+    loginVerifyCode,
+    getDepartmentAll,
+    getMajorByDepartment,
+    changeMajor
+} from "@/api/user.js";
 export default {
     name: "userInfo",
     data: () => ({
@@ -183,9 +227,15 @@ export default {
             (v) => (v && v.length >= 6) || "密码的长度须大于6个字符",
         ],
         showSke: false,
+        major: [],
+        department: [],
+        changeMajorSelect: { destDepartmentId: "", destMajorId: "" },
     }),
     mounted() {
         this.showSke = true;
+        getDepartmentAll().then((res) => {
+            this.department = res.result;
+        });
         // setTimeout(() => {
         //     this.showSke = true;
         // }, 100);
@@ -198,7 +248,26 @@ export default {
             };
         },
     },
+    watch: {
+        "changeMajorSelect.destDepartmentId": {
+            handler(newVal) {
+                getMajorByDepartment(newVal).then((res) => {
+                    this.major = res.result.majors;
+                    if(this.major.length===0){
+                        this.changeMajorSelect.destMajorId=0
+                    }
+                });
+            },
+        },
+    },
     methods: {
+        changeMajor(){
+            changeMajor(this.changeMajorSelect).then(()=>{
+                this.$message.success('申请成功，请联系辅导员通过')
+            }).catch(e=>{
+                this.$message.error(e)
+            })
+        },
         sendVerifyCode() {
             let data = { phone: this.form.telephone };
             loginVerifyCode(data)
@@ -238,9 +307,10 @@ export default {
                 this.$refs["vcode"].validate(true);
             }
             if (!this.formHasErrors) {
-                let f={
-                    verifyCode:this.Vcode,
-                    ...this.form}
+                let f = {
+                    verifyCode: this.Vcode,
+                    ...this.form,
+                };
                 changeInfo(f).then(() => {
                     this.$message.success(`修改信息成功`);
                     this.$router.go(0);
@@ -272,5 +342,10 @@ export default {
 }
 .left {
     text-align: left;
+}
+
+.major-row {
+    margin: 16px 0px 24px 0px;
+    color: black;
 }
 </style>
