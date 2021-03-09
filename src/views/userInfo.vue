@@ -101,7 +101,7 @@
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="10" offset="1" sm="4" offset-sm="4">
+                    <v-col cols="10" offset="1" sm="2" offset-sm="4">
                         <v-btn block color="primary" @click="updateInfo">
                             更新信息
                         </v-btn>
@@ -139,8 +139,8 @@
                             ref="repwd"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="10" offset="1" sm="4" offset-sm="4">
-                        <v-btn block color="red" @click="changePWD">
+                    <v-col cols="10" offset="1" sm="2" offset-sm="4">
+                        <v-btn block color="error" @click="changePWD">
                             确认修改密码
                         </v-btn>
                     </v-col>
@@ -158,6 +158,7 @@
                             item-value="id"
                             label="转入的学院"
                             outlined
+                            dense
                         ></v-select>
                     </v-col>
                     <v-col
@@ -176,10 +177,11 @@
                             item-value="id"
                             label="转入的专业"
                             outlined
+                            dense
                         ></v-select>
                     </v-col>
-                    <v-col cols="10" offset="1" sm="4" offset-sm="4">
-                        <v-btn block color="red" @click="changeMajor">
+                    <v-col cols="10" offset="1" sm="2" offset-sm="4">
+                        <v-btn block color="error" @click="changeMajor">
                             申请修改专业
                         </v-btn>
                     </v-col>

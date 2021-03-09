@@ -91,6 +91,7 @@
                                                 </template>
                                             </v-text-field>
                                             <v-text-field
+                                                autocomplete="off"
                                                 id="verify"
                                                 name="验证码"
                                                 label="验证码"
@@ -149,10 +150,10 @@
                     color="red-text"
                 >
                     若您已绑定手机号，可通过手机号登录并在个人信息中进行密码修改。<br />
-                    密码重置会向您的辅导员发送重置申请，请在申请重置后与您的辅导员进行联系通过申请。
+                    若未绑定验证码请联系管理员进行密码重置。
                 </v-banner>
                 <v-card-text>
-                    <v-container>
+                    <!-- <v-container>
                         <v-row>
                             <v-col cols="12" sm="6" md="6">
                                 <v-text-field
@@ -167,16 +168,16 @@
                                 ></v-text-field>
                             </v-col>
                         </v-row>
-                    </v-container>
+                    </v-container> -->
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="dialog = false">
                         关闭
                     </v-btn>
-                    <v-btn color="red" text @click="dialog = false">
+                    <!-- <v-btn color="red" text @click="dialog = false">
                         申请重置密码
-                    </v-btn>
+                    </v-btn> -->
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -188,6 +189,8 @@ import { login, loginWithPhone, loginVerifyCode } from "@/api/user";
 import Message from "@/components/message";
 import { getUrlParam } from "@/utils/common";
 import { setToken } from "@/utils/auth";
+// import normalRoutes from "@/router/normalRoutes";
+// import adminRoutes from "@/router/adminRoutes";
 
 export default {
     name: "login",
@@ -238,7 +241,6 @@ export default {
             };
             login(data)
                 .then((value) => {
-                    // console.log(value);
                     this.$message.success(`登录成功`);
                     setToken(value.result.token);
                     sessionStorage.setItem(
@@ -250,7 +252,7 @@ export default {
                     if (this.from) {
                         this.$router.push({ path: this.from });
                     } else {
-                        this.$router.push({ path: "/" });
+                        this.$router.push({ path: "/home" });
                     }
                 })
                 .catch((value) => {
@@ -276,7 +278,7 @@ export default {
                     if (this.from) {
                         this.$router.push({ path: this.from });
                     } else {
-                        this.$router.push({ path: "/" });
+                        this.$router.push({ path: "/home" });
                     }
                 })
                 .catch((value) => {
@@ -297,7 +299,7 @@ export default {
     },
     created() {
         this.from = getUrlParam("from");
-         sessionStorage.clear()
+        sessionStorage.clear();
     },
 };
 </script>

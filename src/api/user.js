@@ -100,6 +100,13 @@ export function getMajorByDepartment(id) {
     method: 'get',
   })
 }
+// 获取全部专业
+export function getAllMajor(){
+  return service({
+    url:'/major/all',
+    method: 'get'
+  })
+}
 // 申请修改专业
 export function changeMajor(data) {
   return service({
@@ -143,3 +150,13 @@ export function getApplicationStatus(){
     method:'get'
   })
 }
+
+//超管查询学生名单
+export function getInfoByNum(userNumber){
+  return service({
+    url:`/admin/user/${userNumber}`,
+    method:'get'
+  })
+}
+
+// #TODO 对接口进行分类

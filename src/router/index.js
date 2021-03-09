@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import { getToken } from "@/utils/auth";
 import { userInfo } from "@/api/user.js";
 import Message from "@/components/message"
+import normalRoutes from "@/router/normalRoutes";
+import adminRoutes from "@/router/adminRoutes";
 
 Vue.use(VueRouter);
 
@@ -11,7 +13,11 @@ VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch((err) => err);
 };
 
-const routes = [
+let routes = [
+  {
+    path:'/',
+    redirect:'/home'
+  },
   {
     path: "/login",
     name: "login",
@@ -33,91 +39,22 @@ const routes = [
       normalAuthPass: true,
     },
   },
-  {
-    path: "/",
-    name: "index",
-    component: () => import("@/views/index"),
-    children: [
-      {
-        path: "",
-        name: "home",
-        component: () => import("@/views/MainView"),
-        meta: {
-          title: "首页",
-          requireAuth: true,
-          normalAuthPass: true,
-        },
-      },
-      {
-        path: "upgrade",
-        name: "upgrade",
-        component: () => import("@/views/upgrade"),
-        meta: {
-          title: "账号升级",
-          requireAuth: true,
-          normalAuthPass: true,
-        },
-      },
-      {
-        path: "userInfo",
-        name: "userInfo",
-        component: () => import("@/views/userInfo"),
-        meta: {
-          title: "个人信息",
-          requireAuth: true,
-          normalAuthPass: true,
-        },
-      },
-      {
-        path: "account",
-        name: "account",
-        component: () => import("@/views/account"),
-        meta: {
-          title: "账号关联",
-          requireAuth: true,
-          normalAuthPass: true,
-        },
-      }
-      ,
-      {
-        path: 'majorManage',
-        name: 'majorManage',
-        component: () => import("@/views/majorManage"),
-        meta: {
-          title: "转专业申请管理",
-          requireAuth: true,
-          normalAuthPass: false,
-        },
-      },
-      {
-        path:'rePWD',
-        name:'rePWD',
-        component: () => import('@/views/rePWD'),
-        meta: {
-          title: "重置密码",
-          requireAuth: true,
-          normalAuthPass: false,
-        },
-      }
-    ],
-  },
-  {
-    path: "*",
-    name: "404",
-    component: () => import("@/views/404"),
-    meta: {
-      title: "404",
-      requireAuth: false,
-      normalAuthPass: true,
-    },
-  },
+
 ];
+normalRoutes[0].children = normalRoutes[0].children.concat(
+  adminRoutes
+);
+routes=routes.concat(normalRoutes)
 
 const router = new VueRouter({
   routes,
 });
-
-console.log(router.options)
+// router.$addRoutes = (params) => {
+//   router.matcher = new VueRouter({ // 重置路由规则
+//     routes
+//   }).matcher
+//   router.addRoutes(params) // 添加路由
+// }
 
 router.beforeEach((to, from, next) => {
   // 设置标签页title
@@ -128,7 +65,6 @@ router.beforeEach((to, from, next) => {
   // 访问权限设置
   if (to.meta.requireAuth) {
     let token = getToken();
-    // console.log(token);
     if (!token) {
       next({
         path: "/login",
@@ -139,10 +75,10 @@ router.beforeEach((to, from, next) => {
     }
   }
   if (!to.meta.normalAuthPass) {
-    let info =JSON.parse(sessionStorage.getItem("basicInfo"))
-    if(info.role=="普通用户") {
+    let info = JSON.parse(sessionStorage.getItem("basicInfo"))
+    if (info.role == "普通用户") {
       Message.error("没有权限访问")
-      return 
+      return
     }
   }
   //更新basicInfo

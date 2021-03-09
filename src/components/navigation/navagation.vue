@@ -1,16 +1,21 @@
 <template>
     <v-navigation-drawer bottom v-model="show" app temporary>
-        <!-- <v-list-item>
+        <v-list-item>
             <v-list-item-avatar>
-                <v-img
-                    src="https://randomuser.me/api/portraits/men/78.jpg"
-                ></v-img>
+                <v-avatar
+                    @click="delayTo('#/userInfo')"
+                    color="blue"
+                    style="color: black"
+                    size="100"
+                >
+                    <v-icon dark> mdi-account-circle </v-icon>
+                </v-avatar>
             </v-list-item-avatar>
 
             <v-list-item-content>
-                <v-list-item-title>John Leider</v-list-item-title>
+                <v-list-item-title>{{ realname }}</v-list-item-title>
             </v-list-item-content>
-        </v-list-item> -->
+        </v-list-item>
 
         <v-divider></v-divider>
 
@@ -18,15 +23,17 @@
             <v-list-item-group v-model="selectedItem" mandatory color="primary">
                 <v-list-item
                     v-for="item in items"
-                    :key="item.title"
-                    @click="$router.push(item.path)"
+                    :key="item.meta.title"
+                    @click="$router.push(item.name)"
                 >
                     <v-list-item-icon>
-                        <v-icon>{{ item.icon }}</v-icon>
+                        <v-icon>{{ item.meta.icon }}</v-icon>
                     </v-list-item-icon>
 
                     <v-list-item-content>
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        <v-list-item-title>{{
+                            item.meta.title
+                        }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list-item-group>
@@ -56,17 +63,7 @@ export default {
     data: () => ({
         show: false,
         selectedItem: "",
-        items: [
-            { title: "首页", icon: "mdi-home", path: "/" },
-            { title: "个人信息", icon: "mdi-account-edit", path: "/userInfo" },
-            // {
-            //   title: "账号注册",
-            //   icon: "mdi-account-multiple-plus",
-            //   path: "/create",
-            // },
-            { title: "账号关联", icon: "mdi-forum", path: "/account" },
-            { title: "转专业申请", icon: " mdi-call-split", path: "/majorManage" },
-        ],
+        items: [],
     }),
     watch: {
         drawer: {
@@ -75,24 +72,15 @@ export default {
             },
             immediate: true,
         },
-        "$route.path": {
+        "$route.name": {
             handler(val) {
-                switch (val.split("/")[1]) {
-                    case "home":
-                        this.selectedItem = 0;
-                        break;
-                    case "userInfo":
-                        this.selectedItem = 1;
-                        break;
-                    case "account":
-                        this.selectedItem = 2;
-                        break;
-                    case "majorManage":
-                        this.selectedItem = 3
-                        break;
-                    default:
-                        this.selectedItem = 4;
-                }
+                this.freshInfo()
+                this.getItems();
+                this.items.forEach((ele, index) => {
+                    if (ele.name == val) {
+                        this.selectedItem = index;
+                    }
+                });
             },
             immediate: true,
         },
@@ -102,7 +90,30 @@ export default {
             }
         },
     },
+    created() {
+        this.freshInfo()
+    },
     methods: {
+        freshInfo(){
+                    const info = JSON.parse(window.sessionStorage.getItem("basicInfo"));
+        this.realname = info.realname;
+        },
+        getItems() {
+            const { role } = JSON.parse(sessionStorage.getItem("basicInfo"));
+            let data = [];
+            this.$router.options.routes.forEach((ele) => {
+                if (ele.name == "index") {
+                    data = ele.children;
+                }
+            });
+            if (role == "普通用户") {
+                this.items = data.filter((ele) => {
+                    return ele.meta.normalAuthPass;
+                });
+            } else {
+                this.items = data;
+            }
+        },
         handleTo(x) {
             console.log(x);
         },

@@ -34,7 +34,7 @@ const Message = function (options) {
 Message.success = function(message){
 	Message({
     color: "",
-    type: "light-blue lighten-3",
+    type: "primary",
     message
   })
 }
@@ -42,7 +42,7 @@ Message.success = function(message){
 Message.error = function(message){
   Message({
     color: "",
-    type: "red lighten-3",
+    type: "error",
     message
   })
 }
