@@ -33,7 +33,7 @@ const Message = function (options) {
 
 Message.success = function(message){
 	Message({
-    color: "",
+    color: "primary",
     type: "primary",
     message
   })
@@ -41,7 +41,7 @@ Message.success = function(message){
 
 Message.error = function(message){
   Message({
-    color: "",
+    color: "error",
     type: "error",
     message
   })

@@ -305,7 +305,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bg {
+div.bg {
     background: #026fce;
     background-image: linear-gradient(
         45deg,
