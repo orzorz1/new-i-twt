@@ -27,7 +27,7 @@
                 </v-row>
                 <v-row>
                     <v-col cols="12" sm="6" md="6" class="left body-1">
-                        昵称：{{ basicInfo.nickname }}
+                        用户ID：{{ basicInfo.userNumber }}
                     </v-col>
                     <v-col cols="12" sm="6" md="6" class="left body-1">
                         姓名：{{ basicInfo.realname }}
@@ -57,6 +57,41 @@
                 <v-row>
                     <v-col cols="9" sm="4" md="3" class="left body-1">
                         <v-text-field
+                            label="昵称"
+                            autocomplete="off"
+                            v-model="basicInfo.nickname"
+                            :rules="[(v) => !!v || '不能为空']"
+                            ref="nickname"
+                        >
+                        </v-text-field>
+                    </v-col>
+                    <v-col
+                        cols="9"
+                        sm="4"
+                        md="3"
+                        offset-md="3"
+                        offset-sm="2"
+                        class="left body-1"
+                    >
+                        <v-text-field
+                            label="邮箱"
+                            autocomplete="off"
+                            v-model="basicInfo.email"
+                            :rules="emailRules"
+                            ref="email"
+                        ></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="10" offset="1" sm="2" offset-sm="4">
+                        <v-btn block color="primary" @click="updateInfo">
+                            更新信息
+                        </v-btn>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="9" sm="4" md="3" class="left body-1">
+                        <v-text-field
                             label="手机"
                             autocomplete="off"
                             v-model="basicInfo.telephone"
@@ -79,17 +114,6 @@
                         class="left body-1"
                     >
                         <v-text-field
-                            label="邮箱"
-                            autocomplete="off"
-                            v-model="basicInfo.email"
-                            :rules="emailRules"
-                            ref="email"
-                        ></v-text-field>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="9" sm="3" md="3" class="left body-1">
-                        <v-text-field
                             label="验证码"
                             :rules="[(v) => !!v || '不能为空']"
                             autocomplete="off"
@@ -102,8 +126,8 @@
                 </v-row>
                 <v-row>
                     <v-col cols="10" offset="1" sm="2" offset-sm="4">
-                        <v-btn block color="primary" @click="updateInfo">
-                            更新信息
+                        <v-btn block color="primary" @click="updatePhone">
+                            更新手机号
                         </v-btn>
                     </v-col>
                 </v-row>
@@ -146,7 +170,7 @@
                     </v-col>
                 </v-row>
                 <v-divider class="mx-4"></v-divider>
-                </v-card-text>
+            </v-card-text>
             <v-card-title>转专业申请</v-card-title>
             <v-card-text>
                 <v-row>
@@ -187,13 +211,17 @@
                     </v-col>
                 </v-row>
                 <v-divider class="mx-4"></v-divider>
-                </v-card-text>
+            </v-card-text>
             <v-card-title>我的转专业申请记录</v-card-title>
             <v-card-text>
-                <v-row class="ml-1" v-for="(item,index) in appAll" :key="index">
-                    转入专业：{{item.destDepartment.name}}&nbsp;
-                    转入学院：{{item.destMajor.name}}&nbsp;
-                    申请状态：{{getStatus(item.status)}}
+                <v-row
+                    class="ml-1"
+                    v-for="(item, index) in appAll"
+                    :key="index"
+                >
+                    转入专业：{{ item.destDepartment.name }}&nbsp; 转入学院：{{
+                        item.destMajor.name
+                    }}&nbsp; 申请状态：{{ getStatus(item.status) }}
                 </v-row>
             </v-card-text>
             <v-skeleton-loader
@@ -206,13 +234,16 @@
 
 <script>
 import {
-    changeInfo,
+    // changeInfo,
+    changePhone,
     changePWD,
-    loginVerifyCode,
+    getVcode,
     getDepartmentAll,
     getMajorByDepartment,
     changeMajor,
     getApplicationStatus,
+    updateNickname,
+    updateEmail,
 } from "@/api/user.js";
 export default {
     name: "userInfo",
@@ -247,8 +278,7 @@ export default {
         major: [],
         department: [],
         changeMajorSelect: { destDepartmentId: "", destMajorId: "" },
-        appAll:[],
-        
+        appAll: [],
     }),
     mounted() {
         this.showSke = true;
@@ -259,7 +289,7 @@ export default {
         //     this.showSke = true;
         // }, 100);
         getApplicationStatus().then((res) => {
-            this.appAll=res.result;
+            this.appAll = res.result;
         });
     },
     computed: {
@@ -283,13 +313,36 @@ export default {
         },
     },
     methods: {
-        getStatus(s){
-            if(s==1){
-                return '申请成功'
-            }else if(s==2){
-                return '申请失败'
-            }else{
-                return '审核中'
+        updateInfo() {
+            if (this.basicInfo.nickname == "") {
+                this.$refs["nickname"].validate(true);
+            } else {
+                updateNickname({ username: this.basicInfo.nickname }).then(
+                    (res) => {
+                        this.$message.success(`昵称修改${res.message}`);
+                    }
+                );
+            }
+            if (
+                this.form.email == "" ||
+                !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+                    this.form.email
+                )
+            ) {
+                this.$refs["email"].validate(true);
+            } else {
+                updateEmail({ email: this.form.email }).then((res) => {
+                    this.$message.success(`邮箱修改${res.message}`);
+                });
+            }
+        },
+        getStatus(s) {
+            if (s == 1) {
+                return "申请成功";
+            } else if (s == 2) {
+                return "申请失败";
+            } else {
+                return "审核中";
             }
         },
         changeMajor() {
@@ -303,7 +356,7 @@ export default {
         },
         sendVerifyCode() {
             let data = { phone: this.form.telephone };
-            loginVerifyCode(data)
+            getVcode(data)
                 .then(() => {
                     // console.log(value);
                     this.$message.success(`短信发送成功`);
@@ -315,20 +368,11 @@ export default {
         diffPWD() {
             return this.rePWD == this.newPWD || "重复密码不一致";
         },
-        updateInfo() {
+        updatePhone() {
             this.formHasErrors = false;
             if (
-                this.form.email == "" ||
-                !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-                    this.form.email
-                )
-            ) {
-                this.formHasErrors = true;
-                this.$refs["email"].validate(true);
-            }
-            if (
                 this.form.telephone == "" ||
-                !/^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,7,8]|8[0-9]|9[1,8,9])\d{8}$/.test(
+                !/^1(3[0-9]|4[5,7]|5[0,1,2,3,5,6,7,8,9]|6[2,5,6,7]|7[0,1,6,7,8]|8[0-9]|9[1,8,9])\d{8}$/.test(
                     this.form.telephone
                 )
             ) {
@@ -341,10 +385,10 @@ export default {
             }
             if (!this.formHasErrors) {
                 let f = {
-                    verifyCode: this.Vcode,
-                    ...this.form,
+                    code: this.Vcode,
+                    phone:this.form.telephone
                 };
-                changeInfo(f).then(() => {
+                changePhone(f).then(() => {
                     this.$message.success(`修改信息成功`);
                     this.$router.go(0);
                 });

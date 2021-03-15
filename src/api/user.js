@@ -159,4 +159,40 @@ export function getInfoByNum(userNumber){
   })
 }
 
+//修改昵称
+export function updateNickname(data){
+  return service({
+    url:`/user/single/username`,
+    method:'PUT',
+    data
+  })
+}
+
+//修改邮箱
+export function updateEmail(data){
+  return service({
+    url:`/user/single/email`,
+    method:'PUT',
+    data
+  })
+}
+
+//更新手机号获取验证码
+export function getVcode(data){
+  return service({
+    url:`/user/phone/msg`,
+    method:'POST',
+    data
+  })
+}
+
+//更新手机号
+export function changePhone(data){
+  return service({
+    url:`/user/single/phone`,
+    method:'PUT',
+    data
+  })
+}
+
 // #TODO 对接口进行分类
