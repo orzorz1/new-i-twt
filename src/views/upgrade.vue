@@ -33,6 +33,16 @@
         </div>
       </div>
     </v-card>
+    <v-card tile flat style="width: 80%; position: relative; margin: 10px auto">
+      <v-card-title>功能说明</v-card-title>
+      <v-card-subtitle>
+        账号当前状态为：<b>{{ showStatus() }}</b>
+      </v-card-subtitle>
+      <v-card-text>
+        使用场景：同学A本科毕业后同校读研，学号发生了变化，此时需要“账号升级”
+        <br />据此类推，此功能使用于同校本升硕、硕升博</v-card-text
+      >
+    </v-card>
   </v-container>
 </template>
 
@@ -55,6 +65,10 @@ export default {
       upgrade(data).then(() => {
         Message.success("升级成功");
       });
+    },
+    showStatus() {
+      let info = JSON.parse(sessionStorage.getItem("basicInfo"));
+      return info.stuType;
     },
     getOption() {
       this.agree = true;
