@@ -132,7 +132,7 @@
             transform="translate(0 -170.81)"
           ></path>
         </svg> -->
-                天外天工作室 / © 2000-{{ getYear() }} /
+                <span style="cursor:pointer;" ><strong>@</strong>天外天工作室</span> / © 2000-{{ getYear() }} /
                 <a href="http://www.miibeian.gov.cn/" rel="nofollow"
                     >津ICP备16002964号-1</a
                 >

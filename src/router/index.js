@@ -15,8 +15,8 @@ VueRouter.prototype.push = function push(location) {
 
 let routes = [
   {
-    path:'/',
-    redirect:'/home'
+    path: '/',
+    redirect: '/home'
   },
   {
     path: "/login",
@@ -39,12 +39,21 @@ let routes = [
       normalAuthPass: true,
     },
   },
-
+  {
+    path: "/about",
+    name: "about",
+    component: () => import("@/views/about"),
+    meta: {
+      title: "about",
+      requireAuth: false,
+      normalAuthPass: true,
+    },
+  }
 ];
 normalRoutes[0].children = normalRoutes[0].children.concat(
   adminRoutes
 );
-routes=routes.concat(normalRoutes)
+routes = routes.concat(normalRoutes)
 
 const router = new VueRouter({
   routes,
