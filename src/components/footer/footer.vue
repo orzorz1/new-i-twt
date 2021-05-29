@@ -1,6 +1,7 @@
 <template>
   <v-footer app absolute height="72px" color="#333333" class="twt-footer">
     <div class="twt-copyright">
+      <span style="cursor:pointer;" @click="$router.push({path:'/about'})"><strong>@</strong>天外天工作室</span>/
       {{ thisYearcopy }}
       <a href="http://www.miibeian.gov.cn/" ref="nofollow"
         >津ICP备05004358号-12</a

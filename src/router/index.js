@@ -44,7 +44,7 @@ let routes = [
     name: "about",
     component: () => import("@/views/about"),
     meta: {
-      title: "about",
+      title: "关于twt",
       requireAuth: false,
       normalAuthPass: true,
     },
@@ -84,6 +84,7 @@ router.beforeEach((to, from, next) => {
     }
   }
   if (!to.meta.normalAuthPass) {
+
     let info = JSON.parse(sessionStorage.getItem("basicInfo"))
     if (info.role == "普通用户") {
       Message.error("没有权限访问")
@@ -91,7 +92,7 @@ router.beforeEach((to, from, next) => {
     }
   }
   //更新basicInfo
-  if (!/login/.test(from.path) && !/login/.test(to.path)) {
+  if (!/login/.test(from.path) && !/create/.test(to.path)&&!/about/.test(to.path)) {
     userInfo().then(res => {
       sessionStorage.setItem("basicInfo", JSON.stringify(res.result));
     })
