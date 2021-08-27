@@ -55,7 +55,7 @@
             直接面向用户。打磨设计，完善产品，用最全面的考虑、最精妙的架构，开发最符合用户需要的app；敏捷开发，小步迭代，用最澎湃的热情、最前沿的技术，做出最富有极客精神的作品。
         </p>
         <p class="nopb" lang="en">
-            <strong>iOS组</strong> —— Being creative, being imagnative.
+            <strong>iOS组</strong> —— Being creative, being imaginative.
         </p>
         <p class="nopt">
             关注前沿技术，营造极客氛围，负责移动产品iOS客户端的开发，力求做出最酷的移动端应用。
@@ -93,7 +93,7 @@ p {
     padding-bottom: 10px;
     margin: 0px;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 400;
     text-align: justify;
     text-justify: newspaper;
     word-wrap: break-word;
@@ -104,11 +104,13 @@ p {
     hyphens: auto;
     line-height: 21px;
 }
+
 img {
     width: 100%;
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
 .main-scene {
     margin-top: 25px;
     margin-left: 20px;
@@ -121,15 +123,18 @@ img {
     color: #4f586b;
     overflow: hidden;
 }
+
 .main-title {
     text-indent: 0;
     text-align: center;
     font-size: 19px;
     font-weight: 700;
 }
+
 .nopb {
     padding-bottom: 0;
 }
+
 .nopt {
     padding-top: 0;
 }

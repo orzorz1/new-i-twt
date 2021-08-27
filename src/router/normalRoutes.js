@@ -47,6 +47,17 @@ let normalRoutes = [
             normalAuthPass: true,
             icon:'mdi-link-variant'
           },
+        },
+        {
+          path: "report",
+          name: "report",
+          component: () => import("@/views/report"),
+          meta: {
+            title: "疫情填报",
+            requireAuth: true,
+            normalAuthPass: true,
+            icon:'mdi-link-variant'
+          },
         }
       ]
     },
