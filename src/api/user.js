@@ -195,4 +195,16 @@ export function changePhone(data){
   })
 }
 
+//健康信息填报
+export function postHealthInfo(data){
+  return service({
+    url:`/returnSchool/record`,
+    headers:{
+      'Content-Type': 'multipart/form-data'
+    },
+    method:'POST',
+    data
+  })
+}
+
 // #TODO 对接口进行分类
