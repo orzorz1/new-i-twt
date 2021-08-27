@@ -91,8 +91,6 @@ router.beforeEach(async(to, from, next) => {
             return
         }
     }
-    console.log(123)
-    console.log(from.path)
     //更新basicInfo
     let updateFlag=/login/.test(to.path) || /create/.test(to.path) || /about/.test(to.path)
     if (!updateFlag) {

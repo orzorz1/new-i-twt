@@ -187,7 +187,6 @@
 <script>
 import { login, loginWithPhone, loginVerifyCode } from "@/api/user";
 import Message from "@/components/message";
-import { getUrlParam } from "@/utils/common";
 import { setToken } from "@/utils/auth";
 // import normalRoutes from "@/router/normalRoutes";
 // import adminRoutes from "@/router/adminRoutes";
@@ -197,7 +196,7 @@ export default {
     data() {
         return {
             dialog: false,
-            from: "",
+            from: this.$route.query.from,
             showPsw: false,
             tab: "",
             username: "",
@@ -247,8 +246,6 @@ export default {
                         "basicInfo",
                         JSON.stringify(value.result)
                     );
-                    this.from = getUrlParam("from");
-
                     if (this.from) {
                         this.$router.push({ path: this.from });
                     } else {
@@ -274,7 +271,6 @@ export default {
                         "basicInfo",
                         JSON.stringify(value.result)
                     );
-                    this.from = getUrlParam("from");
                     if (this.from) {
                         this.$router.push({ path: this.from });
                     } else {
@@ -298,7 +294,6 @@ export default {
         },
     },
     created() {
-        this.from = getUrlParam("from");
         sessionStorage.clear();
     },
 };

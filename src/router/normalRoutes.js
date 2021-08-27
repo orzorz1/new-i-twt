@@ -56,7 +56,7 @@ let normalRoutes = [
             title: "疫情填报",
             requireAuth: true,
             normalAuthPass: true,
-            icon:'mdi-link-variant'
+            icon:'mdi-alert-octagon'
           },
         }
       ]

@@ -59,7 +59,11 @@ service.interceptors.response.use(
             }
             // 登录状态无效，跳转至登录页
             if (data['error_code'] === 40001 || data['error_code'] === 40005) {
-                router.push({path: "/login"})
+                router.push({
+                    path: "/login", query: {
+                        from: this.$route.path,
+                    },
+                })
             }
             switch (data['error_code']) {
                 case 0:
