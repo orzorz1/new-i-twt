@@ -207,4 +207,12 @@ export function postHealthInfo(data){
   })
 }
 
+//获取健康信息填报历史记录
+export function getHealthInfo(){
+  return service({
+    url:`/returnSchool/record`,
+    method:'GET'
+  })
+}
+
 // #TODO 对接口进行分类
