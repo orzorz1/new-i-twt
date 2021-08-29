@@ -16,7 +16,7 @@
             >
                 <template v-slot:top>
                     <v-row>
-                        <v-col cols="12" sm="4" md="3">
+                        <v-col cols="12" sm="4" md="2">
                             <v-text-field
                                 v-model="search"
                                 prepend-icon="mdi-magnify"
@@ -26,7 +26,7 @@
                             ></v-text-field
                             >
                         </v-col>
-                        <v-col cols="12" sm="4" md="3">
+                        <v-col cols="12" sm="4" md="2">
                             <v-menu
                                 v-model="datePickerMenu"
                                 :close-on-content-click="false"
@@ -51,7 +51,7 @@
                                 ></v-date-picker>
                             </v-menu>
                         </v-col>
-                        <v-col cols="12" sm="4" md="3">
+                        <v-col cols="12" sm="4" md="2">
                             <v-select
                                 class="report-status-select"
                                 v-model="selectStatus"
@@ -198,6 +198,13 @@ export default {
 
 .report-status-select{
     margin-top:22px;
+    :v-deep .v-icon{
+        font-size:38px !important;
+    }
+}
+
+.report-status-select .v-icon{
+    font-size:38px !important;
 }
 
 </style>
