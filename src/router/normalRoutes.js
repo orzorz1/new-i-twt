@@ -51,7 +51,7 @@ let normalRoutes = [
         {
           path: "report",
           name: "report",
-          component: () => import("@/views/report"),
+          component: () => import("@/views/report/report"),
           meta: {
             title: "疫情填报",
             requireAuth: true,

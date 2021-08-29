@@ -20,6 +20,17 @@ let adminRoutes = [
         normalAuthPass: false,
         icon:'mdi-account-convert'
       },
-    }
+    },
+  {
+    path: 'reportManage',
+    name: 'reportManage',
+    component: () => import('@/views/report/reportManage'),
+    meta: {
+      title: "疫情填报管理",
+      requireAuth: true,
+      normalAuthPass: false,
+      icon:'mdi-list-status'
+    },
+  }
   ]
   export default adminRoutes
