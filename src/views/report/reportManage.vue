@@ -59,13 +59,15 @@
                 </v-row>
             </v-card-title>
             <v-data-table
+                style="min-height: 400px;"
                 v-if="!isPhone"
-                :search="search"
                 v-model="selected"
                 :headers="headers"
                 :items="filterData"
-                class="elevation-0 mx-2"
-                :items-per-page="15"
+                class="elevation-0 mx-3"
+                :page.sync="page"
+                :items-per-page="itemsPerPage"
+                hide-default-footer
             >
                 <template v-slot:top>
 
@@ -85,16 +87,21 @@
                     </thead>
                     <tbody>
                     <tr
-                        v-for="(item,index) in filterData"
+                        v-for="(item,index) in filterData.slice((page-1)*itemsPerPage,page*itemsPerPage)"
                         :key="index"
                     >
                         <td>{{ item.userNumber }}</td>
                         <td>{{ item.username }}</td>
-                        <td>{{ item.username }}</td>
+                        <td><v-btn color="#50AD56" dark @click="seeDetail(item)">详细信息</v-btn></td>
                     </tr>
                     </tbody>
                 </template>
             </v-simple-table>
+            <v-pagination
+                class="pb-3"
+                v-model="page"
+                :length="pageCount"
+            ></v-pagination>
             <v-dialog
                 v-model="dialog"
                 max-width="500px"
@@ -141,8 +148,7 @@ export default {
     name: "reportManage",
     data: () => ({
         page:1,
-        itemsPerPage: 10,
-        pageCount: 0,
+        itemsPerPage: 2,
         toDates: '',
         fullWidth: document.documentElement.clientWidth,
         selectStatus: '未填报',
@@ -181,19 +187,19 @@ export default {
                 temperature: '38℃'
             },
             {
-                userNumber: '3019244360',
+                userNumber: '3019244362',
                 username: '高树韬',
                 status: '已填报',
                 temperature: '37℃'
             },
             {
-                userNumber: '3019244360',
+                userNumber: '3019244363',
                 username: '高树韬',
                 status: '已填报',
                 temperature: '37℃'
             },
             {
-                userNumber: '3019244360',
+                userNumber: '3019244364',
                 username: '高树韬',
                 status: '未填报',
                 temperature: '37℃'
@@ -201,12 +207,25 @@ export default {
         ],
 
     }),
+    watch:{
+        filterData:{
+            handler:function(){
+                this.page=1
+            }
+        }
+    },
     computed: {
+        pageCount: function() {
+            return Math.ceil(this.filterData.length/this.itemsPerPage)
+        },
         filterData: function () {
+            let tempData=this.rawData.filter((item) => {
+                return item.username.indexOf(this.search)!==-1 || item.userNumber.indexOf(this.search)!==-1
+            })
             if (this.selectStatus === '全部') {
-                return this.rawData
+                return tempData
             } else {
-                return this.rawData.filter((item) => {
+                return tempData.filter((item) => {
                     return item.status === this.selectStatus
                 })
             }
