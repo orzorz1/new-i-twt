@@ -4,20 +4,8 @@
             <v-card-title>
                 2021-8-29 120/150人已填报
                 <v-spacer></v-spacer>
-                <!--                    @keyup.enter="searchChanged"-->
-                <!--                    @click:append="searchChanged"-->
-                <!--                <v-text-field-->
-                <!--                    class="mb-2"-->
-                <!--                    v-model="search"-->
-                <!--                    append-icon="mdi-magnify"-->
-                <!--                    label="Search"-->
-                <!--                    single-line-->
-                <!--                    hide-details-->
-                <!--                ></v-text-field-->
-                <!--                >-->
             </v-card-title>
             <v-data-table
-                dense
                 :search="search"
                 v-model="selected"
                 :headers="headers"
@@ -30,7 +18,6 @@
                     <v-row>
                         <v-col cols="12" sm="4" md="3">
                             <v-text-field
-                                class="mx-4"
                                 v-model="search"
                                 prepend-icon="mdi-magnify"
                                 label="搜索"
@@ -50,7 +37,6 @@
                             >
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-text-field
-                                        class="mx-4"
                                         v-model="date"
                                         label="查询日期"
                                         prepend-icon="mdi-calendar"
@@ -67,9 +53,9 @@
                         </v-col>
                         <v-col cols="12" sm="4" md="3">
                             <v-select
+                                class="report-status-select"
                                 v-model="selectStatus"
                                 prepend-icon="mdi-playlist-check"
-                                class="mx-4"
                                 :items="items"
                                 label="填报状态"
                                 dense
@@ -133,7 +119,7 @@ export default {
         date: '',
         data: [],
         headers: [
-            {text: "学工号", value: "userNumber", sortable: true},
+            {text: "学工号", value: "userNumber", sortable: false},
             {text: "姓名", value: "username", sortable: false},
             {text: "填报状态", value: "status", sortable: false, filterable: false,},
             {text: "体温", value: "temperature", sortable: false},
@@ -208,6 +194,10 @@ export default {
 
 .my-class ::v-deep .v-data-footer__pagination {
     margin: 8px !important;
+}
+
+.report-status-select{
+    margin-top:22px;
 }
 
 </style>
