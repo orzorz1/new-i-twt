@@ -69,14 +69,17 @@
                 :items-per-page="itemsPerPage"
                 hide-default-footer
             >
-                <template v-slot:top>
-
+                <template v-slot:item.address="{ item }">
+                    {{item.address || '无'}}
+                </template>
+                <template v-slot:item.temperature="{ item }">
+                    {{item.temperature || '无'}}
                 </template>
                 <template v-slot:item.option="{ item }">
-                    <v-btn color="#50AD56" dark @click="seeDetail(item)">码</v-btn>
+                    <v-btn color="#50AD56" style="color:white;" @click="seeDetail(item)" :disabled="item.reportStatus==='未填报'">码</v-btn>
                 </template>
             </v-data-table>
-            <v-simple-table v-else height="300px">
+            <v-simple-table v-else min-height="300px">
                 <template v-slot:default>
                     <thead>
                     <tr>
@@ -92,8 +95,8 @@
                         v-ripple
                     >
                         <td>{{ item.userNumber }}</td>
-                        <td>{{ item.username }}</td>
-                        <td>{{ item.status }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.reportStatus }}</td>
                         <td>
                             <v-btn outlined color="#00A0E8" dark @click="seeMobileDetail(item)"
                                    style="width: 20px; font-size:12px;">详细信息
@@ -121,13 +124,13 @@
                         <v-row>
                             <v-col cols="12" sm="6" md="6">
                                 <v-img
-                                    src="https://picsum.photos/510/300?random"
+                                    :src="'https://api.twt.edu.cn'+PCData.healthCodeUrl"
                                     aspect-ratio="1.7"
                                 ></v-img>
                             </v-col>
                             <v-col cols="12" sm="6" md="6">
                                 <v-img
-                                    src="https://picsum.photos/510/300?random"
+                                    :src="'https://api.twt.edu.cn'+PCData.travelCodeUrl"
                                     aspect-ratio="1.7"
                                 ></v-img>
                             </v-col>
@@ -154,31 +157,35 @@
                         详细信息
                     </v-card-title>
                     <v-divider class="mx-2"></v-divider>
-                    <v-card-text>
+                    <v-card-text v-if="mobileShowItem.reportStatus==='已填报'">
                         <v-row justify="center">
                             <v-col cols="3" class="font-weight-black">体温：</v-col>
-                            <v-col cols="9">{{ mobileShowItem.temperature }}</v-col>
+                            <v-col cols="9">{{ mobileShowItem.temperature +'℃'}}</v-col>
                         </v-row>
                         <v-row justify="center">
                             <v-col cols="3" class="font-weight-black">定位：</v-col>
-                            <v-col cols="9">{{ mobileShowItem.location }}</v-col>
+                            <v-col cols="9">{{ mobileShowItem.address }}</v-col>
                         </v-row>
                         <v-row>
                             <v-col cols="4" class="font-weight-black">健康码：</v-col>
                             <v-col cols="12" sm="6" md="6">
                                 <v-img
-                                    src="https://picsum.photos/510/300?random"
+                                    :src="'https://api.twt.edu.cn'+mobileShowItem.healthCodeUrl"
                                     aspect-ratio="1.7"
                                 ></v-img>
                             </v-col>
                             <v-col cols="4" class="font-weight-black">行程码：</v-col>
                             <v-col cols="12" sm="6" md="6">
                                 <v-img
-                                    src="https://picsum.photos/510/300?random"
+                                    :src="'https://api.twt.edu.cn'+mobileShowItem.travelCodeUrl"
                                     aspect-ratio="1.7"
                                 ></v-img>
                             </v-col>
                         </v-row>
+                    </v-card-text >
+
+                    <v-card-text v-else>
+                        还未填报，无数据
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
@@ -203,10 +210,14 @@
 </template>
 
 <script>
+
+import {getReportInfo} from '@/api/admin'
+
 export default {
     name: "reportManage",
     data: () => ({
-        overlay:true,
+        PCData:{},
+        overlay:false,
         mobileShowItem: {},
         mobileDialog: false,
         page: 1,
@@ -221,59 +232,32 @@ export default {
         data: [],
         mobileHeaders: [
             {text: "学号", value: "userNumber", sortable: false},
-            {text: "姓名", value: "username", sortable: false},
-            {text: "填报状态", value: "status", sortable: false, filterable: false,},
+            {text: "姓名", value: "name", sortable: false},
+            {text: "填报状态", value: "reportStatus", sortable: false, filterable: false,},
             {text: "", value: "option", sortable: false},
         ],
         headers: [
             {text: "学号", value: "userNumber", sortable: false},
-            {text: "姓名", value: "username", sortable: false},
-            {text: "填报状态", value: "status", sortable: false, filterable: false,},
+            {text: "姓名", value: "name", sortable: false},
+            {text: "填报状态", value: "reportStatus", sortable: false, filterable: false,},
             {text: "体温", value: "temperature", sortable: false},
-            {text: "定位", value: "location", sortable: false},
+            {text: "定位", value: "address", sortable: false},
             {text: "", value: "option", sortable: false},
         ],
         search: "",
         selected: [],
-        rawData: [
-            {
-                userNumber: '3019244360',
-                username: '高树韬',
-                status: '已填报',
-                temperature: '38℃',
-                location: '天津市津南区海河教育园区天津大学北洋园校区平园25斋B'
-            },
-            {
-                userNumber: '3019244361',
-                username: '高树韬',
-                status: '已填报',
-                temperature: '38℃'
-            },
-            {
-                userNumber: '3019244362',
-                username: '高树韬',
-                status: '已填报',
-                temperature: '37℃'
-            },
-            {
-                userNumber: '3019244363',
-                username: '高树韬',
-                status: '已填报',
-                temperature: '37℃'
-            },
-            {
-                userNumber: '3019244364',
-                username: '高树韬',
-                status: '未填报',
-                temperature: '37℃'
-            }
-        ],
+        rawData: [],
 
     }),
     watch: {
         filterData: {
             handler: function () {
                 this.page = 1
+            }
+        },
+        date:{
+            handler:function () {
+                this.getRawInfoByDate()
             }
         }
     },
@@ -283,13 +267,13 @@ export default {
         },
         filterData: function () {
             let tempData = this.rawData.filter((item) => {
-                return item.username.indexOf(this.search) !== -1 || item.userNumber.indexOf(this.search) !== -1
+                return item.name.indexOf(this.search) !== -1 || item.userNumber.indexOf(this.search) !== -1
             })
             if (this.selectStatus === '全部') {
                 return tempData
             } else {
                 return tempData.filter((item) => {
-                    return item.status === this.selectStatus
+                    return item.reportStatus === this.selectStatus
                 })
             }
         },
@@ -304,18 +288,28 @@ export default {
         window.removeEventListener('resize', this.handleResize)
     },
     mounted() {
-        setTimeout(()=>{this.overlay=false},2000 )
         let nowDate = new Date()
         this.date = `${nowDate.getFullYear()}-${nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1}-${nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate()}`
         this.toDate = this.date
+        this.getRawInfoByDate()
     },
     methods: {
+        getRawInfoByDate(){
+            this.overlay=true
+            getReportInfo({date:this.date}).then((res)=>{
+                this.rawData=res.result
+                this.overlay=false
+            }).catch(()=>{
+                this.$message.error('获取数据失败')
+                this.overlay=false
+            })
+        },
         seeMobileDetail(data) {
             this.mobileShowItem = data
             this.mobileDialog = true
         },
         seeDetail(data) {
-            console.log(data)
+            this.PCData=data
             this.dialog = true
         },
         handleResize() {
@@ -357,7 +351,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: start;
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 
 </style>

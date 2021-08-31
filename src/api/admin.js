@@ -9,3 +9,11 @@ export function resetInfo(data) {
       data
     })
   }
+// 辅导员获取填报信息
+export function getReportInfo(params) {
+    return service({
+        url: '/returnSchool/assistant/report',
+        method: "GET",
+        params
+    })
+}
