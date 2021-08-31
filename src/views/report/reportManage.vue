@@ -89,10 +89,16 @@
                     <tr
                         v-for="(item,index) in filterData.slice((page-1)*itemsPerPage,page*itemsPerPage)"
                         :key="index"
+                        v-ripple
                     >
                         <td>{{ item.userNumber }}</td>
                         <td>{{ item.username }}</td>
-                        <td><v-btn color="#50AD56" dark @click="seeDetail(item)">详细信息</v-btn></td>
+                        <td>{{ item.status }}</td>
+                        <td>
+                            <v-btn outlined color="#00A0E8" dark @click="seeMobileDetail(item)"
+                                   style="width: 20px; font-size:12px;">详细信息
+                            </v-btn>
+                        </td>
                     </tr>
                     </tbody>
                 </template>
@@ -139,6 +145,59 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
+            <v-dialog
+                v-model="mobileDialog"
+                max-width="500px"
+            >
+                <v-card>
+                    <v-card-title>
+                        详细信息
+                    </v-card-title>
+                    <v-divider class="mx-2"></v-divider>
+                    <v-card-text>
+                        <v-row justify="center">
+                            <v-col cols="3" class="font-weight-black">体温：</v-col>
+                            <v-col cols="9">{{ mobileShowItem.temperature }}</v-col>
+                        </v-row>
+                        <v-row justify="center">
+                            <v-col cols="3" class="font-weight-black">定位：</v-col>
+                            <v-col cols="9">{{ mobileShowItem.location }}</v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="4" class="font-weight-black">健康码：</v-col>
+                            <v-col cols="12" sm="6" md="6">
+                                <v-img
+                                    src="https://picsum.photos/510/300?random"
+                                    aspect-ratio="1.7"
+                                ></v-img>
+                            </v-col>
+                            <v-col cols="4" class="font-weight-black">行程码：</v-col>
+                            <v-col cols="12" sm="6" md="6">
+                                <v-img
+                                    src="https://picsum.photos/510/300?random"
+                                    aspect-ratio="1.7"
+                                ></v-img>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="mobileDialog = false"
+                        >
+                            关闭
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <v-overlay :value="overlay">
+                <v-progress-circular
+                    indeterminate
+                    size="64"
+                ></v-progress-circular>
+            </v-overlay>
         </v-card>
     </div>
 </template>
@@ -147,8 +206,11 @@
 export default {
     name: "reportManage",
     data: () => ({
-        page:1,
-        itemsPerPage: 2,
+        overlay:true,
+        mobileShowItem: {},
+        mobileDialog: false,
+        page: 1,
+        itemsPerPage: 10,
         toDates: '',
         fullWidth: document.documentElement.clientWidth,
         selectStatus: '未填报',
@@ -160,6 +222,7 @@ export default {
         mobileHeaders: [
             {text: "学号", value: "userNumber", sortable: false},
             {text: "姓名", value: "username", sortable: false},
+            {text: "填报状态", value: "status", sortable: false, filterable: false,},
             {text: "", value: "option", sortable: false},
         ],
         headers: [
@@ -207,20 +270,20 @@ export default {
         ],
 
     }),
-    watch:{
-        filterData:{
-            handler:function(){
-                this.page=1
+    watch: {
+        filterData: {
+            handler: function () {
+                this.page = 1
             }
         }
     },
     computed: {
-        pageCount: function() {
-            return Math.ceil(this.filterData.length/this.itemsPerPage)
+        pageCount: function () {
+            return Math.ceil(this.filterData.length / this.itemsPerPage)
         },
         filterData: function () {
-            let tempData=this.rawData.filter((item) => {
-                return item.username.indexOf(this.search)!==-1 || item.userNumber.indexOf(this.search)!==-1
+            let tempData = this.rawData.filter((item) => {
+                return item.username.indexOf(this.search) !== -1 || item.userNumber.indexOf(this.search) !== -1
             })
             if (this.selectStatus === '全部') {
                 return tempData
@@ -241,11 +304,16 @@ export default {
         window.removeEventListener('resize', this.handleResize)
     },
     mounted() {
+        setTimeout(()=>{this.overlay=false},2000 )
         let nowDate = new Date()
         this.date = `${nowDate.getFullYear()}-${nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1}-${nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate()}`
         this.toDate = this.date
     },
     methods: {
+        seeMobileDetail(data) {
+            this.mobileShowItem = data
+            this.mobileDialog = true
+        },
         seeDetail(data) {
             console.log(data)
             this.dialog = true
@@ -285,11 +353,11 @@ export default {
     font-size: 38px !important;
 }
 
-.my-card-title{
+.my-card-title {
     display: flex;
     flex-direction: column;
-    align-items:start;
-    padding-bottom:0px;
+    align-items: start;
+    padding-bottom: 0px;
 }
 
 </style>
