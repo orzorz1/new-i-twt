@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <Header :hasNavi="false"/>
-    <Footer  />
+    <Header :hasNavi="false" />
+    <Footer />
     <v-main class="blue-grey lighten-5">
       <v-container style="padding: 0">
         <v-row justify="center" no-gutters>
@@ -101,15 +101,57 @@
                         placeholder="请输入您的学号/工资号"
                         required
                       ></v-text-field>
+
+                      <v-select
+                        prepend-icon="mdi-account-check"
+                        :items="credentialsTypes"
+                        label="证件类型"
+                        v-model="credentialsType"
+                      ></v-select>
+                      <!-- 身份证 -->
                       <v-text-field
+                        v-if="credentialsType == '1'"
                         v-model="idnumber"
-                        label="身份证号"
+                        label="证件号"
                         :rules="idnumberRules"
                         prepend-icon="mdi-card-account-details"
                         placeholder="若最后一位为X，请大写"
                         required
-                      ></v-text-field>
-
+                      >
+                      </v-text-field>
+                      <!-- 台湾 -->
+                      <v-text-field
+                        v-if="credentialsType == '2'"
+                        v-model="idnumber"
+                        label="证件号"
+                        :rules="twCardRules"
+                        prepend-icon="mdi-card-account-details"
+                        placeholder=""
+                        required
+                      >
+                      </v-text-field>
+                      <!-- 港澳 -->
+                      <v-text-field
+                        v-if="credentialsType == '3'"
+                        v-model="idnumber"
+                        label="证件号"
+                        :rules="hkmacaoCardRules"
+                        prepend-icon="mdi-card-account-details"
+                        placeholder=""
+                        required
+                      >
+                      </v-text-field>
+                      <!-- 护照 -->
+                      <v-text-field
+                        v-if="credentialsType == '4'"
+                        v-model="idnumber"
+                        label="证件号"
+                        :rules="passportRules"
+                        prepend-icon="mdi-card-account-details"
+                        placeholder=""
+                        required
+                      >
+                      </v-text-field>
                       <v-checkbox
                         v-model="checkbox1"
                         :rules="checkRules"
@@ -250,9 +292,9 @@ import Message from "@/components/message";
 let thePassword = "";
 export default {
   name: "create",
-   components: {
+  components: {
     Footer,
-    Header,
+    Header
     // Navigation,
   },
   data: () => ({
@@ -260,6 +302,25 @@ export default {
     tab: null,
     row: null,
     valid: true,
+    credentialsType: "1",
+    credentialsTypes: [
+      {
+        text: "中华人民共和国居民身份证",
+        value: "1"
+      },
+      {
+        text: "台湾居民来往大陆通行证",
+        value: "2"
+      },
+      {
+        text: "港澳居民来往内地通行证",
+        value: "3"
+      },
+      {
+        text: "护照",
+        value: "4"
+      }
+    ],
     username: "",
     password: "",
     surepassword: "",
@@ -272,76 +333,96 @@ export default {
     verifycode: "",
     organizationName: "",
     usernameRules: [
-      (v) => !!v || "请输入您想要的用户名",
-      (v) =>
+      v => !!v || "请输入您想要的用户名",
+      v =>
         (v && v.length >= 6 && v.length <= 30) || "用户名的长度须为6-30个字符",
-      (v) =>
+      v =>
         (v && ((v[0] >= "a" && v[0] <= "z") || (v[0] >= "A" && v[0] <= "Z"))) ||
         "用户名须以字母开头",
-      (v) =>
-        (v && v.replace(/\w/g, "") == "") || "用户名须由数字、字母或下划线组成",
+      v =>
+        (v && v.replace(/\w/g, "") == "") || "用户名须由数字、字母或下划线组成"
     ],
     passwordRules: [
-      (v) => !!v || "请输入您想要的密码",
-      (v) => (v && v.length >= 6) || "密码的长度须大于6个字符",
+      v => !!v || "请输入您想要的密码",
+      v => (v && v.length >= 6) || "密码的长度须大于6个字符"
     ],
     surepasswordRules: [
-      (v) => !!v || "请确定您的密码",
-      (v) => v == thePassword || "两次输入的密码不相符",
+      v => !!v || "请确定您的密码",
+      v => v == thePassword || "两次输入的密码不相符"
     ],
     emailRules: [
-      (v) => !!v || "请输入您的邮箱",
-      (v) =>
+      v => !!v || "请输入您的邮箱",
+      v =>
         (v &&
-          (function (x) {
+          (function(x) {
             let s = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
             return s.test(x);
           })(v)) ||
-        "请您输入正确的邮箱",
+        "请您输入正确的邮箱"
     ],
     schoolnumberRules: [
-      (v) => !!v || "请输入您的学号/工资号",
-      (v) =>
-        v.replace(/[^0-9]/g, "").length == v.length ||
-        "请输入正确的学号/工资号",
+      v => !!v || "请输入您的学号/工资号",
+      v =>
+        v.replace(/[^0-9]/g, "").length == v.length || "请输入正确的学号/工资号"
     ],
     idnumberRules: [
-      (v) => !!v || "请输入您的身份证号",
-      (v) =>
+      v => !!v || "请输入您的证件号码",
+      v =>
         (v.length == 18 &&
           v.replace(/[^0-9]/g, "").length >= 17 &&
           (v[17] == "X" || (v[17] >= "0" && v[17] <= "9"))) ||
-        "请输入正确的身份证号",
+        "请输入正确的中华人民共和国居民身份证号码"
+    ],
+    twCardRules: [
+      v => !!v || "请输入您的证件号码",
+      v => {
+        const reg = /^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/;
+        return reg.test(v.trim()) || "请输入正确的台湾居民来往大陆通行证号码";
+      }
+    ],
+    hkmacaoCardRules: [
+      v => !!v || "请输入您的证件号码",
+      v => {
+        const reg = /^[H|h|M|m](\d{8}|\d{10})$/;
+        return reg.test(v.trim()) || "请输入正确的港澳居民来往内地通行证号码";
+      }
+    ],
+    passportRules: [
+      v => !!v || "请输入您的证件号码",
+      v => {
+        const reg = /(^[EeKkGgDdSsPpHh]\d{8}$)|(^(([Ee][a-fA-F])|([DdSsPp][Ee])|([Kk][Jj])|([Mm][Aa])|(1[45]))\d{7}$)/;
+        return reg.test(v.trim()) || "请输入正确的护照号码";
+      }
     ],
     phoneNumberRules: [
-      (v) => !!v || "请输入手机号",
-      (v) =>
+      v => !!v || "请输入手机号",
+      v =>
         (v &&
-          (function (x) {
+          (function(x) {
             let s = /^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/;
             return s.test(x);
           })(v)) ||
-        "请您输入正确的手机号",
+        "请您输入正确的手机号"
     ],
     verifyRules: [
-      (v) => !!v || "请输入验证码",
-      (v) =>
+      v => !!v || "请输入验证码",
+      v =>
         (v &&
-          (function (x) {
+          (function(x) {
             let s = /^\d{6}$/;
             return s.test(x);
           })(v)) ||
-        "请您输入合法的验证码",
+        "请您输入合法的验证码"
     ],
     organizationNameRules: [
-      (v) => !!v || "请输入组织的名称",
-      (v) => v.length <= 20 || "组织名称须不超过20字",
+      v => !!v || "请输入组织的名称",
+      v => v.length <= 20 || "组织名称须不超过20字"
     ],
-    checkRules: [(v) => v],
+    checkRules: [v => v],
     checkbox1: false,
     checkbox2: false,
     loading1: false,
-    loading2: false,
+    loading2: false
   }),
   methods: {
     checkform1() {
@@ -356,7 +437,7 @@ export default {
           verifyCode: this.verifycode,
           password: this.password,
           email: this.email,
-          idNumber: this.idnumber,
+          idNumber: this.idnumber
         };
         register(data)
           .then(() => {
@@ -364,7 +445,7 @@ export default {
               `注册成功，恭喜成为天外天用户，后续您可以通过账号/学号(工资号)/邮箱/手机号登录`
             );
           })
-          .catch((value) => {
+          .catch(value => {
             console.log(value);
           });
         this.$refs.form1.resetValidation();
@@ -381,15 +462,15 @@ export default {
     sendVerifyCode() {
       let data = { phone: this.phone };
       verifyCode(data)
-        .then((value) => {
+        .then(value => {
           console.log(value);
           Message.success(`短信发送成功`);
         })
-        .catch((value) => {
+        .catch(value => {
           console.log(value);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
