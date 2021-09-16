@@ -130,7 +130,7 @@
                         required
                       >
                       </v-text-field>
-                      <!-- 港澳 -->
+                      <!-- 港澳通行证 -->
                       <v-text-field
                         v-if="credentialsType == '3'"
                         v-model="idnumber"
@@ -149,6 +149,28 @@
                         :rules="passportRules"
                         prepend-icon="mdi-card-account-details"
                         placeholder=""
+                        required
+                      >
+                      </v-text-field>
+                      <!-- 香港身份证 -->
+                      <v-text-field
+                        v-if="credentialsType == '5'"
+                        v-model="idnumber"
+                        label="证件号"
+                        :rules="hkIdRules"
+                        prepend-icon="mdi-card-account-details"
+                        placeholder="输入时省略括号"
+                        required
+                      >
+                      </v-text-field>
+                      <!-- 澳门身份证 -->
+                      <v-text-field
+                        v-if="credentialsType == '6'"
+                        v-model="idnumber"
+                        label="证件号"
+                        :rules="macaoIdRules"
+                        prepend-icon="mdi-card-account-details"
+                        placeholder="输入时省略括号"
                         required
                       >
                       </v-text-field>
@@ -319,6 +341,14 @@ export default {
       {
         text: "护照",
         value: "4"
+      },
+      {
+        text: "香港居民身份证",
+        value: "5"
+      },
+      {
+        text: "澳门居民身份证",
+        value: "6"
       }
     ],
     username: "",
@@ -392,6 +422,20 @@ export default {
       v => {
         const reg = /(^[EeKkGgDdSsPpHh]\d{8}$)|(^(([Ee][a-fA-F])|([DdSsPp][Ee])|([Kk][Jj])|([Mm][Aa])|(1[45]))\d{7}$)/;
         return reg.test(v.trim()) || "请输入正确的护照号码";
+      }
+    ],
+    hkIdRules: [
+      v => !!v || "请输入您的证件号码",
+      v => {
+        const reg = /^[A-Za-z]{1}\d{6}[(\d)|A]$/;
+        return reg.test(v.trim()) || "请输入正确的香港居民身份证号码";
+      }
+    ],
+    macaoIdRules:[
+      v => !!v || "请输入您的证件号码",
+      v => {
+        const reg = /^[1|5|7]\d{6}[(\d)]$/;
+        return reg.test(v.trim()) || "请输入正确的澳门居民身份证号码";
       }
     ],
     phoneNumberRules: [
