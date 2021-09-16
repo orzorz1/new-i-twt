@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import {getToken} from "@/utils/auth";
+import {getToken,setToken} from "@/utils/auth";
 import {userInfo} from "@/api/user.js";
 import Message from "@/components/message"
 import normalRoutes from "@/router/normalRoutes";
@@ -66,6 +66,11 @@ const router = new VueRouter({
 // }
 
 router.beforeEach(async(to, from, next) => {
+    console.log(getToken())
+    let {token}=to.query
+    if(token!==undefined){
+        setToken(token)
+    }
     // 设置标签页title
     window.document.title =
         to.meta.title == undefined
@@ -83,14 +88,6 @@ router.beforeEach(async(to, from, next) => {
             });
         }
     }
-    if (!to.meta.normalAuthPass) {
-
-        let info = JSON.parse(sessionStorage.getItem("basicInfo"))
-        if (info.role == "普通用户") {
-            Message.error("没有权限访问")
-            return
-        }
-    }
     //更新basicInfo
     let updateFlag=/login/.test(to.path) || /create/.test(to.path) || /about/.test(to.path)
     if (!updateFlag) {
@@ -98,6 +95,14 @@ router.beforeEach(async(to, from, next) => {
             sessionStorage.setItem("basicInfo", JSON.stringify(res.result));
         })
         console.log(x)
+    }
+
+    if (!to.meta.normalAuthPass) {
+        let info = JSON.parse(sessionStorage.getItem("basicInfo"))
+        if (info.role == "普通用户") {
+            Message.error("没有权限访问")
+            return
+        }
     }
     next();
 });

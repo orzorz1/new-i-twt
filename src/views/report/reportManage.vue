@@ -4,7 +4,7 @@
             <v-card-title class="my-card-title">
                 <v-row>
                     <v-col cols="12" class="ml-1">
-                        {{ date }} 120/150人已填报
+                        {{ date }} {{ unreportCount }}/{{ allCount }}人已填报
                         <v-spacer></v-spacer>
                     </v-col>
 
@@ -106,6 +106,9 @@
                     </tbody>
                 </template>
             </v-simple-table>
+            <v-row justify="center">
+                <v-col style="text-align:center;" v-if="this.filterData.length===0">No data available.</v-col>
+            </v-row>
             <v-pagination
                 class="pb-3"
                 v-model="page"
@@ -262,6 +265,18 @@ export default {
         }
     },
     computed: {
+        allCount:function () {
+            return this.rawData.length
+        },
+        unreportCount:function () {
+            let x=0
+            for(let i=0;i++;i<this.rawData.length){
+                if(this.rawData.length[i].reportStatus==='未填报'){
+                    x++
+                }
+            }
+            return x
+        },
         pageCount: function () {
             return Math.ceil(this.filterData.length / this.itemsPerPage)
         },
