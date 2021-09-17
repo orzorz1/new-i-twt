@@ -90,7 +90,7 @@
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="9" sm="4" md="3" class="left body-1">
+                    <v-col cols="9" sm="4" md="3" class="left body-1" id="change-phone">
                         <v-text-field
                             label="手机"
                             autocomplete="off"
@@ -291,6 +291,19 @@ export default {
         getApplicationStatus().then((res) => {
             this.appAll = res.result;
         });
+
+        if(this.$route.query.mustPhone){
+            this.$nextTick(()=>{
+                this.jump2phone()
+            })
+        }else{
+            if(JSON.parse(sessionStorage.getItem('basicInfo')).telephone===""){
+                this.$message.error("您还未填写手机号信息，请更新手机号")
+                this.$nextTick(()=>{
+                    this.jump2phone()
+                })
+            }
+        }
     },
     computed: {
         form() {
@@ -313,6 +326,13 @@ export default {
         },
     },
     methods: {
+        jump2phone(){
+            document.getElementById('change-phone').scrollIntoView({
+                behavior: "smooth", // 定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
+                block: "center", // 定义垂直方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "start"
+                inline: "nearest" // 定义水平方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "nearest"
+            })
+        },
         updateInfo() {
             if (this.basicInfo.nickname == "") {
                 this.$refs["nickname"].validate(true);

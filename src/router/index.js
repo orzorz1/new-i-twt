@@ -66,7 +66,6 @@ const router = new VueRouter({
 // }
 
 router.beforeEach(async(to, from, next) => {
-    console.log(getToken())
     let {token}=to.query
     if(token!==undefined){
         setToken(token)
@@ -93,6 +92,15 @@ router.beforeEach(async(to, from, next) => {
     if (!updateFlag) {
         let x=await userInfo().then(res => {
             sessionStorage.setItem("basicInfo", JSON.stringify(res.result));
+            let {telephone}=res.result
+            if(telephone===''&&to.path!=='/userInfo'){
+                next({
+                    path: "/userInfo",
+                    query:{
+                        mustPhone:1
+                    }
+                });
+            }
         })
         console.log(x)
     }

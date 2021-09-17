@@ -53,7 +53,7 @@ export default {
 
 <style lang="scss" scoped>
 .message {
-    height: 42px;
+    min-height: 42px;
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
         0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
     min-width: 240px;
@@ -69,9 +69,10 @@ export default {
     overflow: hidden;
     > p {
       color: white;
-        height: 100%;
-        line-height: 100%;
-        padding: 20px 0;
+        //height: 100%;
+        //line-height: 100%;
+        //padding: 20px 10px;
+        margin: 0px;
         font-size: 14px !important;
         font-weight: 400;
         letter-spacing: 0.03125em !important;
