@@ -293,6 +293,7 @@ export default {
         });
 
         if(this.$route.query.mustPhone){
+            this.$message.error("您还未填写手机号信息，请更新手机号")
             this.$nextTick(()=>{
                 this.jump2phone()
             })

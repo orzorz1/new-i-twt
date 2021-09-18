@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import {getToken,setToken} from "@/utils/auth";
 import {userInfo} from "@/api/user.js";
-import Message from "@/components/message"
+import Message from "@/components/message/index.js"
 import normalRoutes from "@/router/normalRoutes";
 import adminRoutes from "@/router/adminRoutes";
 
@@ -93,13 +93,23 @@ router.beforeEach(async(to, from, next) => {
         let x=await userInfo().then(res => {
             sessionStorage.setItem("basicInfo", JSON.stringify(res.result));
             let {telephone}=res.result
-            if(telephone===''&&to.path!=='/userInfo'){
-                next({
-                    path: "/userInfo",
-                    query:{
-                        mustPhone:1
-                    }
-                });
+            console.log(telephone)
+            if((telephone===null||telephone==='')&&to.path!=='/userInfo'){
+                if(from.path==='/userInfo'){
+                    next({
+                        path: "/userInfo",
+                        query:{
+                            mustPhone:1
+                        }
+                    },Message.error('您还未填写手机号信息，请更新手机号'));
+                }else{
+                    next({
+                        path: "/userInfo",
+                        query:{
+                            mustPhone:1
+                        }
+                    });
+                }
             }
         })
         console.log(x)
