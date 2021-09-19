@@ -53,7 +53,7 @@ let normalRoutes = [
           name: "report",
           component: () => import("@/views/report/report"),
           meta: {
-            title: "疫情填报",
+            title: "健康填报",
             requireAuth: true,
             normalAuthPass: true,
             icon:'mdi-alert-octagon'

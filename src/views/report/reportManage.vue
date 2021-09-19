@@ -286,7 +286,7 @@ export default {
             handler: function () {
                 this.getRawInfoByDate();
             }
-        }
+        },
     },
     computed: {
         allCount: function () {
@@ -341,7 +341,6 @@ export default {
                 : nowDate.getMonth() + 1
         }-${nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate()}`;
         this.toDate = this.date;
-        this.getRawInfoByDate();
     },
     methods: {
         getRawInfoByDate() {

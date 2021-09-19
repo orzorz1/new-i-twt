@@ -118,7 +118,10 @@ router.beforeEach(async(to, from, next) => {
     if (!to.meta.normalAuthPass) {
         let info = JSON.parse(sessionStorage.getItem("basicInfo"))
         if (info.role == "普通用户") {
-            Message.error("没有权限访问")
+            Message.error("没有权限访问该页面")
+            next({
+                path: "/home",
+            });
             return
         }
     }

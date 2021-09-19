@@ -26,7 +26,7 @@ let adminRoutes = [
     name: 'reportManage',
     component: () => import('@/views/report/reportManage'),
     meta: {
-      title: "疫情填报管理",
+      title: "健康填报管理",
       requireAuth: true,
       normalAuthPass: false,
       icon:'mdi-list-status'

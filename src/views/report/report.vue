@@ -2,7 +2,7 @@
     <v-container>
         <v-card elevation="1">
             <v-card-title class="text-center py-6">
-                疫情填报
+                健康填报
             </v-card-title>
             <v-divider class="mx-4"></v-divider>
             <v-tabs
