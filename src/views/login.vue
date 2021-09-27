@@ -65,7 +65,8 @@
                                                 depressed
                                                 color="info"
                                                 @click="loginCommon"
-                                                >登录</v-btn
+                                            >登录
+                                            </v-btn
                                             >
                                         </v-card-actions>
                                     </v-tab-item>
@@ -86,7 +87,8 @@
                                                     <v-btn
                                                         @click="sendVerifyCode"
                                                         text
-                                                        >发送验证码</v-btn
+                                                    >发送验证码
+                                                    </v-btn
                                                     >
                                                 </template>
                                             </v-text-field>
@@ -107,7 +109,8 @@
                                                 depressed
                                                 color="info"
                                                 @click="loginPhone"
-                                                >登录</v-btn
+                                            >登录
+                                            </v-btn
                                             >
                                         </v-card-actions>
                                     </v-tab-item>
@@ -115,7 +118,7 @@
                                 <div class="func-group">
                                     <a href="#/create">注册账号</a>
                                     <a @click="dialog = true"
-                                        >忘记密码？去重置</a
+                                    >忘记密码？去重置</a
                                     >
                                 </div>
                             </v-card-text>
@@ -132,14 +135,15 @@
             transform="translate(0 -170.81)"
           ></path>
         </svg> -->
-                <span style="cursor:pointer;" @click="$router.push({path:'/about'})"><strong>@</strong>天外天工作室</span> / © 2000-{{ getYear() }} /
+                <span style="cursor:pointer;" @click="$router.push({path:'/about'})"><strong>@</strong>天外天工作室</span> / ©
+                2000-{{ getYear() }} /
                 <a href="http://www.miibeian.gov.cn/" rel="nofollow"
-                    >津ICP备16002964号-1</a
+                >津ICP备16002964号-1</a
                 >
                 / 津教备0767号
             </div>
         </div>
-        <v-dialog v-model="dialog" persistent max-width="600px">
+        <v-dialog v-model="dialog" max-width="600px">
             <v-card>
                 <v-card-title>
                     <span class="headline">重置密码</span>
@@ -149,29 +153,38 @@
                     style="position: relative; margin: 0 auto"
                     color="red-text"
                 >
-                    若您已绑定手机号，可通过手机号登录并在个人信息中进行密码修改。<br />
-                    若未绑定验证码请联系管理员进行密码重置。
+                    若您已绑定手机号，可通过手机号登录并在个人信息中进行密码修改。<br/>
+                    若未绑定可从此处重置密码，重置后密码为6个6。
                 </v-banner>
                 <v-card-text>
-                    <!-- <v-container>
+                    <v-container>
                         <v-row>
                             <v-col cols="12" sm="6" md="6">
                                 <v-text-field
-                                    label="姓名"
-                                    required
+                                    label="学工号"
+                                    v-model="rePWD.userNumber"
+                                    :rules="[(v) => !!v || '不能为空']"
+                                    autocomplete="off"
+                                    ref="rePWDUserNumber"
                                 ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="6" md="6">
                                 <v-text-field
-                                    label="学工号"
-                                    required
+                                    :rules="[(v) => !!v || '不能为空']"
+                                    ref="rePWDIDNumber"
+                                    v-model="rePWD.idNumber"
+                                    label="身份证号/港澳台通行(身份)证/护照"
+                                    autocomplete="off"
                                 ></v-text-field>
                             </v-col>
                         </v-row>
-                    </v-container> -->
+                    </v-container>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="handleResetPwd()">
+                        重置
+                    </v-btn>
                     <v-btn color="blue darken-1" text @click="dialog = false">
                         关闭
                     </v-btn>
@@ -185,9 +198,10 @@
 </template>
 
 <script>
-import { login, loginWithPhone, loginVerifyCode } from "@/api/user";
+import {login, loginWithPhone, loginVerifyCode} from "@/api/user";
 import Message from "@/components/message";
-import { setToken } from "@/utils/auth";
+import {setToken} from "@/utils/auth";
+import {rePWDByID} from "../api/user";
 // import normalRoutes from "@/router/normalRoutes";
 // import adminRoutes from "@/router/adminRoutes";
 
@@ -195,6 +209,10 @@ export default {
     name: "login",
     data() {
         return {
+            rePWD:{
+                userNumber:'',
+                idNumber:''
+            },
             dialog: false,
             from: this.$route.query.from,
             showPsw: false,
@@ -247,9 +265,9 @@ export default {
                         JSON.stringify(value.result)
                     );
                     if (this.from) {
-                        this.$router.push({ path: this.from });
+                        this.$router.push({path: this.from});
                     } else {
-                        this.$router.push({ path: "/home" });
+                        this.$router.push({path: "/home"});
                     }
                 })
                 .catch((value) => {
@@ -272,9 +290,9 @@ export default {
                         JSON.stringify(value.result)
                     );
                     if (this.from) {
-                        this.$router.push({ path: this.from });
+                        this.$router.push({path: this.from});
                     } else {
-                        this.$router.push({ path: "/home" });
+                        this.$router.push({path: "/home"});
                     }
                 })
                 .catch((value) => {
@@ -282,7 +300,7 @@ export default {
                 });
         },
         sendVerifyCode() {
-            let data = { phone: this.phone };
+            let data = {phone: this.phone};
             loginVerifyCode(data)
                 .then(() => {
                     // console.log(value);
@@ -292,6 +310,19 @@ export default {
                     console.log(value);
                 });
         },
+        handleResetPwd(){
+            let flag = true
+            for (let ref in this.$refs) {
+                flag &&= this.$refs[ref].validate(true)
+            }
+            if (flag){
+                rePWDByID(this.rePWD).then(
+                    ()=>{
+                        this.$message.success('密码已重置为六个六，请尽快登录修改密码。')
+                    }
+                )
+            }
+        }
     },
     created() {
         sessionStorage.clear();
@@ -303,33 +334,38 @@ export default {
 div.bg {
     background: #026fce;
     background-image: linear-gradient(
-        45deg,
-        hsl(170deg, 80%, 70%),
-        hsl(190deg, 80%, 70%),
-        hsl(250deg, 80%, 70%),
-        hsl(3200deg, 80%, 70%)
+            45deg,
+            hsl(170deg, 80%, 70%),
+            hsl(190deg, 80%, 70%),
+            hsl(250deg, 80%, 70%),
+            hsl(3200deg, 80%, 70%)
     );
     overflow: hidden;
     background-size: 200% 200%;
     animation: gradient-move 3s ease alternate infinite;
+
     .login-card {
         margin-top: 20%;
     }
+
     .func-group {
         width: 100%;
         display: flex;
         justify-content: space-between;
         margin-top: 14px;
+
         a {
             text-decoration: none;
         }
     }
 }
+
 .footer {
     bottom: 30px;
     position: absolute;
     width: 100%;
     text-align: center;
+
     .copyright {
         position: relative;
         display: inline-block;
@@ -341,12 +377,14 @@ div.bg {
         max-width: 940px;
         font-size: 14px;
         line-height: 24px;
+
         a {
             text-decoration: none;
             color: #000;
         }
     }
 }
+
 @keyframes gradient-move {
     0% {
         background-position: 0% 0%;

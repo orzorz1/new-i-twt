@@ -99,8 +99,8 @@
                                        offset-sm="2"
                                        class="left body-1">
                                     <v-textarea
-                                        v-show="address"
-                                        disabled
+                                        v-show="addressFlag"
+                                        :disabled="locationEdit"
                                         auto-grow
                                         rows="1"
                                         label="定位地址"
@@ -154,6 +154,8 @@ import {postHealthInfo, getHealthInfo} from '@/api/user.js'
 export default {
     name: "report",
     data: () => ({
+        addressFlag:false,
+        locationEdit:true,
         getLocationLoading:false,
         submitLoading:false,
         tab: null,
@@ -222,7 +224,6 @@ export default {
                 geolocation.getCurrentPosition()
                 AMap.event.addListener(geolocation, 'complete', onComplete);
                 AMap.event.addListener(geolocation, 'error', onError);
-
                 function onComplete(data) {
                     self.getLocationLoading=false
                     if (data.formattedAddress) {
@@ -233,8 +234,11 @@ export default {
                         self.healthData.latitude = data.position.lat
                         self.healthData.address = data.formattedAddress
                         self.address = data.formattedAddress
+                        self.addressFlag=true
                     } else {
-                        self.$message.error('定位失败错误,请开启浏览器定位权限')
+                        self.$message.error('定位失败，无法获取详细定位,请手动填写')
+                        self.addressFlag=true
+                        self.locationEdit=false
                     }
                 }
 

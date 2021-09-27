@@ -22,12 +22,13 @@ const Message = function (options) {
   instance.vm.visible = true
   instance.dom = instance.vm.$el
   instance.dom.style.zIndex = 10000
-  instance.dom.style.top = `${8+instances.length*50}px`
+  instance.height=instance.dom.offsetHeight
+  instance.dom.style.top = `${8+instances.length*60}px`
   instances.push(instance)
   setTimeout(()=>{
     Message.close(id)
     Message.reset()
-  },2000)
+  },20000)
   return instance.vm
 }
 

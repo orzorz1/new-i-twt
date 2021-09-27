@@ -215,4 +215,21 @@ export function getHealthInfo(){
   })
 }
 
+//注销账号
+export function logOff(){
+  return service({
+    url:`/auth/logoff`,
+    method:'POST'
+  })
+}
+
+// 在未登录情况下重置用户密码
+export function rePWDByID(data){
+  return service({
+    url:`/password/resetByBasicInfo`,
+    method:'POST',
+    data
+  })
+}
+
 // #TODO 对接口进行分类

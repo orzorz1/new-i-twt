@@ -117,7 +117,7 @@ service.interceptors.response.use(
                     Message.error(`邮箱或手机号格式错误`);
                     return Promise.reject(data['message']);
                 case 50013:
-                    Message.error(`邮箱或手机号已存在`);
+                    Message.error(data['message']);
                     return Promise.reject(data['message']);
                 case 50014:
                     Message.error(`手机号已存在`);
