@@ -139,7 +139,7 @@ service.interceptors.response.use(
         return response;
     },
     (error) => {
-        Message.error('发生未知错误，请联系管理员');
+        Message.error('网络问题，请稍后重试');
         return Promise.reject(error);
     }
 );

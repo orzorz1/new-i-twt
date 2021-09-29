@@ -88,7 +88,7 @@ router.beforeEach(async(to, from, next) => {
         }
     }
     //更新basicInfo
-    let updateFlag=/login/.test(to.path) || /create/.test(to.path) || /about/.test(to.path)
+    let updateFlag=/login/.test(to.path) || /create/.test(to.path) || /about/.test(to.path) || /login/.test(from.path)
     if (!updateFlag) {
         let x=await userInfo().then(res => {
             sessionStorage.setItem("basicInfo", JSON.stringify(res.result));

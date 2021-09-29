@@ -65,6 +65,8 @@
                                                 depressed
                                                 color="info"
                                                 @click="loginCommon"
+                                                :loading="loginBtnLoading"
+
                                             >登录
                                             </v-btn
                                             >
@@ -106,6 +108,7 @@
                                         <v-card-actions>
                                             <v-btn
                                                 block
+                                                :loading="loginBtnLoading"
                                                 depressed
                                                 color="info"
                                                 @click="loginPhone"
@@ -213,6 +216,7 @@ export default {
                 userNumber:'',
                 idNumber:''
             },
+            loginBtnLoading:false,
             dialog: false,
             from: this.$route.query.from,
             showPsw: false,
@@ -251,6 +255,7 @@ export default {
             return date.getFullYear();
         },
         loginCommon() {
+            this.loginBtnLoading=true
             // console.log(this.username, this.password);
             let data = {
                 account: this.username,
@@ -269,12 +274,15 @@ export default {
                     } else {
                         this.$router.push({path: "/home"});
                     }
+                    this.loginBtnLoading=false
                 })
                 .catch((value) => {
                     console.log(value);
+                    this.loginBtnLoading=false
                 });
         },
         loginPhone() {
+            this.loginBtnLoading=true
             // console.log(this.phone, this.verify);
             let data = {
                 phone: this.phone,
@@ -294,9 +302,11 @@ export default {
                     } else {
                         this.$router.push({path: "/home"});
                     }
+                    this.loginBtnLoading=false
                 })
                 .catch((value) => {
                     console.log(value);
+                    this.loginBtnLoading=false
                 });
         },
         sendVerifyCode() {
