@@ -28,7 +28,7 @@ const Message = function (options) {
   setTimeout(()=>{
     Message.close(id)
     Message.reset()
-  },20000)
+  },2000)
   return instance.vm
 }
 
@@ -68,7 +68,7 @@ Message.close = function (id) {
 
 Message.reset=function(){
   for (let i = 0; i<instances.length; i++) {
-    instances[i].vm.$el.style.top=`${8+i*50}px`
+    instances[i].vm.$el.style.top=`${8+i*60}px`
   }
 }
 

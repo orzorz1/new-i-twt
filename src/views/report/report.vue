@@ -243,8 +243,9 @@ export default {
                 }
 
                 function onError() {
+                    self.addressFlag=true
                     self.getLocationLoading=false
-                    self.$message.error('定位失败错误,请开启浏览器定位权限')
+                    self.$message.error('定位失败错误,请开启浏览器定位权限,或者请手动填写')
                 }
             })
         },

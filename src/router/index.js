@@ -93,7 +93,6 @@ router.beforeEach(async(to, from, next) => {
         let x=await userInfo().then(res => {
             sessionStorage.setItem("basicInfo", JSON.stringify(res.result));
             let {telephone}=res.result
-            console.log(telephone)
             if((telephone===null||telephone==='')&&to.path!=='/userInfo'){
                 if(from.path==='/userInfo'){
                     next({
