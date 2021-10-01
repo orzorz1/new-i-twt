@@ -1,9 +1,8 @@
 import axios from 'axios';
 import Message from '@/components/message';
-// import { getToken } from './auth'
 import qs from 'querystring';
 import router from "@/router"
-import {getToken} from "@/utils/auth";
+import {getToken, removeToken} from "@/utils/auth";
 
 axios.defaults.withCredentials = true;
 
@@ -59,9 +58,14 @@ service.interceptors.response.use(
             }
             // 登录状态无效，跳转至登录页
             if (data['error_code'] === 40001 || data['error_code'] === 40005) {
+                let fromPath= window.location.href.split('#')[1].split('?')[0]
+                removeToken()
+                if (!fromPath){
+                    fromPath='/home'
+                }
                 router.push({
                     path: "/login", query: {
-                        from: this.$route.path,
+                        from: fromPath,
                     },
                 })
             }
@@ -105,7 +109,7 @@ service.interceptors.response.use(
                     Message.error(`邮箱已存在`);
                     return Promise.reject(data['message']);
                 case 50009:
-                    Message.error(`无效的手机号`);
+                    Message.error(data['message']);
                     return Promise.reject(data['message']);
                 case 50010:
                     Message.error(`发送失败，请稍后重试`);
@@ -120,10 +124,10 @@ service.interceptors.response.use(
                     Message.error(data['message']);
                     return Promise.reject(data['message']);
                 case 50014:
-                    Message.error(`手机号已存在`);
+                    Message.error(data['message']);
                     return Promise.reject(data['message']);
                 case 50015:
-                    Message.error(`目标账号信息不存在`);
+                    Message.error(data['message']);
                     return Promise.reject(data['message']);
                 case 50016:
                     Message.error(`无效的学院名称`);

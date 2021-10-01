@@ -82,7 +82,7 @@ router.beforeEach(async(to, from, next) => {
             next({
                 path: "/login",
                 query: {
-                    from: to.fullPath,
+                    from: to.path,
                 },
             });
         }
