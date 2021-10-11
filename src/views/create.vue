@@ -67,7 +67,9 @@
                                                 required
                                             >
                                                 <template v-slot:append>
-                                                    <v-btn @click="sendVerifyCode" text>发送验证码</v-btn>
+                                                    <v-btn :disabled="sendTime!==30" @click="sendVerifyCode" text>
+                                                        {{sendTime===30?'发送验证码':`${sendTime}s后重试`}}
+                                                    </v-btn>
                                                 </template>
                                             </v-text-field>
                                             <v-text-field
@@ -159,7 +161,7 @@
                                                 label="证件号"
                                                 :rules="hkIdRules"
                                                 prepend-icon="mdi-card-account-details"
-                                                placeholder="输入时省略括号"
+                                                placeholder="请输入"
                                                 required
                                             >
                                             </v-text-field>
@@ -197,7 +199,7 @@
                                                 class="mr-4"
                                                 :loading="loading1"
                                                 :disabled="loading1"
-                                                color="secondary"
+                                                color="primary"
                                                 @click="checkform1"
                                                 width="80%"
                                                 height="50"
@@ -428,14 +430,14 @@ export default {
         hkIdRules: [
             v => !!v || "请输入您的证件号码",
             v => {
-                const reg = /^[A-Za-z]{1}\d{6}[(\d)|A]$/;
+                const reg = /^[A-Z]{1,2}[0-9]{6,10}\([0-9A-Z]\)$/;
                 return reg.test(v.trim()) || "请输入正确的香港居民身份证号码";
             }
         ],
         macaoIdRules: [
             v => !!v || "请输入您的证件号码",
             v => {
-                const reg = /^[1|5|7]\d{6}[(\d)]$/;
+                const reg = /^[1|5|7][0-9]{6}\([0-9A-Z]\)$/;
                 return reg.test(v.trim()) || "请输入正确的澳门居民身份证号码";
             }
         ],
@@ -467,12 +469,16 @@ export default {
         checkbox1: false,
         checkbox2: false,
         loading1: false,
-        loading2: false
+        loading2: false,
+        sendTime:30
     }),
     methods: {
         checkform1() {
             this.loading1 = true;
-            if (!this.$refs.form1.validate()) this.loading1 = false;
+            if (!this.$refs.form1.validate()) {
+                this.loading1 = false;
+                this.$message.error('表单填写有误，请根据提示信息修改表单内容')
+            }
             console.log(this.loading1);
             if (this.loading1) {
                 let data = {
@@ -490,6 +496,7 @@ export default {
                         Message.success(
                             `注册成功，恭喜成为天外天用户，后续您可以通过账号/学号(工资号)/邮箱/手机号登录`
                         );
+                        this.$router.push({path: '/login'})
                     })
                     .catch(value => {
                         console.log(value);
@@ -508,14 +515,26 @@ export default {
         },
         sendVerifyCode() {
             let data = {phone: this.phone};
-            verifyCode(data)
-                .then(value => {
-                    console.log(value);
-                    Message.success(`短信发送成功`);
-                })
-                .catch(value => {
-                    console.log(value);
-                });
+            if (this.phone.length === 11) {
+                this.sendTime--
+                let sendInterval= setInterval(()=>{
+                    this.sendTime--
+                    if(this.sendTime===0){
+                        clearInterval(sendInterval)
+                        this.sendTime=30
+                    }
+                },1000)
+                verifyCode(data)
+                    .then(value => {
+                        console.log(value);
+                        Message.success(`短信发送成功`);
+                    })
+                    .catch(value => {
+                        console.log(value);
+                    });
+            } else {
+                this.$message.error('请输入11位手机号')
+            }
         }
     }
 };

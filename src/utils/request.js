@@ -133,7 +133,7 @@ service.interceptors.response.use(
                     Message.error(`无效的学院名称`);
                     return Promise.reject(data['message']);
                 default:
-                    // Message.error(`${data['error_code'] + data['msg']},请联系管理员`);
+                    Message.error(`${data['error_code'] + data['message']}`);
                     // alert(`${data['error_code'] + data['msg']},请联系管理员`)
                     return Promise.reject(data['message']);
             }

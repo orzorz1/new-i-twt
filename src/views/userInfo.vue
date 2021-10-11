@@ -100,7 +100,8 @@
                         >
                             <template v-slot:append>
                                 <v-btn @click="sendVerifyCode" text
-                                    >发送验证码</v-btn
+                                >发送验证码
+                                </v-btn
                                 >
                             </template>
                         </v-text-field>
@@ -177,7 +178,7 @@
                     <v-col cols="9" sm="6" md="4">
                         <v-select
                             v-model="changeMajorSelect.destDepartmentId"
-                            :items="department"
+                            :items="department||[]"
                             item-text="name"
                             item-value="id"
                             label="转入的学院"
@@ -194,9 +195,9 @@
                         class="left body-1"
                     >
                         <v-select
-                            :disabled="changeMajorSelect.destDepartmentId == ''"
+                            :disabled="typeof changeMajorSelect.destDepartmentId=='number'"
                             v-model="changeMajorSelect.destMajorId"
-                            :items="major"
+                            :items="major||[]"
                             item-text="name"
                             item-value="id"
                             label="转入的专业"
@@ -245,6 +246,7 @@ import {
     updateNickname,
     updateEmail,
 } from "@/api/user.js";
+
 export default {
     name: "userInfo",
     data: () => ({
@@ -275,9 +277,9 @@ export default {
             (v) => (v && v.length >= 6) || "密码的长度须大于6个字符",
         ],
         showSke: false,
-        major: [],
-        department: [],
-        changeMajorSelect: { destDepartmentId: "", destMajorId: "" },
+        major: null,
+        department: null,
+        changeMajorSelect: {destDepartmentId: "", destMajorId: ""},
         appAll: [],
     }),
     mounted() {
@@ -292,15 +294,15 @@ export default {
             this.appAll = res.result;
         });
 
-        if(this.$route.query.mustPhone){
+        if (this.$route.query.mustPhone) {
             this.$message.error("您还未填写手机号信息，请更新手机号")
-            this.$nextTick(()=>{
+            this.$nextTick(() => {
                 this.jump2phone()
             })
-        }else{
-            if(JSON.parse(sessionStorage.getItem('basicInfo')).telephone===""){
+        } else {
+            if (JSON.parse(sessionStorage.getItem('basicInfo')).telephone === "") {
                 this.$message.error("您还未填写手机号信息，请更新手机号")
-                this.$nextTick(()=>{
+                this.$nextTick(() => {
                     this.jump2phone()
                 })
             }
@@ -318,7 +320,10 @@ export default {
         "changeMajorSelect.destDepartmentId": {
             handler(newVal) {
                 getMajorByDepartment(newVal).then((res) => {
-                    this.major = res.result.majors;
+                    const {majors} = res.result
+                    for(let item of majors){
+                        this.major.push(item)
+                    }
                     if (this.major.length === 0) {
                         this.changeMajorSelect.destMajorId = 0;
                     }
@@ -327,7 +332,7 @@ export default {
         },
     },
     methods: {
-        jump2phone(){
+        jump2phone() {
             document.getElementById('change-phone').scrollIntoView({
                 behavior: "smooth", // 定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
                 block: "center", // 定义垂直方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "start"
@@ -338,7 +343,7 @@ export default {
             if (this.basicInfo.nickname == "") {
                 this.$refs["nickname"].validate(true);
             } else {
-                updateNickname({ username: this.basicInfo.nickname }).then(
+                updateNickname({username: this.basicInfo.nickname}).then(
                     (res) => {
                         this.$message.success(`昵称修改${res.message}`);
                     }
@@ -352,7 +357,7 @@ export default {
             ) {
                 this.$refs["email"].validate(true);
             } else {
-                updateEmail({ email: this.form.email }).then((res) => {
+                updateEmail({email: this.form.email}).then((res) => {
                     this.$message.success(`邮箱修改${res.message}`);
                 });
             }
@@ -376,7 +381,7 @@ export default {
                 });
         },
         sendVerifyCode() {
-            let data = { phone: this.form.telephone };
+            let data = {phone: this.form.telephone};
             getVcode(data)
                 .then(() => {
                     // console.log(value);
@@ -407,7 +412,7 @@ export default {
             if (!this.formHasErrors) {
                 let f = {
                     code: this.Vcode,
-                    phone:this.form.telephone
+                    phone: this.form.telephone
                 };
                 changePhone(f).then(() => {
                     this.$message.success(`修改信息成功`);
@@ -425,7 +430,7 @@ export default {
                 this.$refs["pwd"].validate(true);
                 this.$refs["repwd"].validate(true);
             } else {
-                changePWD({ password: this.newPWD }).then(() => {
+                changePWD({password: this.newPWD}).then(() => {
                     this.$message.success("修改密码成功");
                 });
             }
@@ -438,6 +443,7 @@ export default {
 .center {
     text-align: center;
 }
+
 .left {
     text-align: left;
 }

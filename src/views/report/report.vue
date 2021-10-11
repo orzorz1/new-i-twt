@@ -193,7 +193,7 @@ export default {
                 formData.append('provinceName', this.healthData.provinceName)
                 formData.append('cityName', this.healthData.cityName)
                 formData.append('regionName', this.healthData.regionName)
-                formData.append('address', this.healthData.address)
+                formData.append('address', this.address)
                 formData.append('longitude', this.healthData.longitude)
                 formData.append('latitude', this.healthData.latitude)
                 formData.append('healthCodeScreenshot', this.healthData.healthPic)
