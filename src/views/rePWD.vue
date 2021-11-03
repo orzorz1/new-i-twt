@@ -175,8 +175,8 @@ export default {
         handle() {
             rePWD({ userNumber: this.num }).then((res) => {
                 this.$message.success(res.message);
+                this.$router.go(0)
             });
-            this.$router.go(0)
         },
         getInfo(num) {
             if (num == "") {

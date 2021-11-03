@@ -395,8 +395,9 @@ export default {
         ],
         schoolnumberRules: [
             v => !!v || "请输入您的学号/工资号",
-            v =>
-                v.replace(/[^0-9]/g, "").length == v.length || "请输入正确的学号/工资号"
+            v =>{
+                return v.replace(/[^0-9]/g, "").length == v.length || "请输入正确的学号/工资号"
+            }
         ],
         idnumberRules: [
             v => !!v || "请输入您的证件号码",
