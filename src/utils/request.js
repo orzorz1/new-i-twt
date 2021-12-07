@@ -2,7 +2,7 @@ import axios from 'axios';
 import Message from '@/components/message';
 import qs from 'querystring';
 import router from "@/router"
-import {getToken, removeToken} from "@/utils/auth";
+import { getToken, removeToken } from "@/utils/auth";
 
 axios.defaults.withCredentials = true;
 
@@ -41,6 +41,11 @@ const service = axios.create({
 
 service.interceptors.request.use(
     (config) => {
+        if (config.certainBaseUrl) {
+            config.baseURL = config.certainBaseUrl;
+            config.withCredentials = false;
+            config.headers['Access-Control-Allow-Credentials'] = 'false'
+        }
         config.headers['token'] = getToken();
         return config;
     },
@@ -52,19 +57,23 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     (response) => {
         if (response.status === 200) {
-            const {data} = response;
+            const { data } = response;
             if (response.request.responseType === 'blob') {
                 return data;
             }
+            if (response.config.certainBaseUrl) {
+                return Promise.resolve(data);
+            }
             // 登录状态无效，跳转至登录页
             if (data['error_code'] === 40001 || data['error_code'] === 40005) {
-                let fromPath= window.location.href.split('#')[1].split('?')[0]
+                let fromPath = window.location.href.split('#')[1].split('?')[0]
                 removeToken()
-                if (!fromPath){
-                    fromPath='/home'
+                if (!fromPath) {
+                    fromPath = '/home'
                 }
                 router.push({
-                    path: "/login", query: {
+                    path: "/login",
+                    query: {
                         from: fromPath,
                     },
                 })

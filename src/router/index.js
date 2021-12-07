@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import {getToken,setToken} from "@/utils/auth";
-import {userInfo} from "@/api/user.js";
+import { getToken, setToken } from "@/utils/auth";
+import { userInfo } from "@/api/user.js";
 import Message from "@/components/message/index.js"
 import normalRoutes from "@/router/normalRoutes";
 import adminRoutes from "@/router/adminRoutes";
@@ -13,15 +13,15 @@ VueRouter.prototype.push = function push(location) {
     return originalPush.call(this, location).catch((err) => err);
 };
 
-let routes = [
-    {
+let routes = [{
         path: '/',
         redirect: '/home'
     },
     {
         path: "/login",
         name: "login",
-        component: () => import("@/views/login"),
+        component: () =>
+            import ("@/views/login"),
         meta: {
             title: "登录",
             requireAuth: false,
@@ -32,7 +32,8 @@ let routes = [
     {
         path: "/create",
         name: "create",
-        component: () => import("@/views/create"),
+        component: () =>
+            import ("@/views/create"),
         meta: {
             title: "注册",
             requireAuth: false,
@@ -42,7 +43,8 @@ let routes = [
     {
         path: "/about",
         name: "about",
-        component: () => import("@/views/about"),
+        component: () =>
+            import ("@/views/about"),
         meta: {
             title: "关于twt",
             requireAuth: false,
@@ -56,6 +58,7 @@ normalRoutes[0].children = normalRoutes[0].children.concat(
 routes = routes.concat(normalRoutes)
 
 const router = new VueRouter({
+    scrollBehavior: () => ({ y: 0 }),
     routes,
 });
 // router.$addRoutes = (params) => {
@@ -66,15 +69,15 @@ const router = new VueRouter({
 // }
 
 router.beforeEach(async(to, from, next) => {
-    let {token}=to.query
-    if(token!==undefined){
+    let { token } = to.query
+    if (token !== undefined) {
         setToken(token)
     }
     // 设置标签页title
     window.document.title =
-        to.meta.title == undefined
-            ? "天外天个人中心"
-            : `${to.meta.title} - 天外天个人中心`;
+        to.meta.title == undefined ?
+        "天外天个人中心" :
+        `${to.meta.title} - 天外天个人中心`;
     // 访问权限设置
     if (to.meta.requireAuth) {
         let token = getToken();
@@ -88,24 +91,24 @@ router.beforeEach(async(to, from, next) => {
         }
     }
     //更新basicInfo
-    let updateFlag=/login/.test(to.path) || /create/.test(to.path) || /about/.test(to.path) || /login/.test(from.path)
+    let updateFlag = /login/.test(to.path) || /create/.test(to.path) || /about/.test(to.path) || /login/.test(from.path)
     if (!updateFlag) {
-        let x=await userInfo().then(res => {
+        let x = await userInfo().then(res => {
             sessionStorage.setItem("basicInfo", JSON.stringify(res.result));
-            let {telephone}=res.result
-            if((telephone===null||telephone==='')&&to.path!=='/userInfo'){
-                if(from.path==='/userInfo'){
+            let { telephone } = res.result
+            if ((telephone === null || telephone === '') && to.path !== '/userInfo') {
+                if (from.path === '/userInfo') {
                     next({
                         path: "/userInfo",
-                        query:{
-                            mustPhone:1
+                        query: {
+                            mustPhone: 1
                         }
-                    },Message.error('您还未填写手机号信息，请更新手机号'));
-                }else{
+                    }, Message.error('您还未填写手机号信息，请更新手机号'));
+                } else {
                     next({
                         path: "/userInfo",
-                        query:{
-                            mustPhone:1
+                        query: {
+                            mustPhone: 1
                         }
                     });
                 }
