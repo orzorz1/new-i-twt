@@ -255,6 +255,19 @@ export function postEvaluateInfo(data) {
     })
 }
 
+//上传学院问卷
+export function postCollegeEvaluateInfo(data) {
+    return service({
+        url: `/college`,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+        certainBaseUrl: 'https://evaluation.twtstudio.com/api',
+        data
+    })
+}
+
 //问题反馈
 export function postEvaluateFeedback(data) {
     return service({

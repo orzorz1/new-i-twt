@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     v-model="show"
-    transition="dialog-top-transition"
+    transition="scroll-y-reverse-transition"
     content-class="certainDialog"
     max-width="100%"
     width="500px"

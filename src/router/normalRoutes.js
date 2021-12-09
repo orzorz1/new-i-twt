@@ -69,7 +69,7 @@ let normalRoutes = [{
                 component: () =>
                     import ("@/views/evaluate/index"),
                 meta: {
-                    title: "辅导员评价",
+                    title: "年终工作评价",
                     requireAuth: true,
                     normalAuthPass: true,
                     icon: 'mdi-thumbs-up-down'

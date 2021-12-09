@@ -281,6 +281,7 @@ a:hover {
   border-radius: 50%;
   text-align: center;
   position: absolute;
+  padding-top: 10px;
   left: 90px;
   top: 35px;
 }
