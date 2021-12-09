@@ -3,12 +3,23 @@
     <v-row class="mt-3" justify="center">
       <v-col cols="11">
         <v-expand-x-transition>
-          <div class="success-class mx-auto mb-8" v-show="pageStatue === -1">
+          <div
+            class="success-class mx-auto mb-8"
+            v-show="pageStatue === -1 || pageStatue === -2"
+          >
             <div>
               <img src="../../assets/success.png" />
               <span>无需操作</span>
             </div>
-            <p>您不用参加此次评价，感谢您对辅导员工作的关注！</p>
+            <p>
+              {{
+                `${
+                  pageStatue === -1
+                    ? "您不用参加此次评价"
+                    : "您已完成所有的评价"
+                }，感谢您对2021学年辅导员年终评价与学院工作评价的关注！`
+              }}
+            </p>
           </div>
         </v-expand-x-transition>
         <v-expand-x-transition>
@@ -392,7 +403,8 @@ export default {
                 options: evaluate_tempOptions,
               },
             ];
-            this.$message.success("已为您自动同步之前的进度哦~");
+            if (state !== 2)
+              this.$message.success("已为您自动同步之前的进度哦~");
           } else {
             this.nameList = [
               {
@@ -426,6 +438,8 @@ export default {
                 }
               }, 1000);
             }, 500);
+          } else if (state === 2) {
+            this.pageStatue = -2;
           }
         } else {
           this.pageStatue = -1;
