@@ -82,7 +82,7 @@ service.interceptors.response.use(
                 case 0:
                     return Promise.resolve(data);
                 case 40001:
-                    Message.error(`${data['message']},请重新登陆`);
+                    Message.warning(`${data['message']},请重新登陆`);
                     return Promise.reject(data['message']);
                 case 40002:
                     Message.error(`该用户不存在`);
@@ -91,6 +91,9 @@ service.interceptors.response.use(
                     Message.error(`用户名或密码错误`);
                     return Promise.reject(data['message']);
                 case 40005:
+                    Message.error(`登录超时，请重新登录`);
+                    return Promise.reject(data['message']);
+                case 40007:
                     Message.error(`登录超时，请重新登录`);
                     return Promise.reject(data['message']);
                 case 50001:
@@ -142,8 +145,7 @@ service.interceptors.response.use(
                     Message.error(`无效的学院名称`);
                     return Promise.reject(data['message']);
                 default:
-                    Message.error(`${data['error_code'] + data['message']}`);
-                    // alert(`${data['error_code'] + data['msg']},请联系管理员`)
+                    Message.error(`错误码 ${data['error_code'] +' '+ data['message']}`);
                     return Promise.reject(data['message']);
             }
         } else if (response.status === 500) {
