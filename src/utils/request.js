@@ -91,10 +91,10 @@ service.interceptors.response.use(
                     Message.error(`用户名或密码错误`);
                     return Promise.reject(data['message']);
                 case 40005:
-                    Message.warning(`登录超时，请重新登录`);
+                    //Message.warning(`登录超时，请重新登录`);
                     return Promise.reject(data['message']);
                 case 40007:
-                    Message.warning(`登录超时，请重新登录`);
+                    //Message.warning(`登录超时，请重新登录`);
                     return Promise.reject(data['message']);
                 case 50001:
                     Message.error(`数据库错误`);
