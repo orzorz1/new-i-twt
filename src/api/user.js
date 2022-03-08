@@ -280,4 +280,13 @@ export function postEvaluateFeedback(data) {
         data
     })
 }
+
+// 导出Excel
+export function downloadExcelByDate(fromDate,toDate){
+    return service({
+        url: `/returnSchool/exportExcel/${fromDate}/${toDate}`,
+        method: 'GET',
+        responseType: 'blob'
+    })
+}
 // #TODO 对接口进行分类

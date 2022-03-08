@@ -30,7 +30,7 @@ const service = axios.create({
             }
         },
     ],
-    timeout: 60000,
+    timeout: 120000,
     headers: {
         domain,
         'Access-Control-Allow-Credentials': 'true',

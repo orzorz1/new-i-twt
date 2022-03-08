@@ -11,7 +11,7 @@ Vue.prototype.$message = Message
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  vuetify,
-  render: h => h(App)
+    router,
+    vuetify,
+    render: h => h(App)
 }).$mount('#app')
