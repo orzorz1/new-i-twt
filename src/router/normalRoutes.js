@@ -74,6 +74,18 @@ let normalRoutes = [{
                     normalAuthPass: true,
                     icon: 'mdi-thumbs-up-down'
                 },
+            },
+            {
+                path: "locationCode",
+                name: "locationCode",
+                component: () =>
+                    import ("@/views/locationCode/index"),
+                meta: {
+                    title: "核酸码",
+                    requireAuth: true,
+                    normalAuthPass: true,
+                    icon: 'mdi-barcode-scan'
+                },
             }
         ]
     },
