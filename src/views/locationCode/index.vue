@@ -2,7 +2,7 @@
     <div class="container" style="background-color: white;">
         <div
             class="container"
-            :style="`background-image: linear-gradient(${mainColor[info.zone]},rgba(0,0,0,0))`"
+            :style="`background-image: linear-gradient(${mainColor[info.area]},rgba(0,0,0,0))`"
         >
             <v-btn
                 color="white"
@@ -21,7 +21,7 @@
             </div>
             <div class="line"></div>
             <div class="loc">
-                {{ info.zone }}
+                {{ info.area }}
                 <br />
                 {{ info.building }}
                 <br />
@@ -58,9 +58,10 @@ export default {
             '治园': "#6A56D3",
             '青园': "#000000",
         },
-        time:this.getCurrentTime
+        time:0
     }),
     created() {
+        this.time=this.getCurrentTime()
         setInterval(() => {
             this.time=this.getCurrentTime()
         }, 1000);
@@ -82,7 +83,7 @@ export default {
             var minute = this.repair(date.getMinutes());//分
             var second = this.repair(date.getSeconds());//秒
 
-            //当前时间 
+            //当前时间
             var curTime = year + "-" + month + "-" + day
                 + " " + hour + ":" + minute + ":" + second;
             return curTime;
