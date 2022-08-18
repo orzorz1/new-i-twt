@@ -516,12 +516,12 @@ export default {
 
         register(data)
           .then(async () => {
-            this.token = (await getWbyToken(this.idnumber,this.password)).data.token;
+            this.token = (await getWbyToken(this.schoolnumber,this.password)).data.token;
       console.log(this.token);
       let res = new FormData();
       res.append('name', this.nickName);
       updateWbyNickname(res,this.token);
-            this.token = getWbyToken(this.idnumber,this.password).data.token;
+           
             
             this.loading1 = false;
             Message.success(
