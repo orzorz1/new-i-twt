@@ -39,6 +39,14 @@
                         required
                       ></v-text-field>
                       <v-text-field
+                        v-model.trim="nickName"
+                        :counter="20"
+                        label="昵称"
+                        placeholder="请输入昵称"
+                        prepend-icon="mdi-emoticon-cool-outline"
+                        required
+                      ></v-text-field>
+                      <v-text-field
                         autocomplete="new-password"
                         v-model.trim="password"
                         label="密码"
@@ -316,7 +324,7 @@
 </template>
 
 <script>
-import { register, verifyCode } from "@/api/user";
+import { register, verifyCode ,getWbyToken ,updateWbyNickname } from "@/api/user";
 import Footer from "@/components/footer/footer.vue";
 import Header from "@/components/header/header.vue";
 // import Navigation from "@/components/navigation/navagation";
@@ -362,11 +370,13 @@ export default {
         value: "6",
       },
     ],
+    token:"",
     username: "",
     password: "",
     surepassword: "",
     email: "",
     schoolnumber: "",
+    nickName:"",
     idnumber: "",
     phone: "",
     accountName: "",
@@ -484,7 +494,9 @@ export default {
     sendTime: 30,
   }),
   methods: {
-    checkform1() {
+    async checkform1() {
+
+      
       this.loading1 = true;
       if (!this.$refs.form1.validate()) {
         this.loading1 = false;
@@ -501,8 +513,16 @@ export default {
           email: this.email,
           idNumber: this.idnumber,
         };
+
         register(data)
-          .then(() => {
+          .then(async () => {
+            this.token = (await getWbyToken(this.idnumber,this.password)).data.token;
+      console.log(this.token);
+      let res = new FormData();
+      res.append('name', this.nickName);
+      updateWbyNickname(res,this.token);
+            this.token = getWbyToken(this.idnumber,this.password).data.token;
+            
             this.loading1 = false;
             Message.success(
               `注册成功，恭喜成为天外天用户，后续您可以通过账号/学号(工资号)/邮箱/手机号登录`
