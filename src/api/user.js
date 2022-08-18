@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {service} from '../utils/request';
+import service from '../utils/request';
 
 // 账密登录
 export function login(data) {
