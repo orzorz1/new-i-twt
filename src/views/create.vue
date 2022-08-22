@@ -457,7 +457,7 @@ export default {
     macaoIdRules: [
       (v) => !!v || "请输入您的证件号码",
       (v) => {
-        const reg = /^[1|5|7][0-9]{6}([0-9A-Z])$/;
+        const reg = /^[1|5|7][0-9]{6}\([0-9A-Z]\)$/;
         
         return reg.test(v.trim()) || "请输入正确的澳门居民身份证号码";
       },
