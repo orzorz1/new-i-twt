@@ -1,3 +1,4 @@
+import axios from 'axios';
 import service from '../utils/request';
 
 // 账密登录
@@ -288,6 +289,36 @@ export function downloadExcelByDate(fromDate,toDate){
         method: 'GET',
         responseType: 'blob'
     })
+}
+
+//修改昵称
+export function updateWbyNickname(a,b){
+    let instance = axios.create({withCredentials: false ,headers: { token: b}})
+    instance
+    .post(
+        "https://qnhd.twt.edu.cn/api/v1/f/user/name", a
+        
+    )
+    
+}
+
+var datt
+//从微北洋获取token
+export async function getWbyToken(a,b){
+    let instance = axios.create({withCredentials: false })
+    datt = (await instance
+    .get(
+        "https://qnhd.twt.edu.cn/api/v1/f/auth/passwd?user="+a+"&password="+b
+    )).data
+    console.log(datt)
+    return datt;
+   
+    
+    // return serviceForWby({
+    //     url:'/api/v1/f/auth/passwd',
+    //     method:'GET',
+    //     params
+    // })
 }
 
 // #TODO 对接口进行分类

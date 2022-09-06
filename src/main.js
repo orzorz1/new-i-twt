@@ -7,7 +7,6 @@ import Message from '@/components/message/index.js'
 // import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.prototype.$message = Message
-
 Vue.config.productionTip = false
 
 new Vue({
