@@ -131,7 +131,7 @@
           color="red-text"
         >
           若您已绑定手机号，可通过手机号登录并在个人信息中进行密码修改。<br />
-          若未绑定可从此处重置密码，重置后密码为身份证号后六位。
+          若未绑定可从此处重置密码。
         </v-banner>
         <v-card-text>
           <v-container>
@@ -151,6 +151,15 @@
                   ref="rePWDIDNumber"
                   v-model="rePWD.idNumber"
                   label="身份证号/港澳台通行(身份)证/护照"
+                  autocomplete="off"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="12">
+                <v-text-field
+                  :rules="[(v) => !!v || '不能为空']"
+                  ref="rePWDnewPassword"
+                  v-model="rePWD.newPassword"
+                  label="新密码"
                   autocomplete="off"
                 ></v-text-field>
               </v-col>
@@ -186,9 +195,11 @@ export default {
   name: "login",
   data() {
     return {
+      newPas:"",
       rePWD: {
         userNumber: "",
         idNumber: "",
+        newPassword:"",
       },
       loginBtnLoading: false,
       dialog: false,
@@ -296,7 +307,8 @@ export default {
       }
       if (flag) {
         rePWDByID(this.rePWD).then(() => {
-          this.$message.success("密码已重置为六个六，请尽快登录修改密码。");
+         
+          this.$message.success("密码已重置");
         });
       }
     },
