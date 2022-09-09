@@ -46,7 +46,11 @@ service.interceptors.request.use(
             config.withCredentials = false;
             config.headers['Access-Control-Allow-Credentials'] = 'false'
         }
-        config.headers['token'] = getToken();
+        if (config.certainToken) {
+            config.headers['token'] = config.certainToken;
+        } else {
+            config.headers['token'] = getToken();
+        }
         return config;
     },
     (error) => {

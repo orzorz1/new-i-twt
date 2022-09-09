@@ -1,5 +1,6 @@
 import axios from 'axios';
 import service from '../utils/request';
+import { getToken } from "@/utils/auth";
 
 // 账密登录
 export function login(data) {
@@ -282,8 +283,34 @@ export function postEvaluateFeedback(data) {
     })
 }
 
+//获取求实论坛token
+export async function updateForumToken() {
+    let data
+    let instance = axios.create({ withCredentials: false })
+    data = (await instance
+        .get(
+            "https://qnhd.twt.edu.cn/api/v1/f/auth/token?token=" + getToken()
+        )).data
+    return data;
+}
+
+//求实论坛账号升级
+export function upgradeForum(data, token) {
+    return axios.create({
+        withCredentials: false,
+        baseURL: 'https://qnhd.twt.edu.cn/api/v1/f',
+    })({
+        url: '/user/update_num',
+        method: 'POST',
+        headers: {
+            token: token
+        },
+        data
+    })
+}
+
 // 导出Excel
-export function downloadExcelByDate(fromDate,toDate){
+export function downloadExcelByDate(fromDate, toDate) {
     return service({
         url: `/returnSchool/exportExcel/${fromDate}/${toDate}`,
         method: 'GET',
@@ -292,28 +319,28 @@ export function downloadExcelByDate(fromDate,toDate){
 }
 
 //修改昵称
-export function updateWbyNickname(a,b){
-    let instance = axios.create({withCredentials: false ,headers: { token: b}})
+export function updateWbyNickname(a, b) {
+    let instance = axios.create({ withCredentials: false, headers: { token: b } })
     instance
-    .post(
-        "https://qnhd.twt.edu.cn/api/v1/f/user/name", a
-        
-    )
-    
+        .post(
+            "https://qnhd.twt.edu.cn/api/v1/f/user/name", a
+
+        )
+
 }
 
 var datt
-//从微北洋获取token
-export async function getWbyToken(a,b){
-    let instance = axios.create({withCredentials: false })
+    //从微北洋获取token
+export async function getWbyToken(a, b) {
+    let instance = axios.create({ withCredentials: false })
     datt = (await instance
-    .get(
-        "https://qnhd.twt.edu.cn/api/v1/f/auth/passwd?user="+a+"&password="+b
-    )).data
+        .get(
+            "https://qnhd.twt.edu.cn/api/v1/f/auth/passwd?user=" + a + "&password=" + b
+        )).data
     console.log(datt)
     return datt;
-   
-    
+
+
     // return serviceForWby({
     //     url:'/api/v1/f/auth/passwd',
     //     method:'GET',
