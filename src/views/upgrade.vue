@@ -120,6 +120,7 @@ import {
   upgradeForum,
 } from "@/api/user";
 import Message from "@/components/message";
+import { removeToken } from "@/utils/auth";
 
 export default {
   name: "upgrade",
@@ -138,6 +139,9 @@ export default {
       let data = { typeId: this.select };
       upgrade(data).then(() => {
         Message.success("升级成功");
+        removeToken();
+        this.$router.push({ path: "/login" });
+        sessionStorage.removeItem("basicInfo");
       });
     },
     showStatus() {
