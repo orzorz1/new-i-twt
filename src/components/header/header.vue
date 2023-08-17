@@ -7,7 +7,6 @@
     </v-avatar>
     <v-toolbar-title class="twt-title">个人中心</v-toolbar-title>
     <v-spacer></v-spacer>
-
     <v-menu offset-y auto>
       <template v-slot:activator="{ on }">
         <v-btn depressed v-on="on">
@@ -31,6 +30,24 @@
         </v-list-item>
       </v-card>
     </v-menu>
+    <v-dialog v-model="dialog" max-width="400px">
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">账号升级提醒</span>
+        </v-card-title>
+        <v-card-text>
+          您的账号状态可升级为：<b>{{ upgradeInfo }}</b>
+        </v-card-text>
+        <v-card-text> 点击确定即可前往详情页面 </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="dialog = false">
+            取消
+          </v-btn>
+          <v-btn color="blue darken-1" text @click="toUpgrade"> 确定 </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app-bar>
 </template>
 
@@ -51,6 +68,7 @@ export default {
     stuType: "",
     avatar: defaultAvatar,
     upgradeInfo: "",
+    dialog: false,
   }),
   methods: {
     open() {
@@ -62,12 +80,16 @@ export default {
       sessionStorage.removeItem("basicInfo");
       Message.success("已登出当前账号");
     },
+    toUpgrade() {
+      this.dialog = false;
+      this.$router.push({ path: "/upgrade" });
+    },
   },
   created() {
     let info = JSON.parse(sessionStorage.getItem("basicInfo"));
-    info.upgradeNeed = [{ id: 2, name: "硕士研究生" }];
     if (info.upgradeNeed && info.upgradeNeed.length) {
       this.upgradeInfo = info.upgradeNeed[0].name;
+      this.dialog = true;
     }
     this.username = info.nickname;
     this.realname = info.realname;

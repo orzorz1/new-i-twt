@@ -4,16 +4,24 @@
       <v-card-title>账号升级</v-card-title>
       <div v-if="agree">
         <v-form v-if="getOptions" ref="form">
-          <v-select
-            :items="options"
-            item-text="name"
-            item-value="id"
-            v-model="select"
-            label="目标账号类型"
-            outlined
-          ></v-select>
+          <div style="position: relative">
+            <v-select
+              class="mx-4"
+              :items="options"
+              item-text="name"
+              item-value="id"
+              v-model="select"
+              :menu-props="{ bottom: true, offsetY: true }"
+              label="目标账号类型"
+              outlined
+            ></v-select>
+          </div>
+          <div class="tip">
+            <v-icon>mdi-alert</v-icon>
+            账号升级后，请使用新学号进行登录
+          </div>
           <v-col cols="10" offset="1" sm="4" offset-sm="4">
-            <v-btn block color="primary" @click="submit"> 更新信息 </v-btn>
+            <v-btn block color="primary" @click="submit"> 确认升级 </v-btn>
           </v-col>
         </v-form>
         <div class="alert" v-else>
@@ -138,10 +146,12 @@ export default {
     submit() {
       let data = { typeId: this.select };
       upgrade(data).then(() => {
-        Message.success("升级成功");
-        removeToken();
-        this.$router.push({ path: "/login" });
-        sessionStorage.removeItem("basicInfo");
+        Message.success("升级成功，请登录您的新账号");
+        setTimeout(() => {
+          this.$router.push({ path: "/login" });
+          removeToken();
+          sessionStorage.removeItem("basicInfo");
+        }, 1000);
       });
     },
     showStatus() {
@@ -213,6 +223,10 @@ export default {
     font-size: 16px;
     text-align: center;
   }
+}
+.tip {
+  color: #aaaaaa;
+  text-align: center;
 }
 .func {
   margin: 0 auto;

@@ -125,6 +125,7 @@
                         :items="credentialsTypes"
                         label="证件类型"
                         v-model="credentialsType"
+                        :menu-props="{ bottom: true, offsetY: true }"
                       ></v-select>
                       <!-- 身份证 -->
                       <v-text-field
@@ -324,7 +325,12 @@
 </template>
 
 <script>
-import { register, verifyCode ,getWbyToken ,updateWbyNickname } from "@/api/user";
+import {
+  register,
+  verifyCode,
+  getWbyToken,
+  updateWbyNickname,
+} from "@/api/user";
 import Footer from "@/components/footer/footer.vue";
 import Header from "@/components/header/header.vue";
 // import Navigation from "@/components/navigation/navagation";
@@ -370,13 +376,13 @@ export default {
         value: "6",
       },
     ],
-    token:"",
+    token: "",
     username: "",
     password: "",
     surepassword: "",
     email: "",
     schoolnumber: "",
-    nickName:"",
+    nickName: "",
     idnumber: "",
     phone: "",
     accountName: "",
@@ -458,7 +464,7 @@ export default {
       (v) => !!v || "请输入您的证件号码",
       (v) => {
         const reg = /^[1|5|7][0-9]{6}([0-9A-Z])$/;
-        
+
         return reg.test(v.trim()) || "请输入正确的澳门居民身份证号码";
       },
     ],
@@ -496,8 +502,6 @@ export default {
   }),
   methods: {
     async checkform1() {
-
-      
       this.loading1 = true;
       if (!this.$refs.form1.validate()) {
         this.loading1 = false;
@@ -517,13 +521,14 @@ export default {
 
         register(data)
           .then(async () => {
-            this.token = (await getWbyToken(this.schoolnumber,this.password)).data.token;
-      console.log(this.token);
-      let res = new FormData();
-      res.append('name', this.nickName);
-      updateWbyNickname(res,this.token);
-           
-            
+            this.token = (
+              await getWbyToken(this.schoolnumber, this.password)
+            ).data.token;
+            console.log(this.token);
+            let res = new FormData();
+            res.append("name", this.nickName);
+            updateWbyNickname(res, this.token);
+
             this.loading1 = false;
             Message.success(
               `注册成功，恭喜成为天外天用户，后续您可以通过账号/学号(工资号)/邮箱/手机号登录`

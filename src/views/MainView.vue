@@ -249,7 +249,7 @@ a:hover {
   overflow: hidden;
 }
 .containers {
-  position: relative;
+  position: absolute;
   top: 50vh;
   left: 50%;
   transform: translateX(-50%);

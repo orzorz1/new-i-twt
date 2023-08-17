@@ -55,6 +55,7 @@
       <v-row>
         <v-col cols="9" sm="4" md="3" class="left body-1">
           <v-select
+            :menu-props="{ bottom: true, offsetY: true }"
             v-model="userInfo.campus"
             :items="allCampus"
             item-text="name"
@@ -73,6 +74,7 @@
           class="left body-1"
         >
           <v-select
+            :menu-props="{ bottom: true, offsetY: true }"
             v-model="userInfo.stuType"
             :items="allType"
             item-text="name"
@@ -86,6 +88,7 @@
       <v-row>
         <v-col cols="9" sm="4" md="3" class="left body-1">
           <v-select
+            :menu-props="{ bottom: true, offsetY: true }"
             v-model="userInfo.department"
             :items="allDepartment"
             item-text="name"
@@ -104,6 +107,7 @@
           class="left body-1"
         >
           <v-select
+            :menu-props="{ bottom: true, offsetY: true }"
             v-model="userInfo.major"
             :items="majorBelongDepart"
             item-text="name"
