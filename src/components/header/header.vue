@@ -26,9 +26,7 @@
         </v-list-item>
         <v-list-item>
           <v-row align="center" justify="end">
-            <v-btn text @click="logout">
-              退出
-            </v-btn>
+            <v-btn text @click="logout"> 退出 </v-btn>
           </v-row>
         </v-list-item>
       </v-card>
@@ -52,6 +50,7 @@ export default {
     userNumber: "",
     stuType: "",
     avatar: defaultAvatar,
+    upgradeInfo: "",
   }),
   methods: {
     open() {
@@ -66,6 +65,10 @@ export default {
   },
   created() {
     let info = JSON.parse(sessionStorage.getItem("basicInfo"));
+    info.upgradeNeed = [{ id: 2, name: "硕士研究生" }];
+    if (info.upgradeNeed && info.upgradeNeed.length) {
+      this.upgradeInfo = info.upgradeNeed[0].name;
+    }
     this.username = info.nickname;
     this.realname = info.realname;
     this.userNumber = info.userNumber;
@@ -75,12 +78,12 @@ export default {
     }
   },
   watch: {
-    '$router.path':{
+    "$router.path": {
       handler() {
-        this.$forceUpdate()
-      }
-    }
-    }
+        this.$forceUpdate();
+      },
+    },
+  },
 };
 </script>
 

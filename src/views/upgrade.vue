@@ -43,7 +43,7 @@
         <br />据此类推，此功能使用于同校本升硕、硕升博</v-card-text
       >
     </v-card>
-    <v-card tile flat style="width: 80%; position: relative; margin: 0 auto">
+    <!-- <v-card tile flat style="width: 80%; position: relative; margin: 0 auto">
       <v-card-title>求实论坛升级</v-card-title>
       <div class="func">
         <v-dialog v-model="dialog" persistent max-width="600px">
@@ -108,7 +108,7 @@
       <v-card-text>
         备注：适用于已经升级过的研究生账号，升级账号操作已经附带求实论坛迁移功能</v-card-text
       >
-    </v-card>
+    </v-card> -->
   </v-container>
 </template>
 
