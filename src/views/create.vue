@@ -446,12 +446,13 @@ export default {
       },
     ],
     passportRules: [
-      (v) => !!v || "请输入您的证件号码",
-      (v) => {
-        const reg =
-          /(^[EeKkGgDdSsPpHh]\d{8}$)|(^(([Ee][a-fA-F])|([DdSsPp][Ee])|([Kk][Jj])|([Mm][Aa])|(1[45]))\d{7}$)/;
-        return reg.test(v.trim()) || "请输入正确的护照号码";
-      },
+      // (v) => !!v || "请输入您的证件号码",
+      // (v) => {
+      //   const reg =
+      //     /(^[EeKkGgDdSsPpHh]\d{8}$)|(^(([Ee][a-fA-F])|([DdSsPp][Ee])|([Kk][Jj])|([Mm][Aa])|(1[45]))\d{7}$)/;
+      //   return reg.test(v.trim()) || "请输入正确的护照号码";
+      // },
+      "暂不支持留学生注册",
     ],
     hkIdRules: [
       (v) => !!v || "请输入您的证件号码",
