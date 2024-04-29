@@ -55,16 +55,18 @@
           @mouseleave="goout(partys)"
         >
           <img src="../assets/party.png" alt="party-icon" class="party-icon" />
+          <p>党建</p>
         </a>
         <a
-          href="http://mall.twt.edu.cn/"
+          href="https://theory.twt.edu.cn/"
           class="shop"
           target="_blank"
           :id="shops"
           @mouseenter="goin(shops)"
           @mouseleave="goout(shops)"
         >
-          <img src="../assets/shop.png" alt="shop-icon" class="shop-icon" />
+          <img src="../assets/answer.png" alt="shop-icon" class="shop-icon" />
+          <p>答题</p>
         </a>
         <a
           href="https://news.twt.edu.cn/news"
@@ -75,6 +77,7 @@
           @mouseleave="goout(twts)"
         >
           <img src="../assets/logo.png" alt="twt-icon" class="twt-icon" />
+          <p>新闻</p>
         </a>
       </div>
       <div id="division">
@@ -200,8 +203,8 @@ a:hover {
   position: absolute;
   display: inline-block;
   left: 50px;
-  top: 55px;
-  height: 360px;
+  top: 45px;
+  height: 380px;
   width: 300px;
   transition: 0.3s;
   background-color: rgb(248, 248, 248);
@@ -239,8 +242,8 @@ a:hover {
   position: absolute;
   display: inline-block;
   left: 400px;
-  top: 55px;
-  height: 360px;
+  top: 45px;
+  height: 380px;
   width: 550px;
   background-color: rgb(248, 248, 248);
   border-radius: 10px;

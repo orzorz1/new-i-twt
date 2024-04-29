@@ -64,6 +64,16 @@ export function upgrade(data) {
     })
 }
 
+// 党建账号升级
+export function upgradeParty(data) {
+    return service({
+        url: '/upgrade/party',
+        method: 'post',
+        data
+    })
+}
+
+
 // 获取当前用户信息
 export function userInfo() {
     return service({
