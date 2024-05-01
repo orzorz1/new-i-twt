@@ -35,7 +35,7 @@
     </v-card>
 
     <v-card tile flat style="width: 80%; position: relative; margin: 10px auto">
-      <v-card-title>党建系统账号升级</v-card-title>
+      <v-card-title>党建系统账号升级<p style="color: red;display: inline;margin: 0px;font-size: 12px;">(功能测试中，数据不生效)</p></v-card-title>
       <v-form v-if="partyOptions" ref="form" style="width: 100%; padding-bottom: 25px;">
         <div style="position: relative">
           <v-select class="mx-4" :items="options" item-text="name" item-value="id" v-model="select"
